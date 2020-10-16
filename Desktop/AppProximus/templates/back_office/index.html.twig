@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BackOffice index{% endblock %}
+
+{% block body %}
+    <h1>BackOffice index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Email</th>
+                <th>Roles</th>
+                <th>Password</th>
+                <th>Code</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Tel</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for back_office in back_offices %}
+            <tr>
+                <td>{{ back_office.id }}</td>
+                <td>{{ back_office.email }}</td>
+                <td>{{ back_office.roles ? back_office.roles|json_encode : '' }}</td>
+                <td>{{ back_office.password }}</td>
+                <td>{{ back_office.code }}</td>
+                <td>{{ back_office.nom }}</td>
+                <td>{{ back_office.prenom }}</td>
+                <td>{{ back_office.tel }}</td>
+                <td>
+                    <a href="{{ path('back_office_show', {'id': back_office.id}) }}">show</a>
+                    <a href="{{ path('back_office_edit', {'id': back_office.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('back_office_new') }}">Create new</a>
+{% endblock %}

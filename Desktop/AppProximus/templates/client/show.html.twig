@@ -1,0 +1,147 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Client{% endblock %}
+
+{% block body %}
+    <h1>Client</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ client.id }}</td>
+            </tr>
+            <tr>
+                <th>Code</th>
+                <td>{{ client.code }}</td>
+            </tr>
+            <tr>
+                <th>DateInsertion</th>
+                <td>{{ client.dateInsertion ? client.dateInsertion|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>TypeClient</th>
+                <td>{{ client.typeClient }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ client.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ client.prenom }}</td>
+            </tr>
+            <tr>
+                <th>DateNaissance</th>
+                <td>{{ client.dateNaissance ? client.dateNaissance|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>NomSociete</th>
+                <td>{{ client.nomSociete }}</td>
+            </tr>
+            <tr>
+                <th>NumTVA</th>
+                <td>{{ client.numTVA }}</td>
+            </tr>
+            <tr>
+                <th>DateCreationSTE</th>
+                <td>{{ client.dateCreationSTE ? client.dateCreationSTE|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>NumClientProximus</th>
+                <td>{{ client.numClientProximus }}</td>
+            </tr>
+            <tr>
+                <th>NumTelephoneFixe</th>
+                <td>{{ client.numTelephoneFixe }}</td>
+            </tr>
+            <tr>
+                <th>NumGSM</th>
+                <td>{{ client.numGSM }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ client.email }}</td>
+            </tr>
+            <tr>
+                <th>NumIBAN</th>
+                <td>{{ client.numIBAN }}</td>
+            </tr>
+            <tr>
+                <th>CodePostal</th>
+                <td>{{ client.codePostal }}</td>
+            </tr>
+            <tr>
+                <th>Commune</th>
+                <td>{{ client.commune }}</td>
+            </tr>
+            <tr>
+                <th>Rue</th>
+                <td>{{ client.rue }}</td>
+            </tr>
+            <tr>
+                <th>NumPorte</th>
+                <td>{{ client.numPorte }}</td>
+            </tr>
+            <tr>
+                <th>AdresseInstallation</th>
+                <td>{{ client.adresseInstallation }}</td>
+            </tr>
+            <tr>
+                <th>DateInstallation</th>
+                <td>{{ client.dateInstallation ? client.dateInstallation|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>InfoEncodage</th>
+                <td>{{ client.infoEncodage }}</td>
+            </tr>
+            <tr>
+                <th>NumTelephoneProximus</th>
+                <td>{{ client.numTelephoneProximus }}</td>
+            </tr>
+            <tr>
+                <th>NumClientConcurrence</th>
+                <td>{{ client.numClientConcurrence }}</td>
+            </tr>
+            <tr>
+                <th>NumEasySwitch</th>
+                <td>{{ client.numEasySwitch }}</td>
+            </tr>
+            <tr>
+                <th>NumCarteSIMPrepayee</th>
+                <td>{{ client.numCarteSIMPrepayee }}</td>
+            </tr>
+            <tr>
+                <th>NomClientMobile</th>
+                <td>{{ client.nomClientMobile }}</td>
+            </tr>
+            <tr>
+                <th>CodeClientMobile</th>
+                <td>{{ client.codeClientMobile }}</td>
+            </tr>
+            <tr>
+                <th>AppMobile</th>
+                <td>{{ client.appMobile }}</td>
+            </tr>
+            <tr>
+                <th>BonusTV</th>
+                <td>{{ client.bonusTV }}</td>
+            </tr>
+            <tr>
+                <th>LienDrivePartageable</th>
+                <td>{{ client.lienDrivePartageable }}</td>
+            </tr>
+            <tr>
+                <th>CarteIdentite</th>
+                <td>{{ client.carteIdentite }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('client_index') }}">back to list</a>
+
+    <a href="{{ path('client_edit', {'id': client.id}) }}">edit</a>
+    <a href="{{ path('excel', {'id': client.id}) }}">generer Excel</a>
+    <a href="{{ path('voir_excel', {'id': client.id}) }}">voir Excel</a>
+    {{ include('client/_delete_form.html.twig') }}
+{% endblock %}

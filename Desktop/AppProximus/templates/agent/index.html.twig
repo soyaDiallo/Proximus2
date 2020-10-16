@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Agent index{% endblock %}
+
+{% block body %}
+    <h1>Agent index</h1>
+    <a  href="{{ path('agent_show', {'id': app.user.id}) }}">
+        À propos
+    </a>
+     <a  href="{{ path('modification_email') }}">
+        modifier email
+    </a><br>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn">{{ button_label|default('RECHERCHER') }}</button>
+{{ form_end(form) }}
+   
+{% endblock %}

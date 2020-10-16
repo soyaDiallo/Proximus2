@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Accès interdit</h1>
+
+    <p>
+       Vous ne possedez pas les privilèges necessaires pour accéder à cette page!!! <br>
+        <a href="{{ path('app_logout') }}">retour à la page login.</a>.
+    </p>
+{% endblock %}

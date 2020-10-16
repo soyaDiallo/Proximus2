@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Superviseur{% endblock %}
+
+{% block body %}
+    <h1>Create new Superviseur</h1>
+
+    {{ include('superviseur/_form.html.twig') }}
+
+    <a href="{{ path('superviseur_index') }}">back to list</a>
+{% endblock %}

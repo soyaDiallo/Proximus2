@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administrateur index{% endblock %}
+
+{% block body %}
+    <h1>Administrateur index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Email</th>
+                <th>Roles</th>
+                <th>Password</th>
+                <th>Code</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Tel</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for administrateur in administrateurs %}
+            <tr>
+                <td>{{ administrateur.id }}</td>
+                <td>{{ administrateur.email }}</td>
+                <td>{{ administrateur.roles ? administrateur.roles|json_encode : '' }}</td>
+                <td>{{ administrateur.password }}</td>
+                <td>{{ administrateur.code }}</td>
+                <td>{{ administrateur.nom }}</td>
+                <td>{{ administrateur.prenom }}</td>
+                <td>{{ administrateur.tel }}</td>
+                <td>
+                    <a href="{{ path('administrateur_show', {'id': administrateur.id}) }}">show</a>
+                    <a href="{{ path('administrateur_edit', {'id': administrateur.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a  href="{{ path('administrateur_show', {'id': app.user.id}) }}">
+        Detail
+    </a><br>
+    <a  href="{{ path('administrateur_edit', {'id': app.user.id}) }}">
+        Modifier 
+    </a><br>
+     <a  href="{{ path('modification_email') }}">
+        modifier email
+    </a><br>
+    <a  href="{{ path('modifier_password') }}">
+        modifier password
+    </a>
+
+    <a href="{{ path('administrateur_new') }}">Create new</a>
+{% endblock %}
