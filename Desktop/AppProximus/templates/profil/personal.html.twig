@@ -1,0 +1,155 @@
+{% extends 'profil/aside.html.twig' %}
+
+{% block content_subheader %}
+	<!--begin::Page Title-->
+	<h5 class="text-dark font-weight-bold my-1 mr-5">Profil</h5>
+	<!--end::Page Title-->
+	<!--begin::Breadcrumb-->
+	<ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
+		<li class="breadcrumb-item text-muted">
+			<span class="text-muted">Application</span>
+		</li>
+
+		{% if is_granted('ROLE_AGENT') %}
+			<li class="breadcrumb-item text-muted">
+				<a href="{{ path('agent_index') }}" class="text-muted">Accueil</a>
+			</li>
+		{% elseif is_granted('ROLE_SUPERVISEUR') %}
+			<li class="breadcrumb-item text-muted">
+				<a href="{{ path('superviseur_index') }}" class="text-muted">Accueil</a>
+			</li>
+		{% elseif is_granted('ROLE_BACKOFFICE') %}
+			<li class="breadcrumb-item text-muted">
+				<a href="{{ path('back_office_index') }}" class="text-muted">Accueil</a>
+			</li>
+		{% elseif is_granted('ROLE_ADMINISTRATEUR') %}
+			<li class="breadcrumb-item text-muted">
+				<a href="{{ path('administrateur_index') }}" class="text-muted">Accueil</a>
+			</li>
+		{% endif %}
+
+		<li class="breadcrumb-item text-muted">
+			<a href="{{ path('profile_index') }}" class="text-muted">Profil utilisateur</a>
+		</li>
+		<li class="breadcrumb-item text-muted">
+			<a href="{{ path('profile_index') }}" class="text-muted">Informations personnelles</a>
+		</li>
+	</ul>
+	<!--end::Breadcrumb-->
+{% endblock %}
+
+{% block profile_content_body %}
+	<!--begin::Content-->
+	<div class="flex-row-fluid ml-lg-8">
+		{{ form_start(form, {'attr': { 'class': 'form' }}) }}
+
+		<!--begin::Card-->
+		<div
+			class="card card-custom card-stretch">
+			<!--begin::Header-->
+			<div class="card-header py-3">
+				<div class="card-title align-items-start flex-column">
+					<h3 class="card-label font-weight-bolder text-dark">Informations personnelles</h3>
+					<span class="text-muted font-weight-bold font-size-sm mt-1">Modifier vos informations personnelles</span>
+				</div>
+				<div class="card-toolbar">
+					<button type="submit" class="btn btn-primary font-weight-bolder mr-2">Enregistrer</button>
+					<button type="reset" class="btn btn-light-primary font-weight-bolder">Annuler</button>
+				</div>
+			</div>
+			<!--end::Header-->
+
+			<!--begin::Body-->
+			<div class="card-body">
+				<div class="row">
+					<label class="col-xl-3"></label>
+					<div class="col-lg-9 col-xl-6">
+						<h5 class="font-weight-bold mb-6">Information Utilisateur</h5>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-xl-3 col-lg-3 col-form-label text-right">Photo</label>
+					<div class="col-lg-9 col-xl-6">
+						<div class="image-input image-input-outline" id="kt_profile_avatar" style="background-image: url({{ asset('media/users/blank.png') }})">
+							<div class="image-input-wrapper" style="background-image: url({{ asset('media/users/blank.png') }})"></div>
+							<label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
+								<i class="fa fa-pen icon-sm text-muted"></i>
+								<input type="file" name="profile_avatar" accept=".png, .jpg, .jpeg"/>
+								<input type="hidden" name="profile_avatar_remove"/>
+							</label>
+							<span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="Cancel avatar">
+								<i class="ki ki-bold-close icon-xs text-muted"></i>
+							</span>
+							<span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="remove" data-toggle="tooltip" title="Remove avatar">
+								<i class="ki ki-bold-close icon-xs text-muted"></i>
+							</span>
+						</div>
+						<span class="form-text text-muted">Type de fichiers: png, jpg, jpeg.</span>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-xl-3 col-lg-3 col-form-label text-right">Nom</label>
+					<div class="col-lg-9 col-xl-6">
+						{{ form_widget(form.nom, {'attr': {'class': 'form-control form-control-lg form-control-solid', 'placeholder': 'Nom'}}) }}
+						<span class="form-text text-danger">{{ form_errors(form.nom) }}</span>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-xl-3 col-lg-3 col-form-label text-right">Prénom</label>
+					<div class="col-lg-9 col-xl-6">
+						{{ form_widget(form.prenom, {'attr': {'class': 'form-control form-control-lg form-control-solid', 'placeholder': 'Prénom'}}) }}
+						<span class="form-text text-danger">{{ form_errors(form.prenom) }}</span>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-xl-3 col-lg-3 col-form-label text-right">Code</label>
+					<div class="col-lg-9 col-xl-6">
+						{{ form_widget(form.code, {'attr': {'class': 'form-control form-control-lg form-control-solid', 'placeholder': 'Code Utilisateur'}}) }}
+						<span class="form-text text-danger">{{ form_errors(form.code) }}</span>
+					</div>
+				</div>
+				<div class="row">
+					<label class="col-xl-3"></label>
+					<div class="col-lg-9 col-xl-6">
+						<h5 class="font-weight-bold mt-10 mb-6">Information Contact</h5>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-xl-3 col-lg-3 col-form-label text-right">Numéro Téléphone</label>
+					<div class="col-lg-9 col-xl-6">
+						<div class="input-group input-group-lg input-group-solid">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="la la-phone"></i>
+								</span>
+							</div>
+							{{ form_widget(form.tel, {'attr': {'class': 'form-control form-control-lg form-control-solid', 'placeholder': 'Téléphone'}}) }}
+							<span class="form-text text-danger">{{ form_errors(form.tel) }}</span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-xl-3 col-lg-3 col-form-label text-right">Adresse Email</label>
+					<div class="col-lg-9 col-xl-6">
+						<div class="input-group input-group-lg input-group-solid">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="la la-at"></i>
+								</span>
+							</div>
+							{{ form_widget(form.email, {'attr': {'class': 'form-control form-control-lg form-control-solid', 'placeholder': 'Adresse Email', 'readonly': 'true'}}) }}
+						</div>
+					</div>
+					<a href="{{ path('profile_account_index') }}" class="btn btn-secondary font-weight-bolder my-1">
+						Modifier
+					</a>
+				</div>
+			</div>
+			<!--end::Body-->
+		</div>
+		<!--end::Card-->
+
+		{{ form_end(form) }}
+	</div>
+	<!--end::Content-->
+{% endblock %}

@@ -1,47 +1,78 @@
-{% extends 'base.html.twig' %}
+{% extends 'content.html.twig' %}
 
-{% block title %}Superviseur index{% endblock %}
+{% block title %}Superviseur
+{% endblock %}
 
-{% block body %}
-    <h1>Superviseur index</h1>
+{% block content_header %}
+	<ul class="menu-nav">
+		<li class="menu-item menu-item-active" aria-haspopup="true">
+			<a href="{{ path('superviseur_index') }}" class="menu-link">
+				<span class="menu-text">Accueil</span>
+			</a>
+		</li>
+		<li class="menu-item" aria-haspopup="true">
+			<a href="{{ path('offer_index') }}" class="menu-link">
+				<span class="menu-text">Offres</span>
+			</a>
+		</li>
+	</ul>
+{% endblock %}
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Email</th>
-                <th>Roles</th>
-                <th>Password</th>
-                <th>Code</th>
-                <th>Nom</th>
-                <th>Prenom</th>
-                <th>Tel</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for superviseur in superviseurs %}
-            <tr>
-                <td>{{ superviseur.id }}</td>
-                <td>{{ superviseur.email }}</td>
-                <td>{{ superviseur.roles ? superviseur.roles|json_encode : '' }}</td>
-                <td>{{ superviseur.password }}</td>
-                <td>{{ superviseur.code }}</td>
-                <td>{{ superviseur.nom }}</td>
-                <td>{{ superviseur.prenom }}</td>
-                <td>{{ superviseur.tel }}</td>
-                <td>
-                    <a href="{{ path('superviseur_show', {'id': superviseur.id}) }}">show</a>
-                    <a href="{{ path('superviseur_edit', {'id': superviseur.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="9">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+{% block content_subheader %}
+	<!--begin::Page Title-->
+	<h5 class="text-dark font-weight-bold my-1 mr-5">Accueil</h5>
+	<!--end::Page Title-->
+	<!--begin::Breadcrumb-->
+	<ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
+		<li class="breadcrumb-item text-muted">
+			<span class="text-muted">Application</span>
+		</li>
+		<li class="breadcrumb-item text-muted">
+			<a href="{{ path('superviseur_index') }}" class="text-muted">Accueil</a>
+		</li>
+	</ul>
+	<!--end::Breadcrumb-->
+{% endblock %}
 
-    <a href="{{ path('superviseur_new') }}">Create new</a>
+{% block content_body %}
+	<h1>Superviseur index</h1>
+
+	<!--table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Email</th>
+				<th>Roles</th>
+				<th>Password</th>
+				<th>Code</th>
+				<th>Nom</th>
+				<th>Prenom</th>
+				<th>Login</th>
+				<th>Tel</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for superviseur in superviseurs %}
+				<tr>
+					<td>{{ superviseur.id }}</td>
+					<td>{{ superviseur.email }}</td>
+					<td>{{ superviseur.roles ? superviseur.roles|json_encode : '' }}</td>
+					<td>{{ superviseur.password }}</td>
+					<td>{{ superviseur.code }}</td>
+					<td>{{ superviseur.nom }}</td>
+					<td>{{ superviseur.prenom }}</td>
+					<td>{{ superviseur.login }}</td>
+					<td>{{ superviseur.tel }}</td>
+					<td></td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="10">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table-->
+
+	<!--a href="{{ path('superviseur_new') }}">Create new</a-->
 {% endblock %}

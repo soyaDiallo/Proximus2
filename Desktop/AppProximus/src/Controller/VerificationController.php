@@ -12,8 +12,7 @@ class VerificationController extends AbstractController
      */
     public function index()
     {
-        //dd($this->getUser());
-        $role=$this->getUser()->getRoles();
+        $role = $this->getUser()->getRoles();
         switch ($role[0]) {
             case "ROLE_AGENT":
                 return $this->redirectToRoute('agent_index');
@@ -27,7 +26,7 @@ class VerificationController extends AbstractController
             case 'ROLE_ADMINISTRATEUR':
                 return $this->redirectToRoute('administrateur_index');
                 break;
-                                     
+
             default:
                 return $this->redirectToRoute('app_login');
                 break;

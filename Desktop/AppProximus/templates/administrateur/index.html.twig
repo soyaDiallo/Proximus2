@@ -1,59 +1,49 @@
-{% extends 'base.html.twig' %}
+{% extends 'content.html.twig' %}
 
-{% block title %}Administrateur index{% endblock %}
+{% block title %}Administrateur
+{% endblock %}
 
-{% block body %}
-    <h1>Administrateur index</h1>
+{% block content_header %}
+	<ul class="menu-nav">
+		<li class="menu-item menu-item-active" aria-haspopup="true">
+			<a href="{{ path('administrateur_index') }}" class="menu-link">
+				<span class="menu-text">Accueil</span>
+			</a>
+		</li>
+		<li class="menu-item" aria-haspopup="true">
+			<a href="#" class="menu-link">
+				<span class="menu-text">Utilisateurs</span>
+			</a>
+		</li>
+		<li class="menu-item" aria-haspopup="true">
+			<a href="{{ path('offer_index') }}" class="menu-link">
+				<span class="menu-text">Offres</span>
+			</a>
+		</li>
+		<li class="menu-item" aria-haspopup="true">
+			<a href="#" class="menu-link">
+				<span class="menu-text">Ventes</span>
+			</a>
+		</li>
+	</ul>
+{% endblock %}
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Email</th>
-                <th>Roles</th>
-                <th>Password</th>
-                <th>Code</th>
-                <th>Nom</th>
-                <th>Prenom</th>
-                <th>Tel</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for administrateur in administrateurs %}
-            <tr>
-                <td>{{ administrateur.id }}</td>
-                <td>{{ administrateur.email }}</td>
-                <td>{{ administrateur.roles ? administrateur.roles|json_encode : '' }}</td>
-                <td>{{ administrateur.password }}</td>
-                <td>{{ administrateur.code }}</td>
-                <td>{{ administrateur.nom }}</td>
-                <td>{{ administrateur.prenom }}</td>
-                <td>{{ administrateur.tel }}</td>
-                <td>
-                    <a href="{{ path('administrateur_show', {'id': administrateur.id}) }}">show</a>
-                    <a href="{{ path('administrateur_edit', {'id': administrateur.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="9">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <a  href="{{ path('administrateur_show', {'id': app.user.id}) }}">
-        Detail
-    </a><br>
-    <a  href="{{ path('administrateur_edit', {'id': app.user.id}) }}">
-        Modifier 
-    </a><br>
-     <a  href="{{ path('modification_email') }}">
-        modifier email
-    </a><br>
-    <a  href="{{ path('modifier_password') }}">
-        modifier password
-    </a>
+{% block content_subheader %}
+	<!--begin::Page Title-->
+	<h5 class="text-dark font-weight-bold my-1 mr-5">Accueil</h5>
+	<!--end::Page Title-->
+	<!--begin::Breadcrumb-->
+	<ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
+		<li class="breadcrumb-item text-muted">
+			<span class="text-muted">Application</span>
+		</li>
+		<li class="breadcrumb-item text-muted">
+			<a href="{{ path('administrateur_index') }}" class="text-muted">Accueil</a>
+		</li>
+	</ul>
+	<!--end::Breadcrumb-->
+{% endblock %}
 
-    <a href="{{ path('administrateur_new') }}">Create new</a>
+{% block content_body %}
+	<h1>Administrateur index</h1>
 {% endblock %}

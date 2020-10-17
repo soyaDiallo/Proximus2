@@ -1,42 +1,353 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Se connecter
+{% endblock %}
+
+{% block stylesheets %}
+	<link href="{{ asset('css/pages/login/login-2e8da.css?v=2.0.3') }}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block javascripts %}
+	<script src="{{ asset('js/pages/custom/login/logine8da.js?v=2.0.3') }}"></script>
+{% endblock %}
 
 {% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+	<div
+		class="d-flex flex-column flex-root">
+		<!--begin::Login-->
+		<div
+			class="login login-2 login-signin-on d-flex flex-column flex-column-fluid bg-white position-relative overflow-hidden" id="kt_login">
+			<!--begin::Header-->
+			<div class="login-header py-10 flex-column-auto">
+				<div
+					class="container d-flex flex-column flex-md-row align-items-center justify-content-center justify-content-md-between">
+					<!--begin::Logo-->
+					<a href="#" class="flex-column-auto py-5 py-md-0">
+						<img src="https://preview.keenthemes.com/keen/theme/demo6/dist/assets/media/logos/logo-6.svg" alt="logo" class="h-50px"/>
+					</a>
+					<!--end::Logo-->
+					<span class="text-muted font-weight-bold font-size-h4">Veuillez-vous connecter à
+						<strong>Proximus</strong>
+					</span>
+				</div>
+			</div>
+			<!--end::Header-->
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
-        </div>
-    {% endif %}
+			{% if error %}
+				<div class="container">
+					<div class="alert alert-custom alert-notice alert-light-danger fade show" role="alert">
+						<div class="alert-icon">
+							<i class="flaticon-warning"></i>
+						</div>
+						<div class="alert-text">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+						<div class="alert-close">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">
+									<i class="ki ki-close"></i>
+								</span>
+							</button>
+						</div>
+					</div>
+				</div>
+			{% endif %}
+			{% if app.user %}
+				<div class="container">
+					<div class="alert alert-custom alert-notice alert-light-success fade show" role="alert">
+						<div class="alert-icon">
+							<i class="flaticon-warning"></i>
+						</div>
+						<div class="alert-text">You are logged in as
+							{{ app.user.username }},
+							<a href="{{ path('app_logout') }}">
+								<strong>Logout</strong>
+							</a>
+						</div>
+						<div class="alert-close">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">
+									<i class="ki ki-close"></i>
+								</span>
+							</button>
+						</div>
+					</div>
+				</div>
+			{% endif %}
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" required>
+			<!--begin::Body-->
+			<div class="login-body d-flex flex-column-fluid align-items-stretch justify-content-center">
+				<div class="container row">
+					<div
+						class="col-lg-6 d-flex align-items-center">
+						<!--begin::Signin-->
+						<div
+							class="login-form login-signin">
+							<!--begin::Form-->
+							<form
+								method="post" class="form w-xxl-550px rounded-lg p-20">
+								<!--begin::Title-->
+								<div class="pb-13 pt-lg-0 pt-5">
+									<h3 class="font-weight-bolder text-dark font-size-h4 font-size-h1-lg">Bienvenue chez Proximus</h3>
+								</div>
+								<!--begin::Title-->
+								<!--begin::Form group-->
+								<div class="form-group">
+									<label class="font-size-h6 font-weight-bolder text-dark" for="inputEmail">Email</label>
+									<input class="form-control form-control-solid h-auto p-6 rounded-lg" type="email" name="email" id="inputEmail" value="{{ last_username }}" required autofocus/>
+								</div>
+								<!--end::Form group-->
+								<!--begin::Form group-->
+								<div class="form-group">
+									<div class="d-flex justify-content-between mt-n5">
+										<label class="font-size-h6 font-weight-bolder text-dark pt-5" for="inputPassword">Mot de passe</label>
+										<a href="javascript:;" class="text-primary font-size-h6 font-weight-bolder text-hover-primary pt-5" id="kt_login_forgot">Mot de passe oublié ?</a>
+									</div>
+									<input class="form-control form-control-solid h-auto p-6 rounded-lg" type="password" name="password" id="inputPassword" required/>
+								</div>
+								<!--end::Form group-->
 
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
+								<!--begin::Form group-->
+								<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+								<!--end::Form group-->
 
-    {#
-        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-        See https://symfony.com/doc/current/security/remember_me.html
+								<!--begin::Action-->
+									<div class="pb-lg-0 pb-5"> <button type="submit" class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-3">Se connecter</button>
+								</div>
+								<!--end::Action-->
 
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Remember me
-            </label>
-        </div>
-    #}
-
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
-</form>
+							</form>
+							<!--end::Form-->
+						</div>
+						<!--end::Signin-->
+						<!--begin::Forgot-->
+						<div
+							class="login-form login-forgot">
+							<!--begin::Title-->
+							<div class="pb-13 pt-lg-0 pt-5">
+								<h3 class="font-weight-bolder text-dark font-size-h4 font-size-h1-lg">Mot de passe oublié ?</h3>
+								<p class="text-muted font-weight-bold font-size-h4">Veuillez contacter l'administrateur du système</p>
+							</div>
+							<!--end::Title-->
+						</div>
+						<!--end::Forgot-->
+					</div>
+					<div class="col-lg-6 bgi-size-contain bgi-no-repeat bgi-position-y-center bgi-position-x-center min-h-150px mt-10 m-md-0" style="background-image: url(https://preview.keenthemes.com/keen/theme/demo6/dist/assets/media/svg/illustrations/accomplishment.svg)"></div>
+				</div>
+			</div>
+			<!--end::Body-->
+			<!--begin::Footer-->
+			<div class="login-footer py-10 flex-column-auto">
+				<div class="container d-flex flex-column flex-md-row align-items-center justify-content-center justify-content-md-between">
+					<div class="font-size-h6 font-weight-bolder order-2 order-md-1 py-2 py-md-0">
+						<span class="text-muted font-weight-bold mr-2">2020©</span>
+						<a href="#" target="_blank" class="text-dark-50 text-hover-primary">Proximus</a>
+					</div>
+				</div>
+			</div>
+			<!--end::Footer-->
+		</div>
+		<!--end::Login-->
+	</div>
 {% endblock %}
+
+
+{# <!--begin::Form-->
+<form
+	class="form" novalidate="novalidate" id="kt_login_signup_form">
+	<!--begin: Wizard Step 1-->
+	<div
+		class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
+		<!--begin::Title-->
+		<div class="pb-10 pb-lg-15">
+			<h3 class="font-weight-bolder text-dark display5">Créer un compte</h3>
+			<div class="text-muted font-weight-bold font-size-h4">
+				Créer un compte pour accéder
+			</div>
+		</div>
+		<!--begin::Title-->
+		<!--begin::Form Group-->
+		<div class="form-group">
+			<label class="font-size-h6 font-weight-bolder text-dark">Nom</label>
+			<input type="text" class="form-control h-auto py-6 border-0 rounded-lg font-size-h6" name="nom" placeholder="Nom d'utilisateur" value="" required autofocus/>
+		</div>
+		<!--end::Form Group-->
+		<!--begin::Form Group-->
+		<div class="form-group">
+			<label class="font-size-h6 font-weight-bolder text-dark">Prénom</label>
+			<input type="text" class="form-control h-auto py-6 border-0 rounded-lg font-size-h6" name="prenom" placeholder="Prénom d'utilisateur" value=""/>
+		</div>
+		<!--end::Form Group-->
+
+		<!--begin::Row-->
+		<div class="row">
+			<div
+				class="col-xl-6">
+				<!--begin::Input-->
+				<div class="form-group">
+					<label class="font-size-h6 font-weight-bolder text-dark">Téléphone</label>
+					<input type="tel" class="form-control h-auto py-6 border-0 rounded-lg font-size-h6" name="tel" placeholder="Téléphone" value="" required/>
+				</div>
+				<!--end::Input-->
+			</div>
+			<div
+				class="col-xl-6">
+				<!--begin::Input-->
+				<div class="form-group">
+					<label class="font-size-h6 font-weight-bolder text-dark">Email</label>
+					<input type="email" class="form-control h-auto py-6 border-0 rounded-lg font-size-h6" name="email" placeholder="Adresse email" value="" required/>
+				</div>
+				<!--end::Input-->
+			</div>
+		</div>
+		<!--end::Row-->
+	</div>
+	<!--end: Wizard Step 1-->
+	<!--begin: Wizard Step 2-->
+	<div
+		class="pb-5" data-wizard-type="step-content">
+		<!--begin::Title-->
+		<div class="pt-lg-0 pt-5 pb-15">
+			<h3 class="font-weight-bolder text-dark font-size-h2 font-size-h1-lg">Détails du compte</h3>
+			<div class="text-muted font-weight-bold font-size-h4">
+				Compléter les informations du compte
+			</div>
+		</div>
+		<!--begin::Title-->
+		<!--begin::Form Group-->
+		<div class="form-group">
+			<label class="font-size-h6 font-weight-bolder text-dark">Code</label>
+			<input type="text" class="form-control h-auto py-6 border-0 rounded-lg font-size-h6" name="code" placeholder="Code de l'utilisateur" value="" required/>
+		</div>
+		<!--end::Form Group-->
+		<!--begin::Row-->
+		<div class="row">
+			<div
+				class="col-xl-6">
+				<!--begin::Input-->
+				<div class="form-group">
+					<label class="font-size-h6 font-weight-bolder text-dark">Identifiant</label>
+					<input type="text" class="form-control h-auto py-6 border-0 rounded-lg font-size-h6" name="login" placeholder="Identifiant" value=""/>
+					<span class="form-text text-muted">Donner l'identifiant de l'utilisateur.</span>
+				</div>
+				<!--end::Input-->
+			</div>
+			<div
+				class="col-xl-6">
+				<!--begin::Select-->
+				<div class="form-group">
+					<label class="font-size-h6 font-weight-bolder text-dark">Rôle</label>
+					<select name="role" class="form-control h-auto py-6 border-0 rounded-lg font-size-h6">
+						<option value="agent" selected="selected">Agent</option>
+						<option value="superviseur">Superviseur</option>
+						<option value="backoffice">BackOffice</option>
+						<option value="administration">Administrateur</option>
+					</select>
+				</div>
+				<!--end::Select-->
+			</div>
+		</div>
+		<!--end::Row-->
+		<!--begin::Row-->
+		<div class="row">
+			<div
+				class="col-xl-6">
+				<!--begin::Input-->
+				<div class="form-group">
+					<label class="font-size-h6 font-weight-bolder text-dark">Mot de passe</label>
+					<input type="password" class="form-control h-auto py-6 border-0 rounded-lg font-size-h6" name="password" placeholder="Mot de passe"/>
+				</div>
+				<!--end::Input-->
+			</div>
+			<div
+				class="col-xl-6">
+				<!--begin::Input-->
+				<div class="form-group">
+					<label class="font-size-h6 font-weight-bolder text-dark">Confirmation mot de passe</label>
+					<input type="password" class="form-control h-auto py-6 border-0 rounded-lg font-size-h6" name="confirm" placeholder="Mot de passe" value=""/>
+					<span class="form-text text-muted">Répéter le mot de passe.</span>
+				</div>
+				<!--end::Input-->
+			</div>
+		</div>
+		<!--end::Row-->
+	</div>
+	<!--end: Wizard Step 2-->
+
+	<!--begin: Wizard Step 3-->
+	<div
+		class="pb-5" data-wizard-type="step-content">
+		<!--begin::Title-->
+		<div class="pt-lg-0 pt-5 pb-15">
+			<h3 class="font-weight-bolder text-dark font-size-h2 font-size-h1-lg">Terminé</h3>
+			<div class="text-muted font-weight-bold font-size-h4">Complétez l'inscription</div>
+		</div>
+		<!--end::Title-->
+		<!--begin::Section-->
+		<h4 class="font-weight-bolder mb-3">Paramètres de l'utilisateur:</h4>
+		<div class="text-dark-50 font-weight-bold line-height-lg mb-8">
+			<div>Nick Stone</div>
+			<div>+12233434-34</div>
+			<div>nick.stone@gmail.com</div>
+		</div>
+		<!--end::Section-->
+		<!--begin::Section-->
+		<h4 class="font-weight-bolder mb-3">Paramètres du compte:</h4>
+		<div class="text-dark-50 font-weight-bold line-height-lg mb-8">
+			<div>Address Line 1</div>
+			<div>Address Line 2</div>
+			<div>Melbourne 3000, VIC, Australia</div>
+		</div>
+		<!--end::Section-->
+	</div>
+	<!--end: Wizard Step 3-->
+
+	<!--begin: Wizard Actions-->
+	<div class="d-flex justify-content-between pt-3">
+		<div class="mr-2">
+			<button type="button" class="btn btn-light-primary font-weight-bolder font-size-h6 pl-6 pr-8 py-4 my-3 mr-3" data-wizard-type="action-prev">
+				<span
+					class="svg-icon svg-icon-md mr-1">
+					<!--begin::Svg Icon | path:/keen/theme/demo6/dist/assets/media/svg/icons/Navigation/Left-2.svg-->
+					<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewbox="0 0 24 24" version="1.1">
+						<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+							<polygon points="0 0 24 0 24 24 0 24"/>
+							<rect fill="#000000" opacity="0.3" transform="translate(15.000000, 12.000000) scale(-1, 1) rotate(-90.000000) translate(-15.000000, -12.000000)" x="14" y="7" width="2" height="10" rx="1"/>
+							<path d="M3.7071045,15.7071045 C3.3165802,16.0976288 2.68341522,16.0976288 2.29289093,15.7071045 C1.90236664,15.3165802 1.90236664,14.6834152 2.29289093,14.2928909 L8.29289093,8.29289093 C8.67146987,7.914312 9.28105631,7.90106637 9.67572234,8.26284357 L15.6757223,13.7628436 C16.0828413,14.136036 16.1103443,14.7686034 15.7371519,15.1757223 C15.3639594,15.5828413 14.7313921,15.6103443 14.3242731,15.2371519 L9.03007346,10.3841355 L3.7071045,15.7071045 Z" fill="#000000" fill-rule="nonzero" transform="translate(9.000001, 11.999997) scale(-1, -1) rotate(90.000000) translate(-9.000001, -11.999997)"/>
+						</g>
+					</svg>
+					<!--end::Svg Icon-->
+				</span>Précédent</button>
+		</div>
+		<div>
+			<button class="btn btn-primary font-weight-bolder font-size-h6 pl-5 pr-8 py-4 my-3" data-wizard-type="action-submit" type="submit" id="kt_login_signup_form_submit_button">Enregistrer
+				<span
+					class="svg-icon svg-icon-md ml-2">
+					<!--begin::Svg Icon | path:/keen/theme/demo6/dist/assets/media/svg/icons/Navigation/Right-2.svg-->
+					<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewbox="0 0 24 24" version="1.1">
+						<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+							<polygon points="0 0 24 0 24 24 0 24"/>
+							<rect fill="#000000" opacity="0.3" transform="translate(8.500000, 12.000000) rotate(-90.000000) translate(-8.500000, -12.000000)" x="7.5" y="7.5" width="2" height="9" rx="1"/>
+							<path d="M9.70710318,15.7071045 C9.31657888,16.0976288 8.68341391,16.0976288 8.29288961,15.7071045 C7.90236532,15.3165802 7.90236532,14.6834152 8.29288961,14.2928909 L14.2928896,8.29289093 C14.6714686,7.914312 15.281055,7.90106637 15.675721,8.26284357 L21.675721,13.7628436 C22.08284,14.136036 22.1103429,14.7686034 21.7371505,15.1757223 C21.3639581,15.5828413 20.7313908,15.6103443 20.3242718,15.2371519 L15.0300721,10.3841355 L9.70710318,15.7071045 Z" fill="#000000" fill-rule="nonzero" transform="translate(14.999999, 11.999997) scale(1, -1) rotate(90.000000) translate(-14.999999, -11.999997)"/>
+						</g>
+					</svg>
+					<!--end::Svg Icon-->
+				</span>
+			</button>
+			<button type="button" class="btn btn-primary font-weight-bolder font-size-h6 pl-8 pr-4 py-4 my-3" data-wizard-type="action-next">Suivant
+				<span
+					class="svg-icon svg-icon-md ml-1">
+					<!--begin::Svg Icon | path:/keen/theme/demo6/dist/assets/media/svg/icons/Navigation/Right-2.svg-->
+					<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewbox="0 0 24 24" version="1.1">
+						<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+							<polygon points="0 0 24 0 24 24 0 24"/>
+							<rect fill="#000000" opacity="0.3" transform="translate(8.500000, 12.000000) rotate(-90.000000) translate(-8.500000, -12.000000)" x="7.5" y="7.5" width="2" height="9" rx="1"/>
+							<path d="M9.70710318,15.7071045 C9.31657888,16.0976288 8.68341391,16.0976288 8.29288961,15.7071045 C7.90236532,15.3165802 7.90236532,14.6834152 8.29288961,14.2928909 L14.2928896,8.29289093 C14.6714686,7.914312 15.281055,7.90106637 15.675721,8.26284357 L21.675721,13.7628436 C22.08284,14.136036 22.1103429,14.7686034 21.7371505,15.1757223 C21.3639581,15.5828413 20.7313908,15.6103443 20.3242718,15.2371519 L15.0300721,10.3841355 L9.70710318,15.7071045 Z" fill="#000000" fill-rule="nonzero" transform="translate(14.999999, 11.999997) scale(1, -1) rotate(90.000000) translate(-14.999999, -11.999997)"/>
+						</g>
+					</svg>
+					<!--end::Svg Icon-->
+				</span>
+			</button>
+		</div>
+	</div>
+	<!--end: Wizard Actions-->
+</form>
+<!--end::Form--> #}

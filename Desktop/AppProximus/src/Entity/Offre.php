@@ -74,7 +74,6 @@ class Offre
     {
         $this->documents = new ArrayCollection();
         $this->offreProduits = new ArrayCollection();
-       
     }
 
     public function getId(): ?int

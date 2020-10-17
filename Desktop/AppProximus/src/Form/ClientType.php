@@ -43,8 +43,7 @@ class ClientType extends AbstractType
             ->add('bonusTV')
             ->add('lienDrivePartageable')
             ->add('carteIdentite')
-            ->add('fournisseur')
-        ;
+            ->add('fournisseur');
     }
 
     public function configureOptions(OptionsResolver $resolver)

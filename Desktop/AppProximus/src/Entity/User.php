@@ -31,6 +31,7 @@ class User implements UserInterface
         'Superviseur' => 'ROLE_SUPERVISEUR',
         'Administrateur' => 'ROLE_ADMINISTRATEUR',
     ];
+    
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

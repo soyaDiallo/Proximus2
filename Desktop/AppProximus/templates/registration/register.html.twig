@@ -1,6 +1,350 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Inscription
+{% endblock %}
+
+{% block stylesheets %}
+	<link href="{{ asset('css/pages/login/login-3e8da.css?v=2.0.3') }}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block javascripts %}
+	<script src="{{ asset('js/pages/custom/login/login-3e8da.js?v=2.0.3') }}"></script>
+{% endblock %}
+
+{# {% block body %}
+	<div
+		class="d-flex flex-column flex-root">
+		<!--begin::Login-->
+		<div
+			class="login login-3 wizard d-flex flex-column flex-lg-row flex-column-fluid wizard" id="kt_login">
+			<!--begin::Aside-->
+			<div
+				class="login-aside d-flex flex-column flex-row-auto">
+				<!--begin::Aside Top-->
+				<div
+					class="d-flex flex-column-auto flex-column pt-15 px-30">
+					<!--begin::Aside header-->
+					<a href="#" class="login-logo py-6">
+						<img src="https://preview.keenthemes.com/keen/theme/demo6/dist/assets/media/logos/logo-6.svg" alt="logo" class="h-60px"/>
+					</a>
+					<!--end::Aside header-->
+					<!--begin: Wizard Nav-->
+					<div
+						class="wizard-nav py-12 mb-10">
+						<!--begin::Wizard Steps-->
+						<div
+							class="wizard-steps">
+							<!--begin::Wizard Step 1 Nav-->
+							<div class="wizard-step" data-wizard-type="step" data-wizard-state="current">
+								<div class="wizard-wrapper">
+									<div class="wizard-icon">
+										<i class="wizard-check ki ki-check"></i>
+										<span class="wizard-number">1</span>
+									</div>
+									<div class="wizard-label">
+										<h3 class="wizard-title">Paramètre utilisateur</h3>
+										<div class="wizard-desc">Configuration de l'utilisateur</div>
+									</div>
+								</div>
+							</div>
+							<!--end::Wizard Step 1 Nav-->
+							<!--begin::Wizard Step 2 Nav-->
+							<div class="wizard-step" data-wizard-type="step">
+								<div class="wizard-wrapper">
+									<div class="wizard-icon">
+										<i class="wizard-check ki ki-check"></i>
+										<span class="wizard-number">2</span>
+									</div>
+									<div class="wizard-label">
+										<h3 class="wizard-title">Paramètre du compte</h3>
+										<div class="wizard-desc">Configuration du compte</div>
+									</div>
+								</div>
+							</div>
+							<!--end::Wizard Step 2 Nav-->
+							<!--begin::Wizard Step 3 Nav-->
+							<div class="wizard-step" data-wizard-type="step">
+								<div class="wizard-wrapper">
+									<div class="wizard-icon">
+										<i class="wizard-check ki ki-check"></i>
+										<span class="wizard-number">3</span>
+									</div>
+									<div class="wizard-label">
+										<h3 class="wizard-title">Terminé</h3>
+										<div class="wizard-desc">Vérifier et soumettre</div>
+									</div>
+								</div>
+							</div>
+							<!--end::Wizard Step 3 Nav-->
+						</div>
+						<!--end::Wizard Steps-->
+					</div>
+					<!--end: Wizard Nav-->
+				</div>
+				<!--end::Aside Top-->
+			</div>
+			<!--end::Aside-->
+
+			<!--begin::Content-->
+			<div
+				class="login-content flex-column-fluid d-flex flex-column p-10">
+				<!--begin::Error-->
+				{% for flashError in app.flashes('verify_email_error') %}
+					<div class="container">
+						<div class="alert alert-custom alert-notice alert-light-danger fade show" role="alert">
+							<div class="alert-icon">
+								<i class="flaticon-warning"></i>
+							</div>
+							<div class="alert-text">{{ flashError }}</div>
+							<div class="alert-close">
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">
+										<i class="ki ki-close"></i>
+									</span>
+								</button>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+				<!--end::Error-->
+
+				<!--begin::Top-->
+				<div class="text-right d-flex justify-content-center">
+					<div class="top-signup text-right d-flex justify-content-end pt-5 pb-lg-0 pb-10">
+						<button type="button" class="btn btn-light-primary font-weight-bolder px-8 py-4 font-size-lg">
+							<i class="flaticon-upload"></i>
+							Importer des utilisateurs
+						</button>
+					</div>
+				</div>
+				<!--end::Top-->
+
+				<!--begin::Wrapper-->
+				<div
+					class="d-flex flex-row-fluid flex-center">
+					<!--begin::Signin-->
+					<div class="login-form login-form-signup">
+
+						{{ form_start(registrationForm, {'attr': {'method': 'POST', 'class': 'form', 'id': 'kt_login_signup_form'}}) }}
+
+						<!--begin: Wizard Step 1-->
+						<div
+							class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
+							<!--begin::Title-->
+							<div class="pb-10 pb-lg-15">
+								<h3 class="font-weight-bolder text-dark display5">Créer un compte</h3>
+								<div class="text-muted font-weight-bold font-size-h4">
+									Créer un compte pour accéder
+								</div>
+							</div>
+							<!--begin::Title-->
+							<!--begin::Form Group-->
+							<div class="form-group">
+								<label class="font-size-h6 font-weight-bolder text-dark">Nom</label>
+
+								{{ form_widget(registrationForm.nom, {'attr': {'type': 'text', 'class': 'form-control h-auto py-6 border-0 rounded-lg font-size-h6', 'placeholder': 'Nom Form', 'required': 'required', 'autofocus': 'true'}}) }}
+							</div>
+							<!--end::Form Group-->
+							<!--begin::Form Group-->
+							<div class="form-group">
+								<label class="font-size-h6 font-weight-bolder text-dark">Prénom</label>
+
+								{{ form_widget(registrationForm.prenom, {'attr': {'type': 'text', 'class': 'form-control h-auto py-6 border-0 rounded-lg font-size-h6', 'placeholder': 'Prénom Form', 'required': 'required'}}) }}
+							</div>
+							<!--end::Form Group-->
+
+							<!--begin::Row-->
+							<div class="row">
+								<div
+									class="col-xl-6">
+									<!--begin::Input-->
+									<div class="form-group">
+										<label class="font-size-h6 font-weight-bolder text-dark">Téléphone</label>
+
+										{{ form_widget(registrationForm.tel, {'attr': {'type': 'tel', 'class': 'form-control h-auto py-6 border-0 rounded-lg font-size-h6', 'placeholder': 'Téléphone Form', 'required': 'required'}}) }}
+									</div>
+									<!--end::Input-->
+								</div>
+								<div
+									class="col-xl-6">
+									<!--begin::Input-->
+									<div class="form-group">
+										<label class="font-size-h6 font-weight-bolder text-dark">Email</label>
+
+										{{ form_widget(registrationForm.email, {'attr': {'type': 'email', 'class': 'form-control h-auto py-6 border-0 rounded-lg font-size-h6', 'placeholder': 'Adresse email Form', 'required': 'required'}}) }}
+									</div>
+									<!--end::Input-->
+								</div>
+							</div>
+							<!--end::Row-->
+						</div>
+						<!--end: Wizard Step 1-->
+
+						<!--begin: Wizard Step 2-->
+						<div
+							class="pb-5" data-wizard-type="step-content">
+							<!--begin::Title-->
+							<div class="pt-lg-0 pt-5 pb-15">
+								<h3 class="font-weight-bolder text-dark font-size-h2 font-size-h1-lg">Détails du compte</h3>
+								<div class="text-muted font-weight-bold font-size-h4">
+									Compléter les informations du compte
+								</div>
+							</div>
+							<!--begin::Title-->
+
+							<!--begin::Form Group-->
+							<div class="form-group">
+								<label class="font-size-h6 font-weight-bolder text-dark">Code</label>
+
+								{{ form_widget(registrationForm.code, {'attr': {'type': 'text', 'class': 'form-control h-auto py-6 border-0 rounded-lg font-size-h6', 'placeholder': 'Code de l\'utilisateur Form', 'required': 'required'}}) }}
+								</div>
+								<!--end::Form Group-->
+									
+								<!--begin::Row-->
+								<div class="row">
+									<div
+										class="col-xl-6">
+										<!--begin::Input-->
+										<div class="form-group">
+											<label class="font-size-h6 font-weight-bolder text-dark">Identifiant</label>
+											
+											{{ form_widget(registrationForm.login, {'attr': {'type': 'text', 'class': 'form-control h-auto py-6 border-0 rounded-lg font-size-h6', 'placeholder': 'Identifiant Form', 'required': 'required'}}) }}
+											
+											<span class="form-text text-muted">Donner l'identifiant de l'utilisateur.</span>
+										</div>
+										<!--end::Input-->
+									</div>
+									<div
+										class="col-xl-6">
+										<!--begin::Select-->
+										<div class="form-group">
+											<label class="font-size-h6 font-weight-bolder text-dark">Rôle</label>
+											{{ form_widget(registrationForm.roles, {'attr': {'class': 'form-control h-auto py-6 border-0 rounded-lg font-size-h6', 'placeholder': 'Choisir le rôle', 'required': 'required'}}) }}
+										</div>
+										<!--end::Select-->
+									</div>
+								</div>
+								<!--end::Row-->
+
+								<!--begin::Row-->
+								<div class="row">
+									<div
+										class="col-xl-6">
+										<!--begin::Input-->
+										<div class="form-group">
+											<label class="font-size-h6 font-weight-bolder text-dark">Mot de passe</label>
+
+											{{ form_widget(registrationForm.plainPassword, {'attr': {'type': 'password', 'class': 'form-control h-auto py-6 border-0 rounded-lg font-size-h6', 'placeholder': 'Mot de passe Form', 'required': 'required'}}) }}
+										</div>
+										<!--end::Input-->
+									</div>
+									<div
+										class="col-xl-6">
+										<!--begin::Input-->
+										<div class="form-group">
+											<label class="font-size-h6 font-weight-bolder text-dark">Confirmation mot de passe</label>
+											<input type="password" class="form-control h-auto py-6 border-0 rounded-lg font-size-h6" name="confirm" placeholder="Mot de passe" value=""/>
+
+											<span class="form-text text-muted">Répéter le mot de passe.</span>
+										</div>
+										<!--end::Input-->
+									</div>
+								</div>
+								<!--end::Row-->
+							</div>
+							<!--end: Wizard Step 2-->
+
+							<!--begin: Wizard Step 3-->
+							<div
+								class="pb-5" data-wizard-type="step-content">
+								<!--begin::Title-->
+								<div class="pt-lg-0 pt-5 pb-15">
+									<h3 class="font-weight-bolder text-dark font-size-h2 font-size-h1-lg">Terminé</h3>
+									<div class="text-muted font-weight-bold font-size-h4">Complétez l'inscription</div>
+								</div>
+								<!--end::Title-->
+								<!--begin::Section-->
+								<h4 class="font-weight-bolder mb-3">Paramètres de l'utilisateur:</h4>
+								<div class="text-dark-50 font-weight-bold line-height-lg mb-8">
+									<div>Nick Stone</div>
+									<div>+12233434-34</div>
+									<div>nick.stone@gmail.com</div>
+								</div>
+								<!--end::Section-->
+								<!--begin::Section-->
+								<h4 class="font-weight-bolder mb-3">Paramètres du compte:</h4>
+								<div class="text-dark-50 font-weight-bold line-height-lg mb-8">
+									<div>Address Line 1</div>
+									<div>Address Line 2</div>
+									<div>Melbourne 3000, VIC, Australia</div>
+								</div>
+								<!--end::Section-->
+							</div>
+							<!--end: Wizard Step 3-->
+
+							<!--begin: Wizard Actions-->
+							<div class="d-flex justify-content-between pt-3">
+								<div class="mr-2">
+									<button type="button" class="btn btn-light-primary font-weight-bolder font-size-h6 pl-6 pr-8 py-4 my-3 mr-3" data-wizard-type="action-prev">
+										<span
+											class="svg-icon svg-icon-md mr-1">
+											<!--begin::Svg Icon | path:/keen/theme/demo6/dist/assets/media/svg/icons/Navigation/Left-2.svg-->
+											<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewbox="0 0 24 24" version="1.1">
+												<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+													<polygon points="0 0 24 0 24 24 0 24"/>
+													<rect fill="#000000" opacity="0.3" transform="translate(15.000000, 12.000000) scale(-1, 1) rotate(-90.000000) translate(-15.000000, -12.000000)" x="14" y="7" width="2" height="10" rx="1"/>
+													<path d="M3.7071045,15.7071045 C3.3165802,16.0976288 2.68341522,16.0976288 2.29289093,15.7071045 C1.90236664,15.3165802 1.90236664,14.6834152 2.29289093,14.2928909 L8.29289093,8.29289093 C8.67146987,7.914312 9.28105631,7.90106637 9.67572234,8.26284357 L15.6757223,13.7628436 C16.0828413,14.136036 16.1103443,14.7686034 15.7371519,15.1757223 C15.3639594,15.5828413 14.7313921,15.6103443 14.3242731,15.2371519 L9.03007346,10.3841355 L3.7071045,15.7071045 Z" fill="#000000" fill-rule="nonzero" transform="translate(9.000001, 11.999997) scale(-1, -1) rotate(90.000000) translate(-9.000001, -11.999997)"/>
+												</g>
+											</svg>
+											<!--end::Svg Icon-->
+										</span>Précédent</button>
+								</div>
+								<div>
+									<button class="btn btn-primary font-weight-bolder font-size-h6 pl-5 pr-8 py-4 my-3" data-wizard-type="action-submit" type="submit" id="kt_login_signup_form_submit_button">
+										Enregistrer
+										<span
+											class="svg-icon svg-icon-md ml-2">
+											<!--begin::Svg Icon | path:/keen/theme/demo6/dist/assets/media/svg/icons/Navigation/Right-2.svg-->
+											<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewbox="0 0 24 24" version="1.1">
+												<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+													<polygon points="0 0 24 0 24 24 0 24"/>
+													<rect fill="#000000" opacity="0.3" transform="translate(8.500000, 12.000000) rotate(-90.000000) translate(-8.500000, -12.000000)" x="7.5" y="7.5" width="2" height="9" rx="1"/>
+													<path d="M9.70710318,15.7071045 C9.31657888,16.0976288 8.68341391,16.0976288 8.29288961,15.7071045 C7.90236532,15.3165802 7.90236532,14.6834152 8.29288961,14.2928909 L14.2928896,8.29289093 C14.6714686,7.914312 15.281055,7.90106637 15.675721,8.26284357 L21.675721,13.7628436 C22.08284,14.136036 22.1103429,14.7686034 21.7371505,15.1757223 C21.3639581,15.5828413 20.7313908,15.6103443 20.3242718,15.2371519 L15.0300721,10.3841355 L9.70710318,15.7071045 Z" fill="#000000" fill-rule="nonzero" transform="translate(14.999999, 11.999997) scale(1, -1) rotate(90.000000) translate(-14.999999, -11.999997)"/>
+												</g>
+											</svg>
+											<!--end::Svg Icon-->
+										</span>
+									</button>
+									<button type="button" class="btn btn-primary font-weight-bolder font-size-h6 pl-8 pr-4 py-4 my-3" data-wizard-type="action-next">Suivant
+										<span
+											class="svg-icon svg-icon-md ml-1">
+											<!--begin::Svg Icon | path:/keen/theme/demo6/dist/assets/media/svg/icons/Navigation/Right-2.svg-->
+											<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewbox="0 0 24 24" version="1.1">
+												<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+													<polygon points="0 0 24 0 24 24 0 24"/>
+													<rect fill="#000000" opacity="0.3" transform="translate(8.500000, 12.000000) rotate(-90.000000) translate(-8.500000, -12.000000)" x="7.5" y="7.5" width="2" height="9" rx="1"/>
+													<path d="M9.70710318,15.7071045 C9.31657888,16.0976288 8.68341391,16.0976288 8.29288961,15.7071045 C7.90236532,15.3165802 7.90236532,14.6834152 8.29288961,14.2928909 L14.2928896,8.29289093 C14.6714686,7.914312 15.281055,7.90106637 15.675721,8.26284357 L21.675721,13.7628436 C22.08284,14.136036 22.1103429,14.7686034 21.7371505,15.1757223 C21.3639581,15.5828413 20.7313908,15.6103443 20.3242718,15.2371519 L15.0300721,10.3841355 L9.70710318,15.7071045 Z" fill="#000000" fill-rule="nonzero" transform="translate(14.999999, 11.999997) scale(1, -1) rotate(90.000000) translate(-14.999999, -11.999997)"/>
+												</g>
+											</svg>
+											<!--end::Svg Icon-->
+										</span>
+									</button>
+								</div>
+							</div>
+							<!--end: Wizard Actions-->
+
+						{{ form_end(registrationForm) }}
+
+					</div>
+					<!--end::Signin-->
+				</div>
+				<!--end::Wrapper-->
+			</div>
+			<!--end::Content-->
+		</div>
+		<!--end::Login-->
+	</div>
+{% endblock %} #}
 
 {% block body %}
     {% for flashError in app.flashes('verify_email_error') %}
@@ -16,8 +360,10 @@
         }) }}
         {{ form_row(registrationForm.nom) }}
         {{ form_row(registrationForm.prenom) }}
+        {{ form_row(registrationForm.login) }}
         {{ form_row(registrationForm.tel) }}
         {{ form_row(registrationForm.code) }}
+        {{ form_row(registrationForm.roles) }}
         <button type="submit" class="btn">Register</button>
     {{ form_end(registrationForm) }}
 {% endblock %}

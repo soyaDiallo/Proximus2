@@ -1,0 +1,198 @@
+{% extends 'content.html.twig' %}
+
+{% block title %}Offre - Edit
+{% endblock %}
+
+{% block stylesheets %}
+	<link href="{{ asset('css/pages/wizard/wizard-2e8da.css?v=2.0.3') }}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block javascripts %}
+	<script src="{{ asset('js/pages/custom/wizard/wizard-2e8da.js?v=2.0.3') }}"></script>
+{% endblock %}
+
+{% block content_header %}
+	{% if is_granted('ROLE_AGENT') %}
+		<ul class="menu-nav">
+			<li class="menu-item" aria-haspopup="true">
+				<a href="{{ path('agent_index') }}" class="menu-link">
+					<span class="menu-text">Accueil</span>
+				</a>
+			</li>
+			<li class="menu-item" aria-haspopup="true">
+				<a href="{{ path('offer_index') }}" class="menu-link">
+					<span class="menu-text">Offres</span>
+				</a>
+			</li>
+		</ul>
+	{% elseif is_granted('ROLE_SUPERVISEUR') %}
+		<ul class="menu-nav">
+			<li class="menu-item" aria-haspopup="true">
+				<a href="{{ path('superviseur_index') }}" class="menu-link">
+					<span class="menu-text">Accueil</span>
+				</a>
+			</li>
+			<li class="menu-item" aria-haspopup="true">
+				<a href="{{ path('offer_index') }}" class="menu-link">
+					<span class="menu-text">Offres</span>
+				</a>
+			</li>
+		</ul>
+	{% elseif is_granted('ROLE_BACKOFFICE') %}
+		<ul class="menu-nav">
+			<li class="menu-item" aria-haspopup="true">
+				<a href="{{ path('back_office_index') }}" class="menu-link">
+					<span class="menu-text">Accueil</span>
+				</a>
+			</li>
+			<li class="menu-item" aria-haspopup="true">
+				<a href="{{ path('offer_index') }}" class="menu-link">
+					<span class="menu-text">Offres</span>
+				</a>
+			</li>
+		</ul>
+	{% elseif is_granted('ROLE_ADMINISTRATEUR') %}
+		<ul class="menu-nav">
+			<li class="menu-item" aria-haspopup="true">
+				<a href="{{ path('administrateur_index') }}" class="menu-link">
+					<span class="menu-text">Accueil</span>
+				</a>
+			</li>
+			<li class="menu-item" aria-haspopup="true">
+				<a href="#" class="menu-link">
+					<span class="menu-text">Utilisateurs</span>
+				</a>
+			</li>
+			<li class="menu-item" aria-haspopup="true">
+				<a href="{{ path('offer_index') }}" class="menu-link">
+					<span class="menu-text">Offres</span>
+				</a>
+			</li>
+			<li class="menu-item" aria-haspopup="true">
+				<a href="#" class="menu-link">
+					<span class="menu-text">Ventes</span>
+				</a>
+			</li>
+		</ul>
+	{% endif %}
+{% endblock %}
+
+{% block content_subheader %}
+	<!--begin::Page Title-->
+	<h5 class="text-dark font-weight-bold my-1 mr-5">Nouvelle Offre</h5>
+	<!--end::Page Title-->
+	<!--begin::Breadcrumb-->
+	<ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
+		<li class="breadcrumb-item text-muted">
+			<span class="text-muted">Application</span>
+		</li>
+
+		{% if is_granted('ROLE_AGENT') %}
+			<li class="breadcrumb-item text-muted">
+				<a href="{{ path('agent_index') }}" class="text-muted">Accueil</a>
+			</li>
+		{% elseif is_granted('ROLE_SUPERVISEUR') %}
+			<li class="breadcrumb-item text-muted">
+				<a href="{{ path('superviseur_index') }}" class="text-muted">Accueil</a>
+			</li>
+		{% elseif is_granted('ROLE_BACKOFFICE') %}
+			<li class="breadcrumb-item text-muted">
+				<a href="{{ path('back_office_index') }}" class="text-muted">Accueil</a>
+			</li>
+		{% elseif is_granted('ROLE_ADMINISTRATEUR') %}
+			<li class="breadcrumb-item text-muted">
+				<a href="{{ path('administrateur_index') }}" class="text-muted">Accueil</a>
+			</li>
+		{% endif %}
+
+		<li class="breadcrumb-item text-muted">
+			<a href="{{ path('offer_index') }}" class="text-muted">Offres</a>
+		</li>
+		<li class="breadcrumb-item text-muted">
+			<a href="{{ path('offer_new') }}" class="text-muted">Nouvelle Offre</a>
+		</li>
+	</ul>
+	<!--end::Breadcrumb-->
+{% endblock %}
+
+{% block content_body %}
+	<!--begin::Content-->
+	<div
+		class="content d-flex flex-column flex-column-fluid" id="kt_content">
+		<!--begin::Entry-->
+		<div
+			class="d-flex flex-column-fluid">
+			<!--begin::Container-->
+			<div class="container">
+				<form class="form">
+					<div
+						class="card card-custom">
+						<!--begin::Header-->
+						<div class="card-header py-3">
+							<div class="card-title align-items-start flex-column">
+								<h3 class="card-label font-weight-bolder text-dark">Informations du compte</h3>
+								<span class="text-muted font-weight-bold font-size-sm mt-1">Modifier les informations de votre compte</span>
+							</div>
+							<div class="card-toolbar align-items-end">
+								<a href="#" class="btn btn-light-primary font-weight-bolder mr-2">
+									<span
+										class="svg-icon svg-icon-md">
+										<!--begin::Svg Icon | path:/keen/theme/demo6/dist/assets/media/svg/icons/Files/File.svg-->
+										<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewbox="0 0 24 24" version="1.1">
+											<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+												<polygon points="0 0 24 0 24 24 0 24"/>
+												<path d="M5.85714286,2 L13.7364114,2 C14.0910962,2 14.4343066,2.12568431 14.7051108,2.35473959 L19.4686994,6.3839416 C19.8056532,6.66894833 20,7.08787823 20,7.52920201 L20,20.0833333 C20,21.8738751 19.9795521,22 18.1428571,22 L5.85714286,22 C4.02044787,22 4,21.8738751 4,20.0833333 L4,3.91666667 C4,2.12612489 4.02044787,2 5.85714286,2 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"/>
+												<rect fill="#000000" x="6" y="11" width="9" height="2" rx="1"/>
+												<rect fill="#000000" x="6" y="15" width="5" height="2" rx="1"/>
+											</g>
+										</svg>
+										<!--end::Svg Icon-->
+									</span>Exporter Informations
+								</a>
+							</div>
+						</div>
+						<!--end::Header-->
+						<div
+							class="card-body">
+							<!--begin::Form Group-->
+							<div class="form-group row">
+								<label class="col-xl-3 col-lg-3 col-form-label text-right">Code Utilisateur</label>
+								<div class="col-lg-9 col-xl-6">
+									<input class="form-control form-control-lg form-control-solid" value="{{ app.user.code }}" type="text" placeholder="Code Utilisateur"/>
+								</div>
+							</div>
+							<!--begin::Form Group-->
+							<div class="form-group row">
+								<label class="col-xl-3 col-lg-3 col-form-label text-right">Adresse Email</label>
+								<div class="col-lg-9 col-xl-6">
+									<div class="input-group input-group-lg input-group-solid">
+										<div class="input-group-prepend">
+											<span class="input-group-text">
+												<i class="la la-at"></i>
+											</span>
+										</div>
+										<input type="text" class="form-control form-control-lg form-control-solid" value="{{ app.user.email|capitalize }}" placeholder="Email"/>
+									</div>
+									<span class="form-text text-muted">Donner le nouvel Email du compte.</span>
+								</div>
+							</div>
+						</div>
+
+						<!--begin::Footer-->
+						<div class="card-footer py-3">
+							<div class="card-toolbar">
+								<button type="submit" class="btn btn-primary font-weight-bolder mr-2">Valider Offre</button>
+								<button type="reset" class="btn btn-light-primary font-weight-bolder mr-2">Annuler Offre</button>
+							</div>
+						</div>
+						<!--end::Footer-->
+					</div>
+				</form>
+
+			</div>
+			<!--end::Container-->
+		</div>
+		<!--end::Entry-->
+	</div>
+	<!--end::Content-->
+{% endblock %}

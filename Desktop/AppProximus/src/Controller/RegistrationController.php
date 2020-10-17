@@ -23,7 +23,7 @@ class RegistrationController extends AbstractController
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, UsersAuthenticathorAuthenticator $authenticator): Response
     {
-        $user= new User();
+        $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
@@ -35,7 +35,8 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-            $type=$form->get('roles')->getData();
+
+            $type = $form->get('roles')->getData();
             switch ($type[0]) {
                 case "ROLE_AGENT":
                     $agent = new Agent();
@@ -45,7 +46,7 @@ class RegistrationController extends AbstractController
                     $agent->setCode($user->getCode());
                     $agent->setTel($user->getTel());
                     $agent->setPassword($user->getPassword());
-                    $user=$agent;
+                    $user = $agent;
                     $role = ['ROLE_AGENT'];
                     break;
                 case 'ROLE_BACKOFFICE':
@@ -56,8 +57,8 @@ class RegistrationController extends AbstractController
                     $back->setCode($user->getCode());
                     $back->setTel($user->getTel());
                     $back->setPassword($user->getPassword());
-                    $user=$back;
-                    $role = ['ROLE_BACKOFFICE'];                   
+                    $user = $back;
+                    $role = ['ROLE_BACKOFFICE'];
                     break;
                 case 'ROLE_SUPERVISEUR':
                     $super = new Superviseur();
@@ -67,7 +68,7 @@ class RegistrationController extends AbstractController
                     $super->setCode($user->getCode());
                     $super->setTel($user->getTel());
                     $super->setPassword($user->getPassword());
-                    $user=$super;
+                    $user = $super;
                     $role = ['ROLE_SUPERVISEUR'];
                     break;
                 case 'ROLE_ADMINISTRATEUR':
@@ -78,14 +79,15 @@ class RegistrationController extends AbstractController
                     $admin->setCode($user->getCode());
                     $admin->setTel($user->getTel());
                     $admin->setPassword($user->getPassword());
-                    $user=$admin;
+                    $user = $admin;
                     $role = ['ROLE_ADMINISTRATEUR'];
                     break;
-                                         
+
                 default:
                     return $this->redirectToRoute('app_login');
                     break;
             }
+
             $user->setRoles($role);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);

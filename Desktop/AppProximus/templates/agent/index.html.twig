@@ -1,18 +1,127 @@
-{% extends 'base.html.twig' %}
+{% extends 'content.html.twig' %}
 
-{% block title %}Agent index{% endblock %}
+{% block title %}Agent
+{% endblock %}
 
-{% block body %}
-    <h1>Agent index</h1>
-    <a  href="{{ path('agent_show', {'id': app.user.id}) }}">
-        À propos
-    </a>
-     <a  href="{{ path('modification_email') }}">
-        modifier email
-    </a><br>
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('RECHERCHER') }}</button>
-{{ form_end(form) }}
-   
+{% block content_header %}
+	<ul class="menu-nav">
+		<li class="menu-item menu-item-active" aria-haspopup="true">
+			<a href="{{ path('agent_index') }}" class="menu-link">
+				<span class="menu-text">Accueil</span>
+			</a>
+		</li>
+		<li class="menu-item" aria-haspopup="true">
+			<a href="{{ path('offer_index') }}" class="menu-link">
+				<span class="menu-text">Offres</span>
+			</a>
+		</li>
+	</ul>
+{% endblock %}
+
+{% block content_subheader %}
+	<!--begin::Page Title-->
+	<h5 class="text-dark font-weight-bold my-1 mr-5">Accueil</h5>
+	<!--end::Page Title-->
+	<!--begin::Breadcrumb-->
+	<ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
+		<li class="breadcrumb-item text-muted">
+			<span class="text-muted">Application</span>
+		</li>
+		<li class="breadcrumb-item text-muted">
+			<a href="{{ path('agent_index') }}" class="text-muted">Accueil</a>
+		</li>
+	</ul>
+	<!--end::Breadcrumb-->
+{% endblock %}
+
+{% block content_subheader_right %}
+	<div>
+		<a href="{{ path('offer_new') }}" class="btn btn-light-primary font-weight-bolder px-5 mr-3 my-1">
+			<i class="fas fa-plus"></i>
+			Nouvelle Offre
+		</a>
+	</div>
+{% endblock %}
+
+{% block content_body %}
+	<!--begin::Main-->
+	<div
+		class="flex-column flex-root">
+		<!--begin::Page-->
+		<div
+			class="flex-row flex-column-fluid page">
+			<!--begin::Wrapper-->
+			<div
+				class="flex-column flex-row-fluid" id="kt_wrapper">
+				<!--begin::Content-->
+				<div
+					class="content d-flex flex-column flex-column-fluid" id="kt_content">
+					<!--begin::Entry-->
+					<div
+						class="d-flex flex-column-fluid">
+						<!--begin::Container-->
+						<div
+							class="container">
+							<!--begin::Inbox-->
+							<div
+								class="d-flex flex-row">
+								<!--begin::List-->
+								<div
+									class="flex-row-fluid ml-lg-8 d-block" id="kt_inbox_list">
+									<!--begin::Search-->
+									<div
+										class="card card-custom">
+										<!--begin::Form-->
+										{{ form_start(form, {'attr': { 'class': 'form' }}) }}
+										<div
+											class="card-body">
+											<!--begin::Message-->
+											<div class="form-group">
+												<div class="alert alert-custom alert-default" role="alert">
+													<div class="alert-icon">
+														<i class="flaticon-warning text-primary"></i>
+													</div>
+													<div class="alert-text">Use custom icon input component to place icon inside input control.</div>
+												</div>
+											</div>
+											<!--end::Message-->
+											<!--begin::Input-->
+											<div class="form-group">
+												<div class="input-icon input-icon-right input-group input-group-lg input-group-solid my-2">
+													{{ form_widget(form.recherche, {'attr': {'class': 'form-control', 'placeholder': 'Code Client...', 'autofocus': 'true'}}) }}
+													<span>
+														<i class="flaticon2-search-1 icon-md"></i>
+													</span>
+												</div>
+												<span class="form-text text-danger">{{ form_errors(form.recherche) }}</span>
+											</div>
+											<!--end::Input-->
+											<!--begin::Button-->
+											<div class="d-flex flex-column flex-center text-center">
+												<button type="submit" class="btn btn-light-primary font-weight-bolder font-size-h6 px-25 py-3">
+													Rechercher
+												</button>
+											</div>
+											<!--end::Button-->
+										</div>
+										{{ form_end(form) }}
+										<!--end::Form-->
+									</div>
+									<!--end::Search-->
+								</div>
+								<!--end::List-->
+							</div>
+							<!--end::Inbox-->
+						</div>
+						<!--end::Container-->
+					</div>
+					<!--end::Entry-->
+				</div>
+				<!--end::Content-->
+			</div>
+			<!--end::Wrapper-->
+		</div>
+		<!--end::Page-->
+	</div>
+	<!--end::Main-->
 {% endblock %}
