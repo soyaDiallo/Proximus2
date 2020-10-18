@@ -7,10 +7,6 @@
 	<link href="{{ asset('css/pages/wizard/wizard-2e8da.css?v=2.0.3') }}" rel="stylesheet" type="text/css"/>
 {% endblock %}
 
-{% block javascripts %}
-	<script src="{{ asset('js/pages/features/forms/widgets/form-repeatere8da.js?v=2.0.3') }}"></script>
-{% endblock %}
-
 {% block content_header %}
 	{% if is_granted('ROLE_AGENT') %}
 		<ul class="menu-nav">
@@ -34,7 +30,7 @@
 			</li>
 			<li class="menu-item" aria-haspopup="true">
 				<a href="{{ path('offer_index') }}" class="menu-link">
-					<span class="menu-text">Offres</span>
+					<span class="menu-text">Ventes</span>
 				</a>
 			</li>
 		</ul>
@@ -47,7 +43,7 @@
 			</li>
 			<li class="menu-item" aria-haspopup="true">
 				<a href="{{ path('offer_index') }}" class="menu-link">
-					<span class="menu-text">Offres</span>
+					<span class="menu-text">Ventes</span>
 				</a>
 			</li>
 		</ul>
@@ -65,11 +61,6 @@
 			</li>
 			<li class="menu-item" aria-haspopup="true">
 				<a href="{{ path('offer_index') }}" class="menu-link">
-					<span class="menu-text">Offres</span>
-				</a>
-			</li>
-			<li class="menu-item" aria-haspopup="true">
-				<a href="#" class="menu-link">
 					<span class="menu-text">Ventes</span>
 				</a>
 			</li>
@@ -109,7 +100,7 @@
 			<a href="{{ path('offer_index') }}" class="text-muted">Offres</a>
 		</li>
 		<li class="breadcrumb-item text-muted">
-			<a href="{{ path('offer_new') }}" class="text-muted">Nouvelle Offre</a>
+			<a href="#" class="text-muted">Nouvelle Offre</a>
 		</li>
 	</ul>
 	<!--end::Breadcrumb-->
@@ -133,23 +124,6 @@
 							<h3 class="card-label font-weight-bolder text-dark">Nouvelle Offre</h3>
 							<span class="text-muted font-weight-bold font-size-sm mt-1">Création d'une nouvelle offre pour un client</span>
 						</div>
-						<div class="card-toolbar align-items-end">
-							<a href="#" class="btn btn-light-primary font-weight-bolder mr-2">
-								<span
-									class="svg-icon svg-icon-md">
-									<!--begin::Svg Icon | path:/keen/theme/demo6/dist/assets/media/svg/icons/Files/File.svg-->
-									<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewbox="0 0 24 24" version="1.1">
-										<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-											<polygon points="0 0 24 0 24 24 0 24"/>
-											<path d="M5.85714286,2 L13.7364114,2 C14.0910962,2 14.4343066,2.12568431 14.7051108,2.35473959 L19.4686994,6.3839416 C19.8056532,6.66894833 20,7.08787823 20,7.52920201 L20,20.0833333 C20,21.8738751 19.9795521,22 18.1428571,22 L5.85714286,22 C4.02044787,22 4,21.8738751 4,20.0833333 L4,3.91666667 C4,2.12612489 4.02044787,2 5.85714286,2 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"/>
-											<rect fill="#000000" x="6" y="11" width="9" height="2" rx="1"/>
-											<rect fill="#000000" x="6" y="15" width="5" height="2" rx="1"/>
-										</g>
-									</svg>
-									<!--end::Svg Icon-->
-								</span>Exporter Informations
-							</a>
-						</div>
 					</div>
 					<!--end::Header-->
 
@@ -157,7 +131,7 @@
 					<div
 						class="card-body">
 						<!--begin::Wizard Step 1-->
-						<div class="pb-5">
+						<div>
 							<h3 class="mb-10 font-weight-bold text-dark">Informations Offre</h3>
 							<div class="row">
 								<div
@@ -219,56 +193,27 @@
 							<div class="separator separator-dashed my-5"></div>
 
 							<h3 class="mb-10 font-weight-bold text-dark">Informations Client</h3>
-							<div class="form-group">
-								<div class="row">
-									<div
-										class="col-xl-4">
-										<!--begin::Input-->
-										<div class="form-group">
-											<label>Code Client</label>
-											{{ form_widget(form.client.code, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Code Client'}}) }}
-											<span class="form-text text-muted">Please enter your Postcode.</span>
-										</div>
-										<!--end::Input-->
+							<div class="row">
+								<div
+									class="col-xl-6">
+									<!--begin::Input-->
+									<div class="form-group">
+										<label>Code Client</label>
+										{{ form_widget(form.client.code, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Code Client'}}) }}
+										<span class="form-text text-muted">Please enter your Postcode.</span>
 									</div>
+									<!--end::Input-->
+								</div>
 
-									<div class="col-xl-8">
+								<div
+									class="col-xl-6">
+									<!--begin::Input-->
+									<div class="form-group">
 										<label>Type Client</label>
-										<div class="row">
-											<div class="col-lg-6">
-												<label class="option option-plain">
-													<span class="option-control">
-														<span class="radio">
-															<input type="radio" name="m_option_1" value="1" checked="checked"/>
-															<span></span>
-														</span>
-													</span>
-													<span class="option-label">
-														<span class="option-head">
-															<span class="option-title">BTB</span>
-														</span>
-														<span class="option-body">30 days free trial and lifetime free updates</span>
-													</span>
-												</label>
-											</div>
-											<div class="col-lg-6">
-												<label class="option option option-plain">
-													<span class="option-control">
-														<span class="radio">
-															<input type="radio" name="m_option_1" value="1" checked="checked"/>
-															<span></span>
-														</span>
-													</span>
-													<span class="option-label">
-														<span class="option-head">
-															<span class="option-title">BTC</span>
-														</span>
-														<span class="option-body">24/7 support and Lifetime access</span>
-													</span>
-												</label>
-											</div>
-										</div>
+										{{ form_widget(form.client.typeClient, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Type Client'}}) }}
+										<span class="form-text text-muted">Please enter your Postcode.</span>
 									</div>
+									<!--end::Input-->
 								</div>
 							</div>
 
@@ -603,34 +548,66 @@
 
 							<div class="separator separator-dashed my-5"></div>
 
-							<h3 class="mb-10 font-weight-bold text-dark">Informations Articles</h3>
+							<h3 class="mb-10 font-weight-bold text-dark">Informations Produits</h3>
 
-							<div id="kt_repeater_3" class="px-10">
-								<div class="form-group">
-									<label>Sélection Article</label>
-									<div data-repeater-list="">
-										<div data-repeater-item="" class="form-group row">
-											<div class="col-lg-6">
-												<input type="text" class="form-control form-control-solid form-control-lg" placeholder="Article"/>
-												<span class="form-text text-muted">Please enter your Postcode.</span>
+							{% set var = [
+								{
+									'id' : '1',
+									'designation' :'Données Mobile',
+									'quantite' :'12'
+								}, {
+									'id' :'2',
+									'designation' :'Internet Mobile',
+									'quantite' :'15'
+								}, {
+									'id' :'3',
+									'designation' :'Box Internet',
+									'quantite' :'18'
+								}, {
+									'id' :'4',
+									'designation' :'Carte SIM',
+									'quantite' :'2'
+								}
+							] %}
+
+							{% for categorie in categories %}
+								{% if categorie.produits %}
+									<h6 class="mb-10 font-weight-bold text-dark mx-10">[Catégorie] {{ categorie.nom }}</h6>
+									{% for produit in var %}
+										<div class="row mx-5">
+											<div
+												class="col-xl-1 form-group align-middle">
+												<!--begin::Input-->
+												<div class="checkbox-list">
+													<label class="checkbox checkbox-lg">
+														<input type="checkbox" name="produits_checkbox[]" value="{{ produit.id }}"/>
+														<span></span>
+													</label>
+												</div>
+												<!--end::Input-->
 											</div>
-											<div class="col-lg-4">
-												<input type="number" class="form-control form-control-solid form-control-lg" placeholder="Quantité"/>
-												<span class="form-text text-muted">Please enter your Postcode.</span>
+											<div
+												class="col-xl-8">
+												<!--begin::Input-->
+												<div class="form-group">
+													<input type="text" disabled="true" class="form-control form-control-solid form-control-lg" placeholder="Produit" value="{{ produit.designation }}"/>
+													<span class="form-text text-muted">Please enter your Postcode.</span>
+												</div>
+												<!--end::Input-->
 											</div>
-											<div class="col-lg-2">
-												<a href="javascript:;" data-repeater-delete="" class="btn font-weight-bold btn-danger btn-icon">
-													<i class="la la-remove"></i>
-												</a>
+											<div
+												class="col-xl-3">
+												<!--begin::Input-->
+												<div class="form-group">
+													<input name="quantite[]" type="number" class="form-control form-control-solid form-control-lg" placeholder="Quantité"/>
+													<span class="form-text text-muted">Please enter your Postcode.</span>
+												</div>
+												<!--end::Input-->
 											</div>
 										</div>
-									</div>
-								</div>
-								<div class="form-group">
-									<div data-repeater-create="" class="btn font-weight-bold btn-primary">
-										<i class="la la-plus"></i>Nouvelle Article</div>
-								</div>
-							</div>
+									{% endfor %}
+								{% endif %}
+							{% endfor %}
 
 						</div>
 						<!--end::Wizard Step 1-->
@@ -640,13 +617,16 @@
 					<!--end::Body-->
 
 					<!--begin::Footer-->
-					<div class="card-footer py-3">
-						<div class="card-toolbar">
-							<a href="{{ path('offer_new_sale') }}" class="btn btn-primary font-weight-bolder mr-2">
+					<div class="card-footer py-5 px-5">
+						<div class="card-toolbar float-right">
+							<a href="#" class="btn btn-primary font-weight-bolder px-5 mr-3">
+								<i class="fas fa-save"></i>
 								Enregistrer & Valider
 							</a>
-							<button type="submit" class="btn btn-light-primary font-weight-bolder mr-2">Enregistrer</button>
-							<a href="{{ path('offer_index') }}" class="btn btn-light font-weight-bolder">
+							<a href="#" class="btn btn-light-primary font-weight-bolder px-5 mr-3">
+								Enregistrer
+							</a>
+							<a href="#" class="btn btn-light btn-text-primary btn-hover-text-primary font-weight-bold px-5 mr-3">
 								Annuler
 							</a>
 						</div>

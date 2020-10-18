@@ -5,6 +5,7 @@
 
 {% block javascripts %}
 	<script src="{{ asset('js/pages/features/ktdatatable/base/html-tablee8da.js?v=2.0.3') }}"></script>
+	<script src="{{ asset('js/pages/features/ktdatatable/base/html-tablee8db.js?v=2.0.3') }}"></script>
 {% endblock %}
 
 {% block content_header %}
@@ -30,7 +31,7 @@
 			</li>
 			<li class="menu-item menu-item-active" aria-haspopup="true">
 				<a href="{{ path('offer_index') }}" class="menu-link">
-					<span class="menu-text">Offres</span>
+					<span class="menu-text">Ventes</span>
 				</a>
 			</li>
 		</ul>
@@ -43,7 +44,7 @@
 			</li>
 			<li class="menu-item menu-item-active" aria-haspopup="true">
 				<a href="{{ path('offer_index') }}" class="menu-link">
-					<span class="menu-text">Offres</span>
+					<span class="menu-text">Ventes</span>
 				</a>
 			</li>
 		</ul>
@@ -61,11 +62,6 @@
 			</li>
 			<li class="menu-item menu-item-active" aria-haspopup="true">
 				<a href="{{ path('offer_index') }}" class="menu-link">
-					<span class="menu-text">Offres</span>
-				</a>
-			</li>
-			<li class="menu-item" aria-haspopup="true">
-				<a href="#" class="menu-link">
 					<span class="menu-text">Ventes</span>
 				</a>
 			</li>
@@ -75,7 +71,12 @@
 
 {% block content_subheader %}
 	<!--begin::Page Title-->
-	<h5 class="text-dark font-weight-bold my-1 mr-5">Offres</h5>
+
+	{% if is_granted('ROLE_AGENT') %}
+		<h5 class="text-dark font-weight-bold my-1 mr-5">Offres</h5>
+	{% else %}
+		<h5 class="text-dark font-weight-bold my-1 mr-5">Ventes</h5>
+	{% endif %}
 	<!--end::Page Title-->
 	<!--begin::Breadcrumb-->
 	<ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
@@ -101,20 +102,17 @@
 			</li>
 		{% endif %}
 
-		<li class="breadcrumb-item text-muted">
-			<a href="{{ path('offer_index') }}" class="text-muted">Les offres</a>
-		</li>
+		{% if is_granted('ROLE_AGENT') %}
+			<li class="breadcrumb-item text-muted">
+				<a href="{{ path('offer_index') }}" class="text-muted">Les offres</a>
+			</li>
+		{% else %}
+			<li class="breadcrumb-item text-muted">
+				<a href="{{ path('offer_index') }}" class="text-muted">Les ventes</a>
+			</li>
+		{% endif %}
 	</ul>
 	<!--end::Breadcrumb-->
-{% endblock %}
-
-{% block content_subheader_right %}
-	<div>
-		<a href="{{ path('offer_new') }}" class="btn btn-light-primary font-weight-bolder px-5 mr-3 my-1">
-			<i class="fas fa-plus"></i>
-			Nouvelle Offre
-		</a>
-	</div>
 {% endblock %}
 
 {% block content_body %}
@@ -133,233 +131,408 @@
 					<!--begin::Card-Header-->
 					<div class="card-header flex-wrap border-0 pt-6 pb-0">
 						<div class="card-title">
-							<h3 class="card-label">HTML Table
-								<span class="d-block text-muted pt-2 font-size-sm">Datatable initialized from HTML table</span>
+							<h3 class="card-label">Liste Offres
+								{% if is_granted('ROLE_AGENT') %}
+									<span class="d-block text-muted pt-2 font-size-sm">La liste de toutes les offres de l'agent</span>
+								{% elseif is_granted('ROLE_SUPERVISEUR') %}
+									<span class="d-block text-muted pt-2 font-size-sm">La liste de toutes les ventes</span>
+								{% elseif is_granted('ROLE_BACKOFFICE') %}
+									{% elseif is_granted('ROLE_ADMINISTRATEUR') %}
+								{% endif %}
 							</h3>
 						</div>
 					</div>
 					<!--end::Card-Header-->
+					{% set var = [1, 2, 3, 4, 5, 6, 7, 8] %}
 
-					<!--begin::Card-Body-->
-					<div
-						class="card-body">
-						<!--begin::Search Form-->
-						<div class="mb-7">
-							<div class="row align-items-center">
-								<div class="col-lg-9 col-xl-8">
-									<div class="row align-items-center">
-										<div class="col-md-4 my-2 my-md-0">
-											<div class="input-icon">
-												<input type="text" class="form-control" placeholder="Search..." id="kt_datatable_search_query"/>
-												<span>
-													<i class="flaticon2-search-1 text-muted"></i>
-												</span>
+					{% if is_granted('ROLE_AGENT') %}
+						<!--begin::Card-Body-->
+						<div
+							class="card-body">
+							<!--begin::Search Form-->
+							<div class="mb-7">
+								<div class="row align-items-center">
+									<div class="col-lg-9 col-xl-8">
+										<div class="row align-items-center">
+											<div class="col-md-6 my-2 my-md-0">
+												<div class="input-icon">
+													<input type="text" class="form-control" placeholder="Recherche..." id="kt_datatable_search_query"/>
+													<span>
+														<i class="flaticon2-search-1 text-muted"></i>
+													</span>
+												</div>
 											</div>
-										</div>
-										<div class="col-md-4 my-2 my-md-0">
-											<div class="d-flex align-items-center">
-												<label class="mr-3 mb-0 d-none d-md-block">Status:</label>
-												<select class="form-control" id="kt_datatable_search_status">
-													<option value="">All</option>
-													<option value="1">Pending</option>
-													<option value="2">Delivered</option>
-													<option value="3">Canceled</option>
-													<option value="4">Success</option>
-													<option value="5">Info</option>
-													<option value="6">Danger</option>
-												</select>
-											</div>
-										</div>
-										<div class="col-md-4 my-2 my-md-0">
-											<div class="d-flex align-items-center">
-												<label class="mr-3 mb-0 d-none d-md-block">Type:</label>
-												<select class="form-control" id="kt_datatable_search_type">
-													<option value="">All</option>
-													<option value="1">Online</option>
-													<option value="2">Retail</option>
-													<option value="3">Direct</option>
-												</select>
+											<div class="col-md-6 my-2 my-md-0">
+												<div class="d-flex align-items-center">
+													<label class="mr-3 mb-0 d-none d-md-block">Statut Offre</label>
+													<select class="form-control" id="kt_datatable_search_statut">
+														<option value="">Toutes</option>
+														<option value="1">Offres validées</option>
+														<option value="2">Offres non-validées</option>
+														<option value="3">Offres annulées</option>
+													</select>
+												</div>
 											</div>
 										</div>
 									</div>
-								</div>
-								<div class="col-lg-3 col-xl-4 mt-5 mt-lg-0">
-									<a href="#" class="btn btn-light-primary px-6 font-weight-bold">Search</a>
+									<div class="col-lg-3 col-xl-4 mt-5 mt-lg-0">
+										<a href="#" class="btn btn-light-primary px-6 font-weight-bold">Rechercher</a>
+									</div>
 								</div>
 							</div>
-						</div>
-						<!--end: Search Form-->
+							<!--end: Search Form-->
 
-						<!--begin: Datatable-->
-						<table class="datatable datatable-bordered datatable-head-custom" id="kt_datatable">
-							<thead>
-								<tr>
-									<th title="Field #1">Order ID</th>
-									<th title="Field #2">Car Make</th>
-									<th title="Field #3">Car Model</th>
-									<th title="Field #4">Color</th>
-									<th title="Field #5">Deposit Paid</th>
-									<th title="Field #6">Order Date</th>
-									<th title="Field #7">Status</th>
-									<th title="Field #8">Type</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>0006-3629</td>
-									<td>Land Rover</td>
-									<td>Range Rover</td>
-									<td>Orange</td>
-									<td>$22672.60</td>
-									<td>2016-11-28</td>
-									<td class="text-right">3</td>
-									<td class="text-right">3</td>
-								</tr>
-								<tr>
-									<td>66403-315</td>
-									<td>GMC</td>
-									<td>Jimmy</td>
-									<td>Goldenrod</td>
-									<td>$55141.29</td>
-									<td>2017-04-29</td>
-									<td class="text-right">3</td>
-									<td class="text-right">2</td>
-								</tr>
-								<tr>
-									<td>54868-5055</td>
-									<td>Ford</td>
-									<td>Club Wagon</td>
-									<td>Goldenrod</td>
-									<td>$70991.52</td>
-									<td>2017-03-16</td>
-									<td class="text-right">6</td>
-									<td class="text-right">1</td>
-								</tr>
-								<tr>
-									<td>44924-112</td>
-									<td>GMC</td>
-									<td>Envoy</td>
-									<td>Indigo</td>
-									<td>$42615.31</td>
-									<td>2016-09-04</td>
-									<td class="text-right">2</td>
-									<td class="text-right">1</td>
-								</tr>
-								<tr>
-									<td>0378-0357</td>
-									<td>Saab</td>
-									<td>9-5</td>
-									<td>Teal</td>
-									<td>$74919.63</td>
-									<td>2017-09-21</td>
-									<td class="text-right">4</td>
-									<td class="text-right">2</td>
-								</tr>
-								<tr>
-									<td>0363-0590</td>
-									<td>Suzuki</td>
-									<td>Grand Vitara</td>
-									<td>Crimson</td>
-									<td>$72908.80</td>
-									<td>2017-04-03</td>
-									<td class="text-right">5</td>
-									<td class="text-right">1</td>
-								</tr>
-								<tr>
-									<td>35356-778</td>
-									<td>Dodge</td>
-									<td>Ram 2500</td>
-									<td>Goldenrod</td>
-									<td>$13569.00</td>
-									<td>2016-03-22</td>
-									<td class="text-right">5</td>
-									<td class="text-right">1</td>
-								</tr>
-								<tr>
-									<td>48951-3040</td>
-									<td>Mitsubishi</td>
-									<td>Eclipse</td>
-									<td>Aquamarine</td>
-									<td>$22471.73</td>
-									<td>2016-04-17</td>
-									<td class="text-right">1</td>
-									<td class="text-right">2</td>
-								</tr>
-								<tr>
-									<td>0487-9801</td>
-									<td>Pontiac</td>
-									<td>GTO</td>
-									<td>Green</td>
-									<td>$43149.39</td>
-									<td>2016-05-27</td>
-									<td class="text-right">4</td>
-									<td class="text-right">1</td>
-								</tr>
-								<tr>
-									<td>54753-003</td>
-									<td>Audi</td>
-									<td>S4</td>
-									<td>Turquoise</td>
-									<td>$39286.74</td>
-									<td>2016-07-23</td>
-									<td class="text-right">5</td>
-									<td class="text-right">2</td>
-								</tr>
-								<tr>
-									<td>34460-6006</td>
-									<td>Audi</td>
-									<td>Allroad</td>
-									<td>Mauv</td>
-									<td>$47394.02</td>
-									<td>2016-06-21</td>
-									<td class="text-right">3</td>
-									<td class="text-right">3</td>
-								</tr>
-								<tr>
-									<td>62802-106</td>
-									<td>GMC</td>
-									<td>Sierra 1500</td>
-									<td>Teal</td>
-									<td>$47469.52</td>
-									<td>2016-05-06</td>
-									<td class="text-right">3</td>
-									<td class="text-right">1</td>
-								</tr>
-								<tr>
-									<td>43269-664</td>
-									<td>Buick</td>
-									<td>Terraza</td>
-									<td>Orange</td>
-									<td>$94980.73</td>
-									<td>2017-08-17</td>
-									<td class="text-right">3</td>
-									<td class="text-right">1</td>
-								</tr>
-								<tr>
-									<td>65862-602</td>
-									<td>Ford</td>
-									<td>Crown Victoria</td>
-									<td>Green</td>
-									<td>$36215.40</td>
-									<td>2016-09-01</td>
-									<td class="text-right">6</td>
-									<td class="text-right">3</td>
-								</tr>
-								<tr>
-									<td>18527-119</td>
-									<td>Toyota</td>
-									<td>Sequoia</td>
-									<td>Mauv</td>
-									<td>$46000.92</td>
-									<td>2016-05-17</td>
-									<td class="text-right">6</td>
-									<td class="text-right">2</td>
-								</tr>
-							</tbody>
-						</table>
-						<!--end: Datatable-->
-					</div>
-					<!--end::Card-Body-->
+							<!--begin: Datatable-->
+							<table class="datatable datatable-bordered datatable-head-custom" id="kt_datatable">
+								<thead>
+									<tr>
+										<th title="Field #1">Code Offre</th>
+										<th title="Field #2">Code Client</th>
+										<th title="Field #3">Type Client</th>
+										<th title="Field #4">Nom Client</th>
+										<th title="Field #5">Prénom Client</th>
+										<th title="Field #6">Nom Société</th>
+										<th title="Field #7">Produits</th>
+										<th title="Field #8">Date Creation</th>
+										<th title="Field #9">Date Signature</th>
+										<th title="Field #10">Email Client</th>
+										<th title="Field #11">Téléphone Fixe Client</th>
+										<th title="Field #12">Email Client</th>
+										<th title="Field #13">Adresse Installation</th>
+										<th title="Field #14">Date Installation</th>
+										<th title="Field #15">Statut</th>
+										<th title="Field #16">Actions</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for item in var %}
+										<tr>
+											<td>{{ item }}</td>
+											<td>0006-3629</td>
+											<td>0006-3629</td>
+											<td>0006-3629</td>
+											<td>0006-3629</td>
+											<td>0006-3629</td>
+											<td>0006-3629</td>
+											<td>Land Rover</td>
+											<td>Range Rover</td>
+											<td>Orange</td>
+											<td>$22672.60</td>
+											<td>2016-11-28</td>
+											<td>2016-11-28</td>
+											<td>2016-11-28</td>
+											<td>3</td>
+											<td>
+												<a href="#" class="d-inline btn btn-sm btn-clean btn-icon mr-2" title="Modification Offre">
+													<span class="svg-icon svg-icon-md">
+														<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewbox="0 0 24 24" version="1.1">
+															<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+																<rect x="0" y="0" width="24" height="24"/>
+																<path d="M8,17.9148182 L8,5.96685884 C8,5.56391781 8.16211443,5.17792052 8.44982609,4.89581508 L10.965708,2.42895648 C11.5426798,1.86322723 12.4640974,1.85620921 13.0496196,2.41308426 L15.5337377,4.77566479 C15.8314604,5.0588212 16,5.45170806 16,5.86258077 L16,17.9148182 C16,18.7432453 15.3284271,19.4148182 14.5,19.4148182 L9.5,19.4148182 C8.67157288,19.4148182 8,18.7432453 8,17.9148182 Z" fill="#000000" fill-rule="nonzero" \ transform="translate(12.000000, 10.707409) rotate(-135.000000) translate(-12.000000, -10.707409) "/>
+																<rect fill="#000000" opacity="0.3" x="5" y="20" width="15" height="2" rx="1"/>
+															</g>
+														</svg>
+													</span>
+												</a>
+												<!--a href="#" class="d-inline btn btn-sm btn-clean btn-icon" title="Génération Excel">
+																																																																																					<span class="svg-icon svg-icon-md">
+																																																																																						<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewbox="0 0 24 24" version="1.1">
+																																																																																							<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+																																																																																								<polygon points="0 0 24 0 24 24 0 24"/>
+																																																																																								<path d="M5.85714286,2 L13.7364114,2 C14.0910962,2 14.4343066,2.12568431 14.7051108,2.35473959 L19.4686994,6.3839416 C19.8056532,6.66894833 20,7.08787823 20,7.52920201 L20,20.0833333 C20,21.8738751 19.9795521,22 18.1428571,22 L5.85714286,22 C4.02044787,22 4,21.8738751 4,20.0833333 L4,3.91666667 C4,2.12612489 4.02044787,2 5.85714286,2 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"/>
+																																																																																								<rect fill="#000000" x="6" y="11" width="9" height="2" rx="1"/>
+																																																																																								<rect fill="#000000" x="6" y="15" width="5" height="2" rx="1"/>
+																																																																																							</g>
+																																																																																						</svg>
+																																																																																					</span>
+																																																																																				</a-->
+											</td>
+										</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+							<!--end: Datatable-->
+						</div>
+						<!--end::Card-Body-->
+					{% else %}
+						<!--begin::Card-Body-->
+						<div
+							class="card-body">
+							<!--begin::Search Form-->
+							<div class="mb-7">
+								<div class="row align-items-center">
+									<div class="col-lg-9">
+										<div class="row align-items-center">
+											<div class="col-md-4 my-2 my-md-0">
+												<div class="input-icon">
+													<input type="text" class="form-control" placeholder="Recherche..." id="kt_datatable_search_query_superviseur"/>
+													<span>
+														<i class="flaticon2-search-1 text-muted"></i>
+													</span>
+												</div>
+											</div>
+											<div class="col-md-4 my-2 my-md-0">
+												<div class="d-flex align-items-center">
+													<label class="mr-3 mb-0 d-none d-md-block">Statut Tingis:</label>
+													<select class="form-control" id="kt_datatable_search_statut_tingis_superviseur">
+														<option value="">Toutes</option>
+														<option value="1">Statut 1</option>
+														<option value="2">Statut 2</option>
+														<option value="3">Statut 3</option>
+														<option value="4">Statut 4</option>
+														<option value="5">Statut 5</option>
+														<option value="6">Statut 6</option>
+													</select>
+												</div>
+											</div>
+											<div class="col-md-4 my-2 my-md-0">
+												<div class="d-flex align-items-center">
+													<label class="mr-3 mb-0 d-none d-md-block">Statut Proximus:</label>
+													<select class="form-control" id="kt_datatable_search_statut_proximus_superviseur">
+														<option value="">Toutes</option>
+														<option value="1">Statut 1</option>
+														<option value="2">Statut 2</option>
+														<option value="3">Statut 3</option>
+														<option value="4">Statut 4</option>
+														<option value="5">Statut 5</option>
+														<option value="6">Statut 6</option>
+													</select>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-3 mt-5 mt-lg-0">
+										<a href="#" class="btn btn-light-primary px-6 font-weight-bold">Rechercher</a>
+									</div>
+								</div>
+							</div>
+							<!--end: Search Form-->
+
+							<!--begin: Datatable-->
+							<table class="datatable datatable-bordered datatable-head-custom" id="kt_datatable_superviseur">
+								<thead>
+									<tr>
+										<th title="Field #1">Code Offre</th>
+										<th title="Field #2">Code Agent</th>
+										<th title="Field #3">Code Client</th>
+										<th title="Field #4">Type Client</th>
+										<th title="Field #5">Nom Client</th>
+										<th title="Field #6">Prénom Client</th>
+										<th title="Field #7">Nom Société</th>
+										<th title="Field #8">Produits</th>
+										<th title="Field #9">Date Creation</th>
+										<th title="Field #10">Date Signature</th>
+										<th title="Field #11">Email Client</th>
+										<th title="Field #12">Téléphone Fixe Client</th>
+										<th title="Field #13">Email Client</th>
+										<th title="Field #14">Adresse Installation</th>
+										<th title="Field #15">Date Installation</th>
+										<th title="Field #16">Statut Tingis</th>
+										<th title="Field #17">Statut Proximus</th>
+										<th title="Field #18">Actions</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for item in var %}{% endfor %}
+									<tr>
+										<td>2</td>
+										<td>0006-3629</td>
+										<td>0006-3629</td>
+										<td>0006-3629</td>
+										<td>0006-3629</td>
+										<td>0006-3629</td>
+										<td>0006-3629</td>
+										<td>Land Rover</td>
+										<td>Range Rover</td>
+										<td>Orange</td>
+										<td>$22672.60</td>
+										<td>2016-11-28</td>
+										<td>2016-11-28</td>
+										<td>2016-11-28</td>
+										<td>2016-11-28</td>
+										<td>3</td>
+										<td>3</td>
+										<td>
+											<a href="#" class="d-inline btn btn-sm btn-clean btn-icon mr-2" title="Modification Offre">
+												<span class="svg-icon svg-icon-md">
+													<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewbox="0 0 24 24" version="1.1">
+														<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+															<rect x="0" y="0" width="24" height="24"/>
+															<path d="M8,17.9148182 L8,5.96685884 C8,5.56391781 8.16211443,5.17792052 8.44982609,4.89581508 L10.965708,2.42895648 C11.5426798,1.86322723 12.4640974,1.85620921 13.0496196,2.41308426 L15.5337377,4.77566479 C15.8314604,5.0588212 16,5.45170806 16,5.86258077 L16,17.9148182 C16,18.7432453 15.3284271,19.4148182 14.5,19.4148182 L9.5,19.4148182 C8.67157288,19.4148182 8,18.7432453 8,17.9148182 Z" fill="#000000" fill-rule="nonzero" \ transform="translate(12.000000, 10.707409) rotate(-135.000000) translate(-12.000000, -10.707409) "/>
+															<rect fill="#000000" opacity="0.3" x="5" y="20" width="15" height="2" rx="1"/>
+														</g>
+													</svg>
+												</span>
+											</a>
+										</td>
+									</tr>
+									<tr>
+										<td>3</td>
+										<td>0006-3629</td>
+										<td>0006-3629</td>
+										<td>0006-3629</td>
+										<td>0006-3629</td>
+										<td>0006-3629</td>
+										<td>0006-3629</td>
+										<td>Land Rover</td>
+										<td>Range Rover</td>
+										<td>Orange</td>
+										<td>$22672.60</td>
+										<td>2016-11-28</td>
+										<td>2016-11-28</td>
+										<td>2016-11-28</td>
+										<td>2016-11-28</td>
+										<td>3</td>
+										<td>3</td>
+										<td>
+											<a href="#" class="d-inline btn btn-sm btn-clean btn-icon mr-2" title="Modification Offre">
+												<span class="svg-icon svg-icon-md">
+													<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewbox="0 0 24 24" version="1.1">
+														<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+															<rect x="0" y="0" width="24" height="24"/>
+															<path d="M8,17.9148182 L8,5.96685884 C8,5.56391781 8.16211443,5.17792052 8.44982609,4.89581508 L10.965708,2.42895648 C11.5426798,1.86322723 12.4640974,1.85620921 13.0496196,2.41308426 L15.5337377,4.77566479 C15.8314604,5.0588212 16,5.45170806 16,5.86258077 L16,17.9148182 C16,18.7432453 15.3284271,19.4148182 14.5,19.4148182 L9.5,19.4148182 C8.67157288,19.4148182 8,18.7432453 8,17.9148182 Z" fill="#000000" fill-rule="nonzero" \ transform="translate(12.000000, 10.707409) rotate(-135.000000) translate(-12.000000, -10.707409) "/>
+															<rect fill="#000000" opacity="0.3" x="5" y="20" width="15" height="2" rx="1"/>
+														</g>
+													</svg>
+												</span>
+											</a>
+										</td>
+									</tr>
+									<tr>
+										<td>4</td>
+										<td>0006-3629</td>
+										<td>0006-3629</td>
+										<td>0006-3629</td>
+										<td>0006-3629</td>
+										<td>0006-3629</td>
+										<td>0006-3629</td>
+										<td>Land Rover</td>
+										<td>Range Rover</td>
+										<td>Orange</td>
+										<td>$22672.60</td>
+										<td>2016-11-28</td>
+										<td>2016-11-28</td>
+										<td>2016-11-28</td>
+										<td>2016-11-28</td>
+										<td>3</td>
+										<td>3</td>
+										<td>
+											<a href="#" class="d-inline btn btn-sm btn-clean btn-icon mr-2" title="Modification Offre">
+												<span class="svg-icon svg-icon-md">
+													<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewbox="0 0 24 24" version="1.1">
+														<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+															<rect x="0" y="0" width="24" height="24"/>
+															<path d="M8,17.9148182 L8,5.96685884 C8,5.56391781 8.16211443,5.17792052 8.44982609,4.89581508 L10.965708,2.42895648 C11.5426798,1.86322723 12.4640974,1.85620921 13.0496196,2.41308426 L15.5337377,4.77566479 C15.8314604,5.0588212 16,5.45170806 16,5.86258077 L16,17.9148182 C16,18.7432453 15.3284271,19.4148182 14.5,19.4148182 L9.5,19.4148182 C8.67157288,19.4148182 8,18.7432453 8,17.9148182 Z" fill="#000000" fill-rule="nonzero" \ transform="translate(12.000000, 10.707409) rotate(-135.000000) translate(-12.000000, -10.707409) "/>
+															<rect fill="#000000" opacity="0.3" x="5" y="20" width="15" height="2" rx="1"/>
+														</g>
+													</svg>
+												</span>
+											</a>
+										</td>
+									</tr>
+									<tr>
+										<td>5</td>
+										<td>0006-3629</td>
+										<td>0006-3629</td>
+										<td>0006-3629</td>
+										<td>0006-3629</td>
+										<td>0006-3629</td>
+										<td>0006-3629</td>
+										<td>Land Rover</td>
+										<td>Range Rover</td>
+										<td>Orange</td>
+										<td>$22672.60</td>
+										<td>2016-11-28</td>
+										<td>2016-11-28</td>
+										<td>2016-11-28</td>
+										<td>2016-11-28</td>
+										<td>3</td>
+										<td>3</td>
+										<td>
+											<a href="#" class="d-inline btn btn-sm btn-clean btn-icon mr-2" title="Modification Offre">
+												<span class="svg-icon svg-icon-md">
+													<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewbox="0 0 24 24" version="1.1">
+														<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+															<rect x="0" y="0" width="24" height="24"/>
+															<path d="M8,17.9148182 L8,5.96685884 C8,5.56391781 8.16211443,5.17792052 8.44982609,4.89581508 L10.965708,2.42895648 C11.5426798,1.86322723 12.4640974,1.85620921 13.0496196,2.41308426 L15.5337377,4.77566479 C15.8314604,5.0588212 16,5.45170806 16,5.86258077 L16,17.9148182 C16,18.7432453 15.3284271,19.4148182 14.5,19.4148182 L9.5,19.4148182 C8.67157288,19.4148182 8,18.7432453 8,17.9148182 Z" fill="#000000" fill-rule="nonzero" \ transform="translate(12.000000, 10.707409) rotate(-135.000000) translate(-12.000000, -10.707409) "/>
+															<rect fill="#000000" opacity="0.3" x="5" y="20" width="15" height="2" rx="1"/>
+														</g>
+													</svg>
+												</span>
+											</a>
+										</td>
+									</tr>
+									<tr>
+										<td>6</td>
+										<td>0006-3629</td>
+										<td>0006-3629</td>
+										<td>0006-3629</td>
+										<td>0006-3629</td>
+										<td>0006-3629</td>
+										<td>0006-3629</td>
+										<td>Land Rover</td>
+										<td>Range Rover</td>
+										<td>Orange</td>
+										<td>$22672.60</td>
+										<td>2016-11-28</td>
+										<td>2016-11-28</td>
+										<td>2016-11-28</td>
+										<td>2016-11-28</td>
+										<td>3</td>
+										<td>3</td>
+										<td>
+											<a href="#" class="d-inline btn btn-sm btn-clean btn-icon mr-2" title="Modification Offre">
+												<span class="svg-icon svg-icon-md">
+													<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewbox="0 0 24 24" version="1.1">
+														<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+															<rect x="0" y="0" width="24" height="24"/>
+															<path d="M8,17.9148182 L8,5.96685884 C8,5.56391781 8.16211443,5.17792052 8.44982609,4.89581508 L10.965708,2.42895648 C11.5426798,1.86322723 12.4640974,1.85620921 13.0496196,2.41308426 L15.5337377,4.77566479 C15.8314604,5.0588212 16,5.45170806 16,5.86258077 L16,17.9148182 C16,18.7432453 15.3284271,19.4148182 14.5,19.4148182 L9.5,19.4148182 C8.67157288,19.4148182 8,18.7432453 8,17.9148182 Z" fill="#000000" fill-rule="nonzero" \ transform="translate(12.000000, 10.707409) rotate(-135.000000) translate(-12.000000, -10.707409) "/>
+															<rect fill="#000000" opacity="0.3" x="5" y="20" width="15" height="2" rx="1"/>
+														</g>
+													</svg>
+												</span>
+											</a>
+										</td>
+									</tr>
+									<tr>
+										<td>7</td>
+										<td>0006-3629</td>
+										<td>0006-3629</td>
+										<td>0006-3629</td>
+										<td>0006-3629</td>
+										<td>0006-3629</td>
+										<td>0006-3629</td>
+										<td>Land Rover</td>
+										<td>Range Rover</td>
+										<td>Oranges</td>
+										<td>$22672.60</td>
+										<td>2016-11-28</td>
+										<td>2016-11-28</td>
+										<td>2016-11-28</td>
+										<td>2016-11-28</td>
+										<td>3</td>
+										<td>3</td>
+										<td>
+											<a href="#" class="d-inline btn btn-sm btn-clean btn-icon mr-2" title="Modification Offre">
+												<span class="svg-icon svg-icon-md">
+													<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewbox="0 0 24 24" version="1.1">
+														<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+															<rect x="0" y="0" width="24" height="24"/>
+															<path d="M8,17.9148182 L8,5.96685884 C8,5.56391781 8.16211443,5.17792052 8.44982609,4.89581508 L10.965708,2.42895648 C11.5426798,1.86322723 12.4640974,1.85620921 13.0496196,2.41308426 L15.5337377,4.77566479 C15.8314604,5.0588212 16,5.45170806 16,5.86258077 L16,17.9148182 C16,18.7432453 15.3284271,19.4148182 14.5,19.4148182 L9.5,19.4148182 C8.67157288,19.4148182 8,18.7432453 8,17.9148182 Z" fill="#000000" fill-rule="nonzero" \ transform="translate(12.000000, 10.707409) rotate(-135.000000) translate(-12.000000, -10.707409) "/>
+															<rect fill="#000000" opacity="0.3" x="5" y="20" width="15" height="2" rx="1"/>
+														</g>
+													</svg>
+												</span>
+											</a>
+										</td>
+									</tr>
+
+								</tbody>
+							</table>
+							<!--end: Datatable-->
+						</div>
+						<!--end::Card-Body-->
+					{% endif %}
 				</div>
 				<!--end::Card-->
 			</div>

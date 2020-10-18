@@ -6,6 +6,8 @@ use App\Entity\Client;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 class OffreClientType extends AbstractType
 {
@@ -13,13 +15,18 @@ class OffreClientType extends AbstractType
     {
         $builder
             ->add('code')
-            ->add('typeClient')
+            ->add('typeClient', ChoiceType::class, [
+                'choices' => [
+                    'Business To Business (BTB)' => "BTB",
+                    'Business To Consumer (BTC)' => "BTC"
+                ]
+            ])
             ->add('nom')
             ->add('prenom')
-            ->add('dateNaissance')
+            ->add('dateNaissance', DateTimeType::class, ['widget' => 'single_text'])
             ->add('nomSociete')
             ->add('numTVA')
-            ->add('dateCreationSTE')
+            ->add('dateCreationSTE', DateTimeType::class, ['widget' => 'single_text'])
             ->add('numClientProximus')
             ->add('numTelephoneFixe')
             ->add('numGSM')
@@ -30,7 +37,7 @@ class OffreClientType extends AbstractType
             ->add('rue')
             ->add('numPorte')
             ->add('adresseInstallation')
-            ->add('dateInstallation')
+            ->add('dateInstallation', DateTimeType::class, ['widget' => 'single_text'])
             ->add('infoEncodage')
             ->add('numTelephoneProximus')
             ->add('numClientConcurrence')
