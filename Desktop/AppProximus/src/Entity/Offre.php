@@ -30,17 +30,22 @@ class Offre
     private $dateCreation;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $dateSignature;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $dateAnnulation;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $numOpportunite;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $commentaire;
 
@@ -69,7 +74,7 @@ class Offre
      */
     private $raison;
 
-    
+
     public function __construct()
     {
         $this->documents = new ArrayCollection();
@@ -113,6 +118,18 @@ class Offre
     public function setDateSignature(\DateTimeInterface $dateSignature): self
     {
         $this->dateSignature = $dateSignature;
+
+        return $this;
+    }
+
+    public function getDateAnnulation(): ?\DateTimeInterface
+    {
+        return $this->dateAnnulation;
+    }
+
+    public function setDateAnnulation(\DateTimeInterface $dateAnnulation): self
+    {
+        $this->dateAnnulation = $dateAnnulation;
 
         return $this;
     }
@@ -238,6 +255,4 @@ class Offre
 
         return $this;
     }
-
-   
 }

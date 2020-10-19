@@ -9,8 +9,10 @@ use App\Form\AgentType;
 use App\Form\CreationOffreType;
 use App\Form\OffreType;
 use App\Repository\AgentRepository;
+use App\Repository\CategorieProduitRepository;
 use App\Repository\CategorieRepository;
 use App\Repository\ClientRepository;
+use App\Repository\OffreProduitRepository;
 use App\Repository\OffreRepository;
 use App\Repository\ProduitRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -43,72 +45,64 @@ class OfferController extends AbstractController
     /**
      * @Route("/nouvelle/{id}", name="offer_new", methods={"GET", "POST"})
      */
-    public function new(ClientRepository $clientRepository, ProduitRepository $produitRepository, CategorieRepository $categorieRepository, Request $request, int $id = 0): Response
-    {
+    public function new(
+        ClientRepository $clientRepository,
+        CategorieRepository $categorieRepository,
+        Request $request,
+        CategorieProduitRepository $categorieProduitRepository,
+        int $id = 0
+    ): Response {
         $offre = new Offre();
         $offre->setClient($clientRepository->find($id));
         $offre->setAgent($this->getUser());
         $categories = $categorieRepository->findAll();
-        //  $produits = $produitRepository->findAll();
+        $produitsParCategories = [];
 
+        foreach ($categories as $key => $categorie) {
+            $produitsParCategories[$key][0] = $categorie;
+            $produitsParCategories[$key][1] = $categorieProduitRepository->findBy(['categorie' => $categorie->getId()]);
+        }
         $form = $this->createForm(CreationOffreType::class, $offre);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($offre);
             $entityManager->flush();
-
             return $this->redirectToRoute('offer_index');
         }
 
         return $this->render('offer/new.html.twig', [
             'offre' => $offre,
-            'categories' => $categories,
-            //  'produits' => $produits,
+            'produitByCategory' => $produitsParCategories,
             'form' => $form->createView(),
         ]);
     }
 
-    // /**
-    //  * @Route("/nouvelle/{id}", name="offer_new_sale", methods={"GET", "POST"})
-    //  */
-    // public function newSale(ClientRepository $clientRepository, Request $request, int $id = 0): Response
-    // {
-    //     /*
-    //     $offre = new Offre();
-    //     $offre->setClient($clientRepository->find($id));
-    //     $form = $this->createForm(CreationOffreType::class, $offre);
-    //     $form->handleRequest($request);
-
-    //     if ($form->isSubmitted() && $form->isValid()) {
-    //         dd($request);
-
-    //         $entityManager = $this->getDoctrine()->getManager();
-    //         $entityManager->persist($offre);
-    //         $entityManager->flush();
-
-    //         return $this->redirectToRoute('offer_index');
-    //     }
-    //     */
-
-    //     return $this->render('offer/new.html.twig', [
-    //         //  'offre' => $offre,
-    //         //  'form' => $form->createView(),
-    //     ]);
-    // }
-
     /**
-     * @Route("/modifier/{id}", name="offer_edit", methods={"GET"})
+     * @Route("/modifier/{id}", name="offer_edit", methods={"GET", "POST"})
      */
-    public function edit(ClientRepository $clientRepository, ProduitRepository $produitRepository, CategorieRepository $categorieRepository, Request $request, int $id = 0): Response
-    {
-        $offre = new Offre();
-        $offre->setClient($clientRepository->find($id));
-        $offre->setAgent($this->getUser());
+    public function edit(
+        OffreRepository $offreRepository,
+        OffreProduitRepository $offreProduitRepository,
+        CategorieProduitRepository $categorieProduitRepository,
+        CategorieRepository $categorieRepository,
+        Request $request,
+        int $id = 0
+    ): Response {
+        $offre = $offreRepository->find($id);
+        $produits = $offreProduitRepository->findBy(['offre' => $offre->getId()]);
         $categories = $categorieRepository->findAll();
+        $produitsParCategories = [];
 
+        foreach ($categories as $key => $categorie) {
+            $produitsParCategories[$key][0] = $categorie;
+            $produitsParCategories[$key][1] = $categorieProduitRepository->findBy(['categorie' => $categorie->getId()]);
+        }
         $form = $this->createForm(CreationOffreType::class, $offre);
         $form->handleRequest($request);
+
+        //  dd($offre, $produits, $categories, $produitsParCategories);
 
         /*
         if ($form->isSubmitted() && $form->isValid()) {
@@ -122,8 +116,84 @@ class OfferController extends AbstractController
 
         return $this->render('offer/edit.html.twig', [
             'offre' => $offre,
-            'categories' => $categories,
-            //  'produits' => $produits,
+            'produit' => $produits,
+            'produitByCategory' => $produitsParCategories,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/valider/{id}", name="offer_valid", methods={"GET"})
+     */
+    public function valid(
+        OffreRepository $offreRepository,
+        OffreProduitRepository $offreProduitRepository,
+        CategorieProduitRepository $categorieProduitRepository,
+        CategorieRepository $categorieRepository,
+        Request $request,
+        int $id = 0
+    ): Response {
+        $offre = $offreRepository->find($id);
+        $offre->setDateSignature(new \DateTime());
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($offre);
+        $entityManager->flush();
+
+        $produits = $offreProduitRepository->findBy(['offre' => $offre->getId()]);
+        $categories = $categorieRepository->findAll();
+        $produitsParCategories = [];
+
+        foreach ($categories as $key => $categorie) {
+            $produitsParCategories[$key][0] = $categorie;
+            $produitsParCategories[$key][1] = $categorieProduitRepository->findBy(['categorie' => $categorie->getId()]);
+        }
+
+        $form = $this->createForm(CreationOffreType::class, $offre);
+        $form->handleRequest($request);
+
+        return $this->render('offer/edit.html.twig', [
+            'offre' => $offre,
+            'produit' => $produits,
+            'produitByCategory' => $produitsParCategories,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/annuler/{id}", name="offer_cancel", methods={"GET"})
+     */
+    public function cancel(
+        OffreRepository $offreRepository,
+        OffreProduitRepository $offreProduitRepository,
+        CategorieProduitRepository $categorieProduitRepository,
+        CategorieRepository $categorieRepository,
+        Request $request,
+        int $id = 0
+    ): Response {
+        $offre = $offreRepository->find($id);
+        $offre->setDateAnnulation(new \DateTime());
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($offre);
+        $entityManager->flush();
+
+        $produits = $offreProduitRepository->findBy(['offre' => $offre->getId()]);
+        $categories = $categorieRepository->findAll();
+        $produitsParCategories = [];
+
+        foreach ($categories as $key => $categorie) {
+            $produitsParCategories[$key][0] = $categorie;
+            $produitsParCategories[$key][1] = $categorieProduitRepository->findBy(['categorie' => $categorie->getId()]);
+        }
+
+        $form = $this->createForm(CreationOffreType::class, $offre);
+        $form->handleRequest($request);
+
+        return $this->render('offer/edit.html.twig', [
+            'offre' => $offre,
+            'produit' => $produits,
+            'produitByCategory' => $produitsParCategories,
             'form' => $form->createView(),
         ]);
     }
@@ -166,7 +236,7 @@ class OfferController extends AbstractController
         dd($client);
         // remplissage des cellules
         $sheet->setCellValue('A2', "Nom du client");
-        $sheet->setCellValue('B2', $client->getClient()->getNom());
+        //  $sheet->setCellValue('B2', $client->getClient()->getNom());
         $sheet->setCellValue('A3', "
             
             Prénom du client");

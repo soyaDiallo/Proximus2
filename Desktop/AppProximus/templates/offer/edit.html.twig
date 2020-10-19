@@ -121,7 +121,7 @@
 					<!--begin::Header-->
 					<div class="card-header py-3">
 						<div class="card-title align-items-start flex-column">
-							<h3 class="card-label font-weight-bolder text-dark">Modifier Offre - #Code</h3>
+							<h3 class="card-label font-weight-bolder text-dark">Modifier Offre - #{{ offre.code|upper }}</h3>
 							<span class="text-muted font-weight-bold font-size-sm mt-1">Modification d'une offre existante</span>
 						</div>
 						<div class="card-toolbar align-items-end">
@@ -140,13 +140,26 @@
 									<!--end::Svg Icon-->
 								</span>Exporter en Excel
 							</a>
-							<a href="#" class="btn btn-primary font-weight-bolder px-5 mr-2">
-								<i class="fas fa-save"></i>
-								Valider l'offre
-							</a>
-							<a href="#" class="btn btn-light-primary font-weight-bolder px-5">
-								Annuler l'offre
-							</a>
+							{% if not offre.dateSignature %}
+								<a href="{{ path('offer_valid', {id: offre.id}) }}" class="btn btn-primary font-weight-bolder px-5 mr-2">
+									<i class="fas fa-save"></i>
+									Valider l'offre
+								</a>
+							{% else %}
+								<button disabled type="button" class="btn btn-primary font-weight-bolder px-5 mr-2">
+									<i class="fas fa-save"></i>
+									Valider l'offre
+								</button>
+							{% endif %}
+							{% if not offre.dateAnnulation %}
+								<a href="{{ path('offer_cancel', {id: offre.id}) }}" class="btn btn-light-primary font-weight-bolder px-5">
+									Annuler l'offre
+								</a>
+							{% else %}
+								<button disabled type="butto" class="btn btn-light-primary font-weight-bolder px-5">
+									Annuler l'offre
+								</button>
+							{% endif %}
 						</div>
 					</div>
 					<!--end::Header-->
@@ -574,69 +587,84 @@
 
 							<h3 class="mb-10 font-weight-bold text-dark">Informations Produits</h3>
 
-							{% set var = [
-								{
-									'id' : '1',
-									'designation' :'Données Mobile',
-									'quantite' :'12'
-								}, {
-									'id' :'2',
-									'designation' :'Internet Mobile',
-									'quantite' :'15'
-								}, {
-									'id' :'3',
-									'designation' :'Box Internet',
-									'quantite' :'18'
-								}, {
-									'id' :'4',
-									'designation' :'Carte SIM',
-									'quantite' :'2'
-								}
-							] %}
-
-							{% for categorie in categories %}
-								{% if categorie.produits %}
-									<h6 class="mb-10 font-weight-bold text-dark mx-10">[Catégorie] {{ categorie.nom }}</h6>
-									{% for produit in var %}
-										<div class="row mx-5">
-											<div
-												class="col-xl-1 form-group align-middle">
-												<!--begin::Input-->
-												<div class="checkbox-list">
-													<label class="checkbox checkbox-lg">
-														<input type="checkbox" name="produits_checkbox[]" value="{{ produit.id }}"/>
-														<span></span>
-													</label>
+							{% for item in produitByCategory %}
+								{% if item[1]|length > 0 %}
+									{% set var = false %}
+									<h6 class="mb-5 font-weight-bold text-dark mx-10">[Catégorie]
+										{{ item[0].nom|capitalize }}
+									</h6>
+									{% for pdt in item[1] %}
+										{% if not var %}
+											{% for p in produit %}
+												{% if p.produit.id == pdt.produit.id %}
+													<div class="row mx-10 d-flex align-items-center">
+														<div
+															class="col-xl-1 form-group align-middle">
+															<!--begin::Input-->
+															<div class="checkbox-list">
+																<label class="checkbox checkbox-lg">
+																	<input type="checkbox" name="produits_checkbox[]" value="{{ pdt.produit.id }}" checked/>
+																	<span></span>
+																</label>
+															</div>
+															<!--end::Input-->
+														</div>
+														<div
+															class="col-xl-8">
+															<!--begin::Input-->
+															<div class="form-group">
+																<input type="text" disabled="true" class="form-control form-control-solid form-control-lg" placeholder="Produit" value="{{ pdt.produit.designation }}"/>
+															</div>
+															<!--end::Input-->
+														</div>
+														<div
+															class="col-xl-3">
+															<!--begin::Input-->
+															<div class="form-group">
+																<input name="quantite[]" type="number" class="form-control form-control-solid form-control-lg" placeholder="Quantité" value="{{ p.qte }}"/>
+															</div>
+															<!--end::Input-->
+														</div>
+													</div>
+													{% set var = true %}
+												{% endif %}
+											{% endfor %}
+										{% else %}
+											<div class="row mx-10 d-flex align-items-center">
+												<div
+													class="col-xl-1 form-group align-middle">
+													<!--begin::Input-->
+													<div class="checkbox-list">
+														<label class="checkbox checkbox-lg">
+															<input type="checkbox" name="produits_checkbox[]" value="{{ pdt.produit.id }}"/>
+															<span></span>
+														</label>
+													</div>
+													<!--end::Input-->
 												</div>
-												<!--end::Input-->
-											</div>
-											<div
-												class="col-xl-8">
-												<!--begin::Input-->
-												<div class="form-group">
-													<input type="text" disabled="true" class="form-control form-control-solid form-control-lg" placeholder="Produit" value="{{ produit.designation }}"/>
-													<span class="form-text text-muted">Please enter your Postcode.</span>
+												<div
+													class="col-xl-8">
+													<!--begin::Input-->
+													<div class="form-group">
+														<input type="text" disabled="true" class="form-control form-control-solid form-control-lg" placeholder="Produit" value="{{ pdt.produit.designation }}"/>
+													</div>
+													<!--end::Input-->
 												</div>
-												<!--end::Input-->
-											</div>
-											<div
-												class="col-xl-3">
-												<!--begin::Input-->
-												<div class="form-group">
-													<input name="quantite[]" type="number" class="form-control form-control-solid form-control-lg" placeholder="Quantité"/>
-													<span class="form-text text-muted">Please enter your Postcode.</span>
+												<div
+													class="col-xl-3">
+													<!--begin::Input-->
+													<div class="form-group">
+														<input name="quantite[]" type="number" class="form-control form-control-solid form-control-lg" placeholder="Quantité"/>
+													</div>
+													<!--end::Input-->
 												</div>
-												<!--end::Input-->
 											</div>
-										</div>
+										{% endif %}
 									{% endfor %}
 								{% endif %}
 							{% endfor %}
-
 						</div>
 						<!--end::Wizard Step 1-->
-
-						{{ form_widget(form) }}
 					</div>
 					<!--end::Body-->
 

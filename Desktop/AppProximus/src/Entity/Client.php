@@ -189,7 +189,6 @@ class Client
         $this->offres = new ArrayCollection();
     }
 
-
     public function getId(): ?int
     {
         return $this->id;

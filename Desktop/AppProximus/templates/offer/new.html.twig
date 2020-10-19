@@ -550,37 +550,19 @@
 
 							<h3 class="mb-10 font-weight-bold text-dark">Informations Produits</h3>
 
-							{% set var = [
-								{
-									'id' : '1',
-									'designation' :'Données Mobile',
-									'quantite' :'12'
-								}, {
-									'id' :'2',
-									'designation' :'Internet Mobile',
-									'quantite' :'15'
-								}, {
-									'id' :'3',
-									'designation' :'Box Internet',
-									'quantite' :'18'
-								}, {
-									'id' :'4',
-									'designation' :'Carte SIM',
-									'quantite' :'2'
-								}
-							] %}
-
-							{% for categorie in categories %}
-								{% if categorie.produits %}
-									<h6 class="mb-10 font-weight-bold text-dark mx-10">[Catégorie] {{ categorie.nom }}</h6>
-									{% for produit in var %}
-										<div class="row mx-5">
+							{% for item in produitByCategory %}
+								{% if item[1]|length > 0 %}
+									<h6 class="mb-5 font-weight-bold text-dark mx-10">[Catégorie]
+										{{ item[0].nom|capitalize }}
+									</h6>
+									{% for pdt in item[1] %}
+										<div class="row mx-10 d-flex align-items-center">
 											<div
 												class="col-xl-1 form-group align-middle">
 												<!--begin::Input-->
 												<div class="checkbox-list">
 													<label class="checkbox checkbox-lg">
-														<input type="checkbox" name="produits_checkbox[]" value="{{ produit.id }}"/>
+														<input type="checkbox" name="produits_checkbox[]" value="{{ pdt.produit.id }}"/>
 														<span></span>
 													</label>
 												</div>
@@ -590,8 +572,7 @@
 												class="col-xl-8">
 												<!--begin::Input-->
 												<div class="form-group">
-													<input type="text" disabled="true" class="form-control form-control-solid form-control-lg" placeholder="Produit" value="{{ produit.designation }}"/>
-													<span class="form-text text-muted">Please enter your Postcode.</span>
+													<input type="text" disabled="true" class="form-control form-control-solid form-control-lg" placeholder="Produit" value="{{ pdt.produit.designation }}"/>
 												</div>
 												<!--end::Input-->
 											</div>
@@ -600,7 +581,6 @@
 												<!--begin::Input-->
 												<div class="form-group">
 													<input name="quantite[]" type="number" class="form-control form-control-solid form-control-lg" placeholder="Quantité"/>
-													<span class="form-text text-muted">Please enter your Postcode.</span>
 												</div>
 												<!--end::Input-->
 											</div>

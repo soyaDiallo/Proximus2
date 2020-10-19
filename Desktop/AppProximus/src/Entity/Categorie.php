@@ -25,11 +25,6 @@ class Categorie
     private $nom;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Produit::class, mappedBy="categories")
-     */
-    private $produits;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Categorie::class, inversedBy="categories")
      */
     private $categorie;
@@ -39,10 +34,16 @@ class Categorie
      */
     private $categories;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CategorieProduit::class, mappedBy="categorie")
+     */
+    private $categorieProduits;
+
     public function __construct()
     {
         $this->produits = new ArrayCollection();
         $this->categories = new ArrayCollection();
+        $this->categorieProduits = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -132,6 +133,37 @@ class Categorie
             // set the owning side to null (unless already changed)
             if ($category->getCategorie() === $this) {
                 $category->setCategorie(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CategorieProduit[]
+     */
+    public function getCategorieProduits(): Collection
+    {
+        return $this->categorieProduits;
+    }
+
+    public function addCategorieProduit(CategorieProduit $categorieProduit): self
+    {
+        if (!$this->categorieProduits->contains($categorieProduit)) {
+            $this->categorieProduits[] = $categorieProduit;
+            $categorieProduit->setCategorie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCategorieProduit(CategorieProduit $categorieProduit): self
+    {
+        if ($this->categorieProduits->contains($categorieProduit)) {
+            $this->categorieProduits->removeElement($categorieProduit);
+            // set the owning side to null (unless already changed)
+            if ($categorieProduit->getCategorie() === $this) {
+                $categorieProduit->setCategorie(null);
             }
         }
 
