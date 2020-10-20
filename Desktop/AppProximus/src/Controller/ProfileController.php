@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Agent;
 use App\Form\AdministrateurType;
 use App\Form\AgentType;
 use App\Form\BackOfficeType;

@@ -572,7 +572,7 @@
 												class="col-xl-8">
 												<!--begin::Input-->
 												<div class="form-group">
-													<input name="pdt[]" readonly=true type="text" class="form-control form-control-solid form-control-lg" placeholder="Produit" value="{{ pdt.produit.designation }}"/>
+													<input name="pdt[]" readonly="true" type="text" class="form-control form-control-solid form-control-lg" placeholder="Produit" value="{{ pdt.produit.designation }}"/>
 												</div>
 												<!--end::Input-->
 											</div>
@@ -588,20 +588,17 @@
 									{% endfor %}
 								{% endif %}
 							{% endfor %}
-
 						</div>
 						<!--end::Wizard Step 1-->
-
-						
 					</div>
 					<!--end::Body-->
 
 					<!--begin::Footer-->
 					<div class="card-footer py-5 px-5">
 						<div class="card-toolbar float-right">
-						{{ form_widget(form.saveAndAdd, {'attr': {'class': 'btn btn-primary font-weight-bolder px-5 mr-3'}}) }}
-						{{ form_widget(form.save, {'attr': {'class': 'btn btn-primary font-weight-bolder px-5 mr-3'}}) }}
-							<a href="#" class="btn btn-light btn-text-primary btn-hover-text-primary font-weight-bold px-5 mr-3">
+							{{ form_widget(form.saveAndAdd, {'attr': {'class': 'btn btn-primary font-weight-bolder px-5 mr-3'}}) }}
+							{{ form_widget(form.save, {'attr': {'class': 'btn btn-primary font-weight-bolder px-5 mr-3'}}) }}
+							<a href="{{ path('offer_index') }}" class="btn btn-light btn-text-primary btn-hover-text-primary font-weight-bold px-5 mr-3">
 								Annuler
 							</a>
 						</div>

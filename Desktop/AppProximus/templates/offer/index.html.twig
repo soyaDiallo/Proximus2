@@ -192,12 +192,12 @@
 										<th title="Field #4">Nom Client</th>
 										<th title="Field #5">Prénom Client</th>
 										<th title="Field #6">Nom Société</th>
-										<th title="Field #7">Produits</th>
+										<th title="Field #7">Email Client</th>
 										<th title="Field #8">Date Creation</th>
-										<th title="Field #9">Date Signature</th>
-										<th title="Field #10">Email Client</th>
+										<th title="Field #9">Date Validation</th>
+										<th title="Field #10">Produits</th>
 										<th title="Field #11">Téléphone Fixe Client</th>
-										<th title="Field #12">Nm GSM Client</th>
+										<th title="Field #12">N° GSM Client</th>
 										<th title="Field #13">Adresse Installation</th>
 										<th title="Field #14">Date Installation</th>
 										<th title="Field #15">Statut</th>
@@ -214,38 +214,44 @@
 											<td>{{ item[0].client.prenom }}</td>
 											<td>{{ item[0].client.nomSociete }}</td>
 											<td>
-											{% if item[1] is empty %}							
-											pas de produit
-											{% else %}
-											<ul> 
-											{% for pdt in item[1] %}	
-											<li>{{pdt.produit.designation}} [{{pdt.qte}}]</li>
-											{% endfor %}
-											</ul>
-											{% endif %}
+												{{ item[0].client.email }}
 											</td>
 											<td>
-											{% if item[0].dateCreation is empty %}
-											-
-											{% else %}
-											{{ item[0].dateCreation|date('Y-m-d')}}{% endif %}</td>
-											<td>
-											{% if item[0].dateSignature is empty %}
-											-
-											{% else %}
-											{{ item[0].dateSignature|date('Y-m-d')}}{% endif %}
+												{% if item[0].dateCreation is empty %}
+													-
+												{% else %}
+													{{ item[0].dateCreation|date('Y-m-d')}}
+												{% endif %}
 											</td>
-											<td>{{ item[0].client.email }}</td>
+											<td>
+												{% if item[0].dateSignature is empty %}
+													-
+												{% else %}
+													{{ item[0].dateSignature|date('Y-m-d')}}
+												{% endif %}
+											</td>
+											<td>
+												{% if item[1] is empty %}
+													-
+												{% else %}
+													{% for pdt in item[1] %}
+														<p>
+															{{pdt.produit.designation}}
+															[{{pdt.qte}}]
+														</p>
+													{% endfor %}
+												{% endif %}
+											</td>
 											<td>{{ item[0].client.numTelephoneFixe }}</td>
 											<td>{{ item[0].client.numGSM }}</td>
 											<td>{{ item[0].client.adresseInstallation }}</td>
 											<td>{{ item[0].client.dateInstallation|date('Y-m-d') }}</td>
 											{% if item[0].dateSignature and item[0].dateAnnulation is null %}
-											<td>1</td>
+												<td>1</td>
 											{% elseif item[0].dateAnnulation %}
-											<td>3</td>
+												<td>3</td>
 											{% else %}
-											<td>2</td>
+												<td>2</td>
 											{% endif %}
 											<td>
 												<a href="{{path('offer_edit', {'id': item[0].id})}}" class="d-inline btn btn-sm btn-clean btn-icon mr-2" title="Modification Offre">
@@ -259,18 +265,6 @@
 														</svg>
 													</span>
 												</a>
-												<!--a href="#" class="d-inline btn btn-sm btn-clean btn-icon" title="Génération Excel">
-																																																																																					<span class="svg-icon svg-icon-md">
-																																																																																						<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewbox="0 0 24 24" version="1.1">
-																																																																																							<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-																																																																																								<polygon points="0 0 24 0 24 24 0 24"/>
-																																																																																								<path d="M5.85714286,2 L13.7364114,2 C14.0910962,2 14.4343066,2.12568431 14.7051108,2.35473959 L19.4686994,6.3839416 C19.8056532,6.66894833 20,7.08787823 20,7.52920201 L20,20.0833333 C20,21.8738751 19.9795521,22 18.1428571,22 L5.85714286,22 C4.02044787,22 4,21.8738751 4,20.0833333 L4,3.91666667 C4,2.12612489 4.02044787,2 5.85714286,2 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"/>
-																																																																																								<rect fill="#000000" x="6" y="11" width="9" height="2" rx="1"/>
-																																																																																								<rect fill="#000000" x="6" y="15" width="5" height="2" rx="1"/>
-																																																																																							</g>
-																																																																																						</svg>
-																																																																																					</span>
-																																																																																				</a-->
 											</td>
 										</tr>
 									{% endfor %}

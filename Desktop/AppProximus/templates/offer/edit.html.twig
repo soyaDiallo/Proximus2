@@ -115,7 +115,6 @@
 			class="d-flex flex-column-fluid">
 			<!--begin::Container-->
 			<div class="container">
-				{{ form_start(form, {'attr': {'method': 'POST', 'class': 'form'}}) }}
 				<div
 					class="card card-custom">
 					<!--begin::Header-->
@@ -140,7 +139,7 @@
 									<!--end::Svg Icon-->
 								</span>Exporter en Excel
 							</a>
-							{% if not offre.dateSignature %}
+							{% if not offre.dateSignature and not offre.dateAnnulation %}
 								<a href="{{ path('offer_valid', {id: offre.id}) }}" class="btn btn-primary font-weight-bolder px-5 mr-2">
 									<i class="fas fa-save"></i>
 									Valider l'offre
@@ -201,6 +200,7 @@
 					</div>
 					<!--end::Header-->
 
+					{{ form_start(form, {'attr': {'method': 'POST', 'class': 'form'}}) }}
 					<!--begin::Body-->
 					<div
 						class="card-body">
@@ -709,18 +709,22 @@
 					<!--end::Body-->
 
 					<!--begin::Footer-->
-					<div class="card-footer py-5 px-5">
+					<div class="card-footer mb-12 px-5">
 						<div class="card-toolbar float-right">
-							{{ form_widget(form.saveAndAdd, {'attr': {'class': 'btn btn-primary font-weight-bolder px-5 mr-3'}}) }}
+							{% if not offre.dateSignature and not offre.dateAnnulation %}
+								{{ form_widget(form.saveAndAdd, {'attr': {'class': 'btn btn-primary font-weight-bolder px-5 mr-3'}}) }}
+							{% else %}
+								{{ form_widget(form.saveAndAdd, {'attr': {'class': 'btn btn-primary font-weight-bolder px-5 mr-3', 'disabled':'true'}}) }}
+							{% endif %}
 							{{ form_widget(form.save, {'attr': {'class': 'btn btn-primary font-weight-bolder px-5 mr-3'}}) }}
-							<a href="#" class="btn btn-light btn-text-primary btn-hover-text-primary font-weight-bold px-5 mr-3">
+							<a href="{{ path('offer_index') }}" class="btn btn-light btn-text-primary btn-hover-text-primary font-weight-bold px-5 mr-3">
 								Annuler
 							</a>
 						</div>
 					</div>
 					<!--end::Footer-->
+					{{ form_end(form) }}
 				</div>
-				{{ form_end(form) }}
 			</div>
 			<!--end::Container-->
 		</div>

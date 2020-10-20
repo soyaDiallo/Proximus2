@@ -39,19 +39,19 @@ class OfferController extends AbstractController
     /**
      * @Route("/", name="offer_index", methods={"GET"})
      */
-    public function index(OffreProduitRepository $offreProduitRepository,OffreRepository $offreRepository): Response
+    public function index(OffreProduitRepository $offreProduitRepository, OffreRepository $offreRepository): Response
     {
-        $offres=$offreRepository->findAll();
+        //  $offres = $offreRepository->findAll();
+        $offres = $offreRepository->findBy([], ['dateCreation' => 'DESC']);
         $produitsParoffre = [];
-        foreach($offres as $key => $offre)
-        {
+        foreach ($offres as $key => $offre) {
             $produitsParoffre[$key][0] = $offre;
             $produitsParoffre[$key][1] = $offreProduitRepository->findBy(['offre' => $offre->getId()]);
         }
         //dd($produitsParoffre);
-        return $this->render('offer/index.html.twig',[
-            'offres'=>$offres,
-            'produitsParoffre'=>$produitsParoffre,
+        return $this->render('offer/index.html.twig', [
+            'offres' => $offres,
+            'produitsParoffre' => $produitsParoffre,
         ]);
     }
 
@@ -62,7 +62,6 @@ class OfferController extends AbstractController
         ClientRepository $clientRepository,
         CategorieRepository $categorieRepository,
         Request $request,
-        OffreProduitRepository $offreProduitRepository,
         ProduitRepository $produitRepository,
         CategorieProduitRepository $categorieProduitRepository,
         int $id = 0
@@ -79,33 +78,30 @@ class OfferController extends AbstractController
         }
         $form = $this->createForm(CreationOffreType::class, $offre);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
             $offre->setDateCreation(new \DateTime());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($offre);
             $entityManager->flush();
-            $listPdt=[];
-            //dd($request);
-            foreach ($request->request->get('produits_checkbox') as $key => $id) 
-            {
-                $listPdt[$key]= $produitRepository->findById($id);
-                $pdt=$listPdt[$key][0];
+            $listPdt = [];
+            foreach ($request->request->get('produits_checkbox') as $key => $id) {
+                $listPdt[$key] = $produitRepository->findById($id);
+                $pdt = $listPdt[$key][0];
                 foreach ($request->request->get('quantite') as $key => $qte) {
-                 if($key == $pdt->getId())
-                 {
-                    $offreProduit= new OffreProduit();
-                    $offreProduit->setProduit($pdt);
-                    $offreProduit->setQte($qte);
-                    if ($form->getClickedButton() === $form->get('saveAndAdd')){
-                        $offre->setDateSignature(new \DateTime());
+                    if ($key == $pdt->getId()) {
+                        $offreProduit = new OffreProduit();
+                        $offreProduit->setProduit($pdt);
+                        $offreProduit->setQte($qte);
+                        if ($form->getClickedButton() === $form->get('saveAndAdd')) {
+                            $offre->setDateSignature(new \DateTime());
+                        }
+                        $offreProduit->setOffre($offre);
+                        $offreProduit->setStatutTingis("attente");
+                        $offreProduit->setDate(new \DateTime());
+                        $entityManager->persist($offreProduit);
+                        $entityManager->flush();
                     }
-                    $offreProduit->setOffre($offre);
-                    $offreProduit->setStatutTingis("attente");
-                    $offreProduit->setDate(new \DateTime());
-                    $entityManager->persist($offreProduit);
-                    $entityManager->flush();
-                 }
                 }
             }
             return $this->redirectToRoute('offer_index');
@@ -127,43 +123,62 @@ class OfferController extends AbstractController
         CategorieProduitRepository $categorieProduitRepository,
         CategorieRepository $categorieRepository,
         RaisonRepository $raisonRepository,
+        ProduitRepository $produitRepository,
         Request $request,
         int $id = 0
     ): Response {
         $offre = $offreRepository->find($id);
+
         $offreProduits = $offreProduitRepository->findBy(['offre' => $offre->getId()]);
-        $categories = $categorieRepository->findAll();
         $raisons = $raisonRepository->findAll();
+        $categories = $categorieRepository->findAll();
         $produitsParCategories = [];
-        $produits = [];
+
+        //  $produits = [];
 
         foreach ($categories as $key => $categorie) {
             $produitsParCategories[$key][0] = $categorie;
             $produitsParCategories[$key][1] = $categorieProduitRepository->findBy(['categorie' => $categorie->getId()]);
         }
-        foreach ($offreProduits as $key => $o) {
-            $produits[] = $o->getProduit();
-        }
+
+        // foreach ($offreProduits as $key => $o) {
+        //     $produits[] = $o->getProduit();
+        // }
 
         $form = $this->createForm(CreationOffreType::class, $offre);
         $form->handleRequest($request);
 
-        //  dd($offreProduits, $produits, $produitsParCategories);
+        // if ($form->isSubmitted() && $form->isValid()) {
+        //     $entityManager = $this->getDoctrine()->getManager();
+        //     $entityManager->persist($offre);
+        //     $entityManager->flush();
 
-        /*
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($offre);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('offer_index');
-        }
-        */
+        //     $listPdt = [];
+        //     foreach ($request->request->get('produits_checkbox') as $key => $id) {
+        //         $listPdt[$key] = $produitRepository->findById($id);
+        //         $pdt = $listPdt[$key][0];
+        //         foreach ($request->request->get('quantite') as $key => $qte) {
+        //             if ($key == $pdt->getId()) {
+        //                 $offreProduit = new OffreProduit();
+        //                 $offreProduit->setProduit($pdt);
+        //                 $offreProduit->setQte($qte);
+        //                 if ($form->getClickedButton() === $form->get('saveAndAdd')) {
+        //                     $offre->setDateSignature(new \DateTime());
+        //                 }
+        //                 $offreProduit->setOffre($offre);
+        //                 $offreProduit->setStatutTingis("attente");
+        //                 $offreProduit->setDate(new \DateTime());
+        //                 $entityManager->persist($offreProduit);
+        //                 $entityManager->flush();
+        //             }
+        //         }
+        //     }
+        // }
 
         return $this->render('offer/edit.html.twig', [
             'offre' => $offre,
             'produit' => $offreProduits,
-            'produits' => $produits,
+            //  'produits' => $produits,
             'raisons' => $raisons,
             'produitByCategory' => $produitsParCategories,
             'form' => $form->createView(),
@@ -251,14 +266,13 @@ class OfferController extends AbstractController
     /**
      * @Route("/excel/{id}", name="excel", methods={"GET","POST"})
      */
-    public function GenererExcel(OffreProduitRepository $offreProduitRepository,Request $request, Offre $offre): Response
+    public function GenererExcel(OffreProduitRepository $offreProduitRepository, Request $request, Offre $offre): Response
     {
         $produits = $offreProduitRepository->findBy(['offre' => $offre->getId()]);
-        $listPdt="";
+        $listPdt = "";
         foreach ($produits as $key => $pdt) {
-            $listPdt .= $pdt->getProduit()->getDesignation()." + ";
+            $listPdt .= $pdt->getProduit()->getDesignation() . " + ";
         }
-        //dd($listPdt);
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
