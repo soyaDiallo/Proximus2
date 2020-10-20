@@ -197,7 +197,7 @@
 										<th title="Field #9">Date Signature</th>
 										<th title="Field #10">Email Client</th>
 										<th title="Field #11">Téléphone Fixe Client</th>
-										<th title="Field #12">Email Client</th>
+										<th title="Field #12">Nm GSM Client</th>
 										<th title="Field #13">Adresse Installation</th>
 										<th title="Field #14">Date Installation</th>
 										<th title="Field #15">Statut</th>
@@ -205,25 +205,50 @@
 									</tr>
 								</thead>
 								<tbody>
-									{% for item in var %}
+									{% for item in produitsParoffre %}
 										<tr>
-											<td>{{ item }}</td>
-											<td>0006-3629</td>
-											<td>0006-3629</td>
-											<td>0006-3629</td>
-											<td>0006-3629</td>
-											<td>0006-3629</td>
-											<td>0006-3629</td>
-											<td>Land Rover</td>
-											<td>Range Rover</td>
-											<td>Orange</td>
-											<td>$22672.60</td>
-											<td>2016-11-28</td>
-											<td>2016-11-28</td>
-											<td>2016-11-28</td>
-											<td>3</td>
+											<td>{{ item[0].code }}</td>
+											<td>{{ item[0].client.code }}</td>
+											<td>{{ item[0].client.typeClient }}</td>
+											<td>{{ item[0].client.nom }}</td>
+											<td>{{ item[0].client.prenom }}</td>
+											<td>{{ item[0].client.nomSociete }}</td>
 											<td>
-												<a href="#" class="d-inline btn btn-sm btn-clean btn-icon mr-2" title="Modification Offre">
+											{% if item[1] is empty %}							
+											pas de produit
+											{% else %}
+											<ul> 
+											{% for pdt in item[1] %}	
+											<li>{{pdt.produit.designation}} [{{pdt.qte}}]</li>
+											{% endfor %}
+											</ul>
+											{% endif %}
+											</td>
+											<td>
+											{% if item[0].dateCreation is empty %}
+											-
+											{% else %}
+											{{ item[0].dateCreation|date('Y-m-d')}}{% endif %}</td>
+											<td>
+											{% if item[0].dateSignature is empty %}
+											-
+											{% else %}
+											{{ item[0].dateSignature|date('Y-m-d')}}{% endif %}
+											</td>
+											<td>{{ item[0].client.email }}</td>
+											<td>{{ item[0].client.numTelephoneFixe }}</td>
+											<td>{{ item[0].client.numGSM }}</td>
+											<td>{{ item[0].client.adresseInstallation }}</td>
+											<td>{{ item[0].client.dateInstallation|date('Y-m-d') }}</td>
+											{% if item[0].dateSignature and item[0].dateAnnulation is null %}
+											<td>1</td>
+											{% elseif item[0].dateAnnulation %}
+											<td>3</td>
+											{% else %}
+											<td>2</td>
+											{% endif %}
+											<td>
+												<a href="{{path('offer_edit', {'id': item[0].id})}}" class="d-inline btn btn-sm btn-clean btn-icon mr-2" title="Modification Offre">
 													<span class="svg-icon svg-icon-md">
 														<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewbox="0 0 24 24" version="1.1">
 															<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">

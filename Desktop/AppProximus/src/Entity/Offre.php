@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=OffreRepository::class)
  */
-class Offre
+class Offre 
 {
     /**
      * @ORM\Id
@@ -25,7 +25,7 @@ class Offre
     private $code;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $dateCreation;
 

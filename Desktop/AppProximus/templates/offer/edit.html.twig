@@ -125,7 +125,7 @@
 							<span class="text-muted font-weight-bold font-size-sm mt-1">Modification d'une offre existante</span>
 						</div>
 						<div class="card-toolbar align-items-end">
-							<a href="#" class="btn btn-light-info font-weight-bolder mr-2">
+							<a href="{{ path('excel', {'id': offre.id}) }}" class="btn btn-light-info font-weight-bolder mr-2">
 								<span
 									class="svg-icon svg-icon-md">
 									<!--begin::Svg Icon | path:/keen/theme/demo6/dist/assets/media/svg/icons/Files/File.svg-->
@@ -152,11 +152,48 @@
 								</button>
 							{% endif %}
 							{% if not offre.dateAnnulation %}
-								<a href="{{ path('offer_cancel', {id: offre.id}) }}" class="btn btn-light-primary font-weight-bolder px-5">
+								<button type="button" class="btn btn-light-primary font-weight-bolder px-5 mr-2" data-toggle="modal" data-target="#exampleModal">
 									Annuler l'offre
-								</a>
+								</button>
+								<form method="POST" action="{{ path('offer_cancel', {id: offre.id}) }}" class="form">
+									<div class="modal fade" id="exampleModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+										<div class="modal-dialog" role="document">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h5 class="modal-title" id="exampleModalLabel">Motif Annulation Offre</h5>
+													<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+														<i aria-hidden="true" class="ki ki-close"></i>
+													</button>
+												</div>
+												<div class="modal-body py-10">
+													<div class="form-group">
+														<div class="alert alert-custom alert-default" role="alert">
+															<div class="alert-icon">
+																<i class="flaticon-warning text-primary"></i>
+															</div>
+															<div class="alert-text">L'annulation d'une offre nécessite un motif.</div>
+														</div>
+													</div>
+													<div class="form-group">
+														<label>Motif Annulation</label>
+														<select name="raison" class="form-control form-control-solid form-control-lg">
+															{% for raison in raisons %}
+																<option value="{{ raison.id }}">{{ raison.motif }}</option>
+															{% endfor %}
+														</select>
+													</div>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Fermer</button>
+													<button type="submit" class="btn btn-primary font-weight-bold">Annuler l'offre</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</form>
+
 							{% else %}
-								<button disabled type="butto" class="btn btn-light-primary font-weight-bolder px-5">
+								<button disabled type="button" class="btn btn-light-primary font-weight-bolder px-5">
 									Annuler l'offre
 								</button>
 							{% endif %}
@@ -594,16 +631,49 @@
 										{{ item[0].nom|capitalize }}
 									</h6>
 									{% for pdt in item[1] %}
-										{% if not var %}
-											{% for p in produit %}
-												{% if p.produit.id == pdt.produit.id %}
+
+										{% for p in produit %}
+											{% if p.produit.id == pdt.produit.id %}
+												<div class="row mx-10 d-flex align-items-center">
+													<div
+														class="col-xl-1 form-group align-middle">
+														<!--begin::Input-->
+														<div class="checkbox-list">
+															<label class="checkbox checkbox-lg">
+																<input type="checkbox" name="produits_checkbox[]" value="{{ pdt.produit.id }}" checked/>
+																<span></span>
+															</label>
+														</div>
+														<!--end::Input-->
+													</div>
+													<div
+														class="col-xl-8">
+														<!--begin::Input-->
+														<div class="form-group">
+															<input type="text" disabled="true" class="form-control form-control-solid form-control-lg" placeholder="Produit" value="{{ pdt.produit.designation }}"/>
+														</div>
+														<!--end::Input-->
+													</div>
+													<div
+														class="col-xl-3">
+														<!--begin::Input-->
+														<div class="form-group">
+															<input name="quantite[]" type="number" class="form-control form-control-solid form-control-lg" placeholder="Quantité" value="{{ p.qte }}"/>
+														</div>
+														<!--end::Input-->
+													</div>
+												</div>
+												{% set var = true %}
+											{% else %}
+												{% if var %}
+
 													<div class="row mx-10 d-flex align-items-center">
 														<div
 															class="col-xl-1 form-group align-middle">
 															<!--begin::Input-->
 															<div class="checkbox-list">
 																<label class="checkbox checkbox-lg">
-																	<input type="checkbox" name="produits_checkbox[]" value="{{ pdt.produit.id }}" checked/>
+																	<input type="checkbox" name="produits_checkbox[]" value="{{ pdt.produit.id }}"/>
 																	<span></span>
 																</label>
 															</div>
@@ -621,45 +691,15 @@
 															class="col-xl-3">
 															<!--begin::Input-->
 															<div class="form-group">
-																<input name="quantite[]" type="number" class="form-control form-control-solid form-control-lg" placeholder="Quantité" value="{{ p.qte }}"/>
+																<input name="quantite[]" type="number" class="form-control form-control-solid form-control-lg" placeholder="Quantité"/>
 															</div>
 															<!--end::Input-->
 														</div>
 													</div>
-													{% set var = true %}
 												{% endif %}
-											{% endfor %}
-										{% else %}
-											<div class="row mx-10 d-flex align-items-center">
-												<div
-													class="col-xl-1 form-group align-middle">
-													<!--begin::Input-->
-													<div class="checkbox-list">
-														<label class="checkbox checkbox-lg">
-															<input type="checkbox" name="produits_checkbox[]" value="{{ pdt.produit.id }}"/>
-															<span></span>
-														</label>
-													</div>
-													<!--end::Input-->
-												</div>
-												<div
-													class="col-xl-8">
-													<!--begin::Input-->
-													<div class="form-group">
-														<input type="text" disabled="true" class="form-control form-control-solid form-control-lg" placeholder="Produit" value="{{ pdt.produit.designation }}"/>
-													</div>
-													<!--end::Input-->
-												</div>
-												<div
-													class="col-xl-3">
-													<!--begin::Input-->
-													<div class="form-group">
-														<input name="quantite[]" type="number" class="form-control form-control-solid form-control-lg" placeholder="Quantité"/>
-													</div>
-													<!--end::Input-->
-												</div>
-											</div>
-										{% endif %}
+											{% endif %}
+										{% endfor %}
+
 									{% endfor %}
 								{% endif %}
 							{% endfor %}
@@ -671,13 +711,8 @@
 					<!--begin::Footer-->
 					<div class="card-footer py-5 px-5">
 						<div class="card-toolbar float-right">
-							<a href="#" class="btn btn-primary font-weight-bolder px-5 mr-3">
-								<i class="fas fa-save"></i>
-								Enregistrer & Valider
-							</a>
-							<a href="#" class="btn btn-light-primary font-weight-bolder px-5 mr-3">
-								Enregistrer
-							</a>
+							{{ form_widget(form.saveAndAdd, {'attr': {'class': 'btn btn-primary font-weight-bolder px-5 mr-3'}}) }}
+							{{ form_widget(form.save, {'attr': {'class': 'btn btn-primary font-weight-bolder px-5 mr-3'}}) }}
 							<a href="#" class="btn btn-light btn-text-primary btn-hover-text-primary font-weight-bold px-5 mr-3">
 								Annuler
 							</a>
