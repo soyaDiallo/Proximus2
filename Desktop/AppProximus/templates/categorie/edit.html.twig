@@ -1,6 +1,6 @@
 {% extends 'content.html.twig' %}
 
-{% block title %}Nouvel Utilisateur
+{% block title %}Modifier Utilisateur
 {% endblock %}
 
 {% block content_header %}
@@ -16,16 +16,6 @@
 			</a>
 		</li>
 		<li class="menu-item" aria-haspopup="true">
-			<a href="{{ path('client_index') }}" class="menu-link">
-				<span class="menu-text">Clients</span>
-			</a>
-		</li>
-		<li class="menu-item" aria-haspopup="true">
-			<a href="{{ path('produit_index') }}" class="menu-link">
-				<span class="menu-text">Produits</span>
-			</a>
-		</li>
-		<li class="menu-item" aria-haspopup="true">
 			<a href="{{ path('offer_index') }}" class="menu-link">
 				<span class="menu-text">Ventes</span>
 			</a>
@@ -35,7 +25,7 @@
 
 {% block content_subheader %}
 	<!--begin::Page Title-->
-	<h5 class="text-dark font-weight-bold my-1 mr-5">Nouvel Utilisateur</h5>
+	<h5 class="text-dark font-weight-bold my-1 mr-5">Modifier Utilisateur</h5>
 	<!--end::Page Title-->
 
 	<!--begin::Breadcrumb-->
@@ -50,10 +40,26 @@
 			<a href="{{ path('utilisateur_index') }}" class="text-muted">Les utilisateurs</a>
 		</li>
 		<li class="breadcrumb-item text-muted">
-			<a href="{{ path('utilisateur_new') }}" class="text-muted">Nouvel Utilisateur</a>
+			<a href="{{ path('utilisateur_new') }}" class="text-muted">Modifier Utilisateur</a>
 		</li>
 	</ul>
 	<!--end::Breadcrumb-->
+{% endblock %}
+
+{% block content_subheader_right %}
+	<!--begin::Toolbar-->
+	<div
+		class="d-flex align-items-center flex-wrap">
+		<!--begin::Dropdown-->
+		<div class="dropdown dropdown-inline" data-toggle="tooltip" title="Réinitialiser le compte de l'utilisateur" data-placement="top">
+			<a href="#" class="btn btn-light-primary font-weight-bolder px-5 mr-3 my-1">
+				<i class="fas fa-user-lock"></i>
+				Réinitialiser Compte
+			</a>
+		</div>
+		<!--end::Dropdown-->
+	</div>
+	<!--end::Toolbar-->
 {% endblock %}
 
 {% block content_body %}
@@ -61,25 +67,8 @@
 	<div
 		class="content d-flex flex-column flex-column-fluid" id="kt_content">
 		<!--begin::Entry-->
-		<div class="d-flex flex-column-fluid">
-			{% for flashError in app.flashes('verify_email_error') %}
-				<div class="container">
-					<div class="alert alert-custom alert-notice alert-light-danger fade show" role="alert">
-						<div class="alert-icon">
-							<i class="flaticon-warning"></i>
-						</div>
-						<div class="alert-text">{{ flashError }}</div>
-						<div class="alert-close">
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">
-									<i class="ki ki-close"></i>
-								</span>
-							</button>
-						</div>
-					</div>
-				</div>
-			{% endfor %}
-
+		<div
+			class="d-flex flex-column-fluid">
 			<!--begin::Container-->
 			<div class="container">
 				{{ form_start(form, {'attr': {'class': 'form'}}) }}
@@ -88,8 +77,8 @@
 					<!--begin::Header-->
 					<div class="card-header py-3">
 						<div class="card-title align-items-start flex-column">
-							<h3 class="card-label font-weight-bolder text-dark">Nouvel Utilisateur</h3>
-							<span class="text-muted font-weight-bold font-size-sm mt-1">Ajout d'un nouveau membre.</span>
+							<h3 class="card-label font-weight-bolder text-dark">Modifier Utilisateur - #{{ user.code|upper }}</h3>
+							<span class="text-muted font-weight-bold font-size-sm mt-1">Modification des informations d'un utilisateur.</span>
 						</div>
 					</div>
 					<!--end::Header-->
@@ -112,7 +101,7 @@
 									class="col-xl-6">
 									<!--begin::Input-->
 									<div class="form-group">
-										<label>Prénom Utilisateur</label>
+										<label>Prénom</label>
 										{{ form_widget(form.prenom, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Prénom Utilisateur'}}) }}
 									</div>
 									<!--end::Input-->
@@ -161,31 +150,6 @@
 										<label>Rôle Utilisateur</label>
 										{{ form_widget(form.roles, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Rôle Utilisateur'}}) }}
 										<span class="form-text text-muted">Il s'agit du rôle de l'utilisateur dans la plateforme.</span>
-									</div>
-									<!--end::Input-->
-								</div>
-							</div>
-
-							<div class="row">
-								<div
-									class="col-xl-6">
-									<!--begin::Input-->
-									<div class="form-group">
-										<label>Mot de passe</label>
-										{{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Mot de passe Utilisateur', 'value': '12345678'}}) }}
-										<span class="form-text text-muted">Le mot de passe par defaut est
-											<strong>12345678</strong>.
-										</span>
-									</div>
-									<!--end::Input-->
-								</div>
-								<div
-									class="col-xl-6">
-									<!--begin::Input-->
-									<div class="form-group">
-										<label>Confirmation Mot de passe</label>
-										{{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Confirmation Mot de passe', 'value': '12345678'}}) }}
-										<span class="form-text text-muted">Le mot de passe de confirmation doit être identique au mot de passe.</span>
 									</div>
 									<!--end::Input-->
 								</div>

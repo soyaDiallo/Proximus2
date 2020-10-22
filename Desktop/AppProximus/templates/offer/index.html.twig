@@ -5,7 +5,7 @@
 
 {% block javascripts %}
 	<script src="{{ asset('js/pages/features/ktdatatable/base/html-tablee8da.js?v=2.0.3') }}"></script>
-	<script src="{{ asset('js/pages/features/ktdatatable/base/html-tablee8db.js?v=2.0.3') }}"></script>
+	<script src="{{ asset('js/pages/features/ktdatatable/base/html-tablee8da_others.js?v=2.0.3') }}"></script>
 {% endblock %}
 
 {% block content_header %}
@@ -58,6 +58,16 @@
 			<li class="menu-item" aria-haspopup="true">
 				<a href="#" class="menu-link">
 					<span class="menu-text">Utilisateurs</span>
+				</a>
+			</li>
+			<li class="menu-item" aria-haspopup="true">
+				<a href="{{ path('client_index') }}" class="menu-link">
+					<span class="menu-text">Clients</span>
+				</a>
+			</li>
+			<li class="menu-item" aria-haspopup="true">
+				<a href="{{ path('produit_index') }}" class="menu-link">
+					<span class="menu-text">Produits</span>
 				</a>
 			</li>
 			<li class="menu-item menu-item-active" aria-haspopup="true">
@@ -280,55 +290,43 @@
 							<!--begin::Search Form-->
 							<div class="mb-7">
 								<div class="row align-items-center">
-									<div class="col-lg-9">
-										<div class="row align-items-center">
-											<div class="col-md-4 my-2 my-md-0">
-												<div class="input-icon">
-													<input type="text" class="form-control" placeholder="Recherche..." id="kt_datatable_search_query_superviseur"/>
-													<span>
-														<i class="flaticon2-search-1 text-muted"></i>
-													</span>
-												</div>
-											</div>
-											<div class="col-md-4 my-2 my-md-0">
-												<div class="d-flex align-items-center">
-													<label class="mr-3 mb-0 d-none d-md-block">Statut Tingis:</label>
-													<select class="form-control" id="kt_datatable_search_statut_tingis_superviseur">
-														<option value="">Toutes</option>
-														<option value="1">Statut 1</option>
-														<option value="2">Statut 2</option>
-														<option value="3">Statut 3</option>
-														<option value="4">Statut 4</option>
-														<option value="5">Statut 5</option>
-														<option value="6">Statut 6</option>
-													</select>
-												</div>
-											</div>
-											<div class="col-md-4 my-2 my-md-0">
-												<div class="d-flex align-items-center">
-													<label class="mr-3 mb-0 d-none d-md-block">Statut Proximus:</label>
-													<select class="form-control" id="kt_datatable_search_statut_proximus_superviseur">
-														<option value="">Toutes</option>
-														<option value="1">Statut 1</option>
-														<option value="2">Statut 2</option>
-														<option value="3">Statut 3</option>
-														<option value="4">Statut 4</option>
-														<option value="5">Statut 5</option>
-														<option value="6">Statut 6</option>
-													</select>
-												</div>
-											</div>
+									<div class="col-md-4 my-2 my-md-0">
+										<div class="input-icon">
+											<input type="text" class="form-control" placeholder="Recherche..." id="kt_datatable_search_query_others"/>
+											<span>
+												<i class="flaticon2-search-1 text-muted"></i>
+											</span>
 										</div>
 									</div>
-									<div class="col-lg-3 mt-5 mt-lg-0">
-										<a href="#" class="btn btn-light-primary px-6 font-weight-bold">Rechercher</a>
+									<div class="col-md-4 my-2 my-md-0">
+										<div class="d-flex align-items-center">
+											<label class="mr-3 mb-0 d-none d-md-block">Statut Tingis:</label>
+											<select class="form-control" id="kt_datatable_search_statut_tingis_others">
+												<option value="">Toutes</option>
+												<option value="1">Annulé</option>
+												<option value="2">En attente</option>
+												<option value="3">Encodé</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-md-4 my-2 my-md-0">
+										<div class="d-flex align-items-center">
+											<label class="mr-3 mb-0 d-none d-md-block">Statut Proximus:</label>
+											<select class="form-control" id="kt_datatable_search_statut_proximus_others">
+												<option value="">Toutes</option>
+												<option value="1">Close Gagnée</option>
+												<option value="2">Close Perdue</option>
+												<option value="3">En attente d'encodage</option>
+												<option value="4">NA</option>
+											</select>
+										</div>
 									</div>
 								</div>
 							</div>
 							<!--end: Search Form-->
 
 							<!--begin: Datatable-->
-							<table class="datatable datatable-bordered datatable-head-custom" id="kt_datatable_superviseur">
+							<table class="datatable datatable-bordered datatable-head-custom" id="kt_datatable_others">
 								<thead>
 									<tr>
 										<th title="Field #1">Code Offre</th>
@@ -346,13 +344,12 @@
 										<th title="Field #13">Email Client</th>
 										<th title="Field #14">Adresse Installation</th>
 										<th title="Field #15">Date Installation</th>
-										<th title="Field #16">Statut Tingis</th>
-										<th title="Field #17">Statut Proximus</th>
+										<th title="Field #16">Statut_Tingis</th>
+										<th title="Field #17">Statut_Proximus</th>
 										<th title="Field #18">Actions</th>
 									</tr>
 								</thead>
 								<tbody>
-									{% for item in var %}{% endfor %}
 									<tr>
 										<td>2</td>
 										<td>0006-3629</td>
@@ -363,14 +360,14 @@
 										<td>0006-3629</td>
 										<td>Land Rover</td>
 										<td>Range Rover</td>
-										<td>Orange</td>
+										<td>Fraise</td>
 										<td>$22672.60</td>
 										<td>2016-11-28</td>
 										<td>2016-11-28</td>
 										<td>2016-11-28</td>
 										<td>2016-11-28</td>
-										<td>3</td>
-										<td>3</td>
+										<td>1</td>
+										<td>2</td>
 										<td>
 											<a href="#" class="d-inline btn btn-sm btn-clean btn-icon mr-2" title="Modification Offre">
 												<span class="svg-icon svg-icon-md">
@@ -395,13 +392,13 @@
 										<td>0006-3629</td>
 										<td>Land Rover</td>
 										<td>Range Rover</td>
-										<td>Orange</td>
+										<td>Paste</td>
 										<td>$22672.60</td>
 										<td>2016-11-28</td>
 										<td>2016-11-28</td>
 										<td>2016-11-28</td>
 										<td>2016-11-28</td>
-										<td>3</td>
+										<td>2</td>
 										<td>3</td>
 										<td>
 											<a href="#" class="d-inline btn btn-sm btn-clean btn-icon mr-2" title="Modification Offre">
@@ -427,14 +424,14 @@
 										<td>0006-3629</td>
 										<td>Land Rover</td>
 										<td>Range Rover</td>
-										<td>Orange</td>
+										<td>Melon</td>
 										<td>$22672.60</td>
 										<td>2016-11-28</td>
 										<td>2016-11-28</td>
 										<td>2016-11-28</td>
 										<td>2016-11-28</td>
 										<td>3</td>
-										<td>3</td>
+										<td>4</td>
 										<td>
 											<a href="#" class="d-inline btn btn-sm btn-clean btn-icon mr-2" title="Modification Offre">
 												<span class="svg-icon svg-icon-md">
@@ -459,13 +456,13 @@
 										<td>0006-3629</td>
 										<td>Land Rover</td>
 										<td>Range Rover</td>
-										<td>Orange</td>
+										<td>Mangue</td>
 										<td>$22672.60</td>
 										<td>2016-11-28</td>
 										<td>2016-11-28</td>
 										<td>2016-11-28</td>
 										<td>2016-11-28</td>
-										<td>3</td>
+										<td>1</td>
 										<td>3</td>
 										<td>
 											<a href="#" class="d-inline btn btn-sm btn-clean btn-icon mr-2" title="Modification Offre">
@@ -497,8 +494,8 @@
 										<td>2016-11-28</td>
 										<td>2016-11-28</td>
 										<td>2016-11-28</td>
-										<td>3</td>
-										<td>3</td>
+										<td>2</td>
+										<td>4</td>
 										<td>
 											<a href="#" class="d-inline btn btn-sm btn-clean btn-icon mr-2" title="Modification Offre">
 												<span class="svg-icon svg-icon-md">
@@ -545,7 +542,6 @@
 											</a>
 										</td>
 									</tr>
-
 								</tbody>
 							</table>
 							<!--end: Datatable-->

@@ -1,0 +1,460 @@
+{% extends 'content.html.twig' %}
+
+{% block title %}Modifier Client
+{% endblock %}
+
+{% block content_header %}
+	<ul class="menu-nav">
+		<li class="menu-item" aria-haspopup="true">
+			<a href="{{ path('administrateur_index') }}" class="menu-link">
+				<span class="menu-text">Accueil</span>
+			</a>
+		</li>
+		<li class="menu-item" aria-haspopup="true">
+			<a href="{{ path('utilisateur_index') }}" class="menu-link">
+				<span class="menu-text">Utilisateurs</span>
+			</a>
+		</li>
+		<li class="menu-item menu-item-active" aria-haspopup="true">
+			<a href="{{ path('client_index') }}" class="menu-link">
+				<span class="menu-text">Clients</span>
+			</a>
+		</li>
+		<li class="menu-item" aria-haspopup="true">
+			<a href="{{ path('produit_index') }}" class="menu-link">
+				<span class="menu-text">Produits</span>
+			</a>
+		</li>
+		<li class="menu-item" aria-haspopup="true">
+			<a href="{{ path('offer_index') }}" class="menu-link">
+				<span class="menu-text">Ventes</span>
+			</a>
+		</li>
+	</ul>
+{% endblock %}
+
+{% block content_subheader %}
+	<!--begin::Page Title-->
+	<h5 class="text-dark font-weight-bold my-1 mr-5">Modifier Client</h5>
+	<!--end::Page Title-->
+
+	<!--begin::Breadcrumb-->
+	<ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
+		<li class="breadcrumb-item text-muted">
+			<span class="text-muted">Application</span>
+		</li>
+		<li class="breadcrumb-item text-muted">
+			<a href="{{ path('administrateur_index') }}" class="text-muted">Accueil</a>
+		</li>
+		<li class="breadcrumb-item text-muted">
+			<a href="{{ path('client_index') }}" class="text-muted">Les clients</a>
+		</li>
+		<li class="breadcrumb-item text-muted">
+			<a href="#" class="text-muted">Modifier Client</a>
+		</li>
+	</ul>
+	<!--end::Breadcrumb-->
+{% endblock %}
+
+{% block content_body %}
+	<!--begin::Content-->
+	<div
+		class="content d-flex flex-column flex-column-fluid" id="kt_content">
+		<!--begin::Entry-->
+		<div
+			class="d-flex flex-column-fluid">
+			<!--begin::Container-->
+			<div class="container">
+				{{ form_start(form, {'attr': {'method': 'POST', 'class': 'form'}}) }}
+				<div
+					class="card card-custom">
+					<!--begin::Header-->
+					<div class="card-header py-3">
+						<div class="card-title align-items-start flex-column">
+							<h3 class="card-label font-weight-bolder text-dark">Modifier Client - #{{ client.code|upper }}</h3>
+							<span class="text-muted font-weight-bold font-size-sm mt-1">Modification d'une client existant</span>
+						</div>
+					</div>
+					<!--end::Header-->
+
+					<!--begin::Body-->
+					<div
+						class="card-body">
+						<!--begin::Wizard Step 1-->
+						<div>
+							<div class="row">
+								<div
+									class="col-xl-6">
+									<!--begin::Input-->
+									<div class="form-group">
+										<label>Code Client</label>
+										{{ form_widget(form.code, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Code Client'}}) }}
+										<span class="form-text text-muted">Please enter your Postcode.</span>
+									</div>
+									<!--end::Input-->
+								</div>
+
+								<div
+									class="col-xl-6">
+									<!--begin::Input-->
+									<div class="form-group">
+										<label>Type Client</label>
+										{{ form_widget(form.typeClient, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Type Client'}}) }}
+										<span class="form-text text-muted">Please enter your Postcode.</span>
+									</div>
+									<!--end::Input-->
+								</div>
+							</div>
+
+							<div class="row">
+								<div
+									class="col-xl-4">
+									<!--begin::Input-->
+									<div class="form-group">
+										<label>Nom Client</label>
+										{{ form_widget(form.nom, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Nom Client'}}) }}
+										<span class="form-text text-muted">Please enter your Postcode.</span>
+									</div>
+									<!--end::Input-->
+								</div>
+								<div
+									class="col-xl-4">
+									<!--begin::Input-->
+									<div class="form-group">
+										<label>Prénom Client</label>
+										{{ form_widget(form.prenom, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Prénom Client'}}) }}
+										<span class="form-text text-muted">Please enter your City.</span>
+									</div>
+									<!--end::Input-->
+								</div>
+								<div
+									class="col-xl-4">
+									<!--begin::Input-->
+									<div class="form-group">
+										<label>Date Naissance Client</label>
+										{{ form_widget(form.dateNaissance, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Date Naissance Client'}}) }}
+										<span class="form-text text-muted">Please enter your City.</span>
+									</div>
+									<!--end::Input-->
+								</div>
+							</div>
+
+							<div class="separator separator-dashed my-5"></div>
+
+							<div class="row">
+								<div
+									class="col-xl-8">
+									<!--begin::Input-->
+									<div class="form-group">
+										<label>Nom Société</label>
+										{{ form_widget(form.nomSociete, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Nom Société'}}) }}
+										<span class="form-text text-muted">Please enter your Postcode.</span>
+									</div>
+									<!--end::Input-->
+								</div>
+								<div
+									class="col-xl-4">
+									<!--begin::Input-->
+									<div class="form-group">
+										<label>Date Création Société</label>
+										{{ form_widget(form.dateCreationSTE, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Date Création Société'}}) }}
+										<span class="form-text text-muted">Please enter your Postcode.</span>
+									</div>
+									<!--end::Input-->
+								</div>
+							</div>
+
+							<div class="row">
+								<div
+									class="col-xl-6">
+									<!--begin::Input-->
+									<div class="form-group">
+										<label>Fournisseurs</label>
+										{{ form_widget(form.fournisseur, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Fournisseurs'}}) }}
+										<span class="form-text text-muted">Please enter your Postcode.</span>
+									</div>
+									<!--end::Input-->
+								</div>
+								<div
+									class="col-xl-6">
+									<!--begin::Input-->
+									<div class="form-group">
+										<label>N° TVA</label>
+										{{ form_widget(form.numTVA, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Numéro TVA'}}) }}
+										<span class="form-text text-muted">Please enter your Postcode.</span>
+									</div>
+									<!--end::Input-->
+								</div>
+							</div>
+
+							<div class="separator separator-dashed my-5"></div>
+
+							<div class="row">
+								<div
+									class="col-xl-4">
+									<!--begin::Input-->
+									<div class="form-group">
+										<label>N° Téléphone Fixe</label>
+										{{ form_widget(form.numTelephoneFixe, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Numéro Téléphone Fixe'}}) }}
+										<span class="form-text text-muted">Please enter your Postcode.</span>
+									</div>
+									<!--end::Input-->
+								</div>
+								<div
+									class="col-xl-4">
+									<!--begin::Input-->
+									<div class="form-group">
+										<label>Email Client</label>
+										{{ form_widget(form.email, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Email Client'}}) }}
+										<span class="form-text text-muted">Please enter your Postcode.</span>
+									</div>
+									<!--end::Input-->
+								</div>
+								<div
+									class="col-xl-4">
+									<!--begin::Input-->
+									<div class="form-group">
+										<label>Code Postal</label>
+										{{ form_widget(form.codePostal, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Code Postal'}}) }}
+										<span class="form-text text-muted">Please enter your Postcode.</span>
+									</div>
+									<!--end::Input-->
+								</div>
+							</div>
+
+							<div class="row">
+								<div
+									class="col-xl-4">
+									<!--begin::Input-->
+									<div class="form-group">
+										<label>Commune Client</label>
+										{{ form_widget(form.commune, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Commune Client'}}) }}
+										<span class="form-text text-muted">Please enter your Postcode.</span>
+									</div>
+									<!--end::Input-->
+								</div>
+								<div
+									class="col-xl-4">
+									<!--begin::Input-->
+									<div class="form-group">
+										<label>Rue Client</label>
+										{{ form_widget(form.rue, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Rue Client'}}) }}
+										<span class="form-text text-muted">Please enter your Postcode.</span>
+									</div>
+									<!--end::Input-->
+								</div>
+								<div
+									class="col-xl-4">
+									<!--begin::Input-->
+									<div class="form-group">
+										<label>N° Porte</label>
+										{{ form_widget(form.numPorte, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Numéro Porte'}}) }}
+										<span class="form-text text-muted">Please enter your Postcode.</span>
+									</div>
+									<!--end::Input-->
+								</div>
+							</div>
+
+							<div class="row">
+								<div
+									class="col-xl-8">
+									<!--begin::Input-->
+									<div class="form-group">
+										<label>Adresse Installation</label>
+										{{ form_widget(form.adresseInstallation, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Adresse Installation'}}) }}
+										<span class="form-text text-muted">Please enter your Postcode.</span>
+									</div>
+									<!--end::Input-->
+								</div>
+								<div
+									class="col-xl-4">
+									<!--begin::Input-->
+									<div class="form-group">
+										<label>Date Installation</label>
+										{{ form_widget(form.dateInstallation, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Date Installation'}}) }}
+										<span class="form-text text-muted">Please enter your Postcode.</span>
+									</div>
+									<!--end::Input-->
+								</div>
+							</div>
+
+							<div class="separator separator-dashed my-5"></div>
+
+							<div class="row">
+								<div
+									class="col-xl-4">
+									<!--begin::Input-->
+									<div class="form-group">
+										<label>N° Client Proximus</label>
+										{{ form_widget(form.numClientProximus, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Numéro Client Proximus'}}) }}
+										<span class="form-text text-muted">Please enter your Postcode.</span>
+									</div>
+									<!--end::Input-->
+								</div>
+								<div
+									class="col-xl-4">
+									<!--begin::Input-->
+									<div class="form-group">
+										<label>N° Téléphone Proximus</label>
+										{{ form_widget(form.numTelephoneProximus, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Numéro Téléphone Proximus'}}) }}
+										<span class="form-text text-muted">Please enter your Postcode.</span>
+									</div>
+									<!--end::Input-->
+								</div>
+								<div
+									class="col-xl-4">
+									<!--begin::Input-->
+									<div class="form-group">
+										<label>N° GSM</label>
+										{{ form_widget(form.numGSM, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Numéro GSM'}}) }}
+										<span class="form-text text-muted">Please enter your Postcode.</span>
+									</div>
+									<!--end::Input-->
+								</div>
+							</div>
+
+							<div class="row">
+								<div
+									class="col-xl-4">
+									<!--begin::Input-->
+									<div class="form-group">
+										<label>Code Client Mobile</label>
+										{{ form_widget(form.codeClientMobile, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Code Client Mobile'}}) }}
+										<span class="form-text text-muted">Please enter your Postcode.</span>
+									</div>
+									<!--end::Input-->
+								</div>
+								<div
+									class="col-xl-4">
+									<!--begin::Input-->
+									<div class="form-group">
+										<label>Nom Client Mobile</label>
+										{{ form_widget(form.nomClientMobile, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Nom Client Mobile'}}) }}
+										<span class="form-text text-muted">Please enter your Postcode.</span>
+									</div>
+									<!--end::Input-->
+								</div>
+								<div
+									class="col-xl-4">
+									<!--begin::Input-->
+									<div class="form-group">
+										<label>App Mobile</label>
+										{{ form_widget(form.appMobile, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'App Mobile'}}) }}
+										<span class="form-text text-muted">Please enter your Postcode.</span>
+									</div>
+									<!--end::Input-->
+								</div>
+							</div>
+
+							<div class="row">
+								<div
+									class="col-xl-4">
+									<!--begin::Input-->
+									<div class="form-group">
+										<label>N° IBAN</label>
+										{{ form_widget(form.numIBAN, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Numéro IBAN'}}) }}
+										<span class="form-text text-muted">Please enter your Postcode.</span>
+									</div>
+									<!--end::Input-->
+								</div>
+								<div
+									class="col-xl-4">
+									<!--begin::Input-->
+									<div class="form-group">
+										<label>N° Client Concurrence</label>
+										{{ form_widget(form.numClientConcurrence, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Numéro Client Concurrence'}}) }}
+										<span class="form-text text-muted">Please enter your Postcode.</span>
+									</div>
+									<!--end::Input-->
+								</div>
+								<div
+									class="col-xl-4">
+									<!--begin::Input-->
+									<div class="form-group">
+										<label>Informations Encodage</label>
+										{{ form_widget(form.infoEncodage, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Informations Encodage'}}) }}
+										<span class="form-text text-muted">Please enter your Postcode.</span>
+									</div>
+									<!--end::Input-->
+								</div>
+							</div>
+
+							<div class="row">
+								<div
+									class="col-xl-4">
+									<!--begin::Input-->
+									<div class="form-group">
+										<label>N° Easy Switch</label>
+										{{ form_widget(form.numEasySwitch, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Numéro Easy Switch'}}) }}
+										<span class="form-text text-muted">Please enter your Postcode.</span>
+									</div>
+									<!--end::Input-->
+								</div>
+								<div
+									class="col-xl-8">
+									<!--begin::Input-->
+									<div class="form-group">
+										<label>Bonus TV</label>
+										{{ form_widget(form.bonusTV, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Bonus TV'}}) }}
+										<span class="form-text text-muted">Please enter your Postcode.</span>
+									</div>
+									<!--end::Input-->
+								</div>
+							</div>
+
+							<div class="row">
+								<div
+									class="col-xl-4">
+									<!--begin::Input-->
+									<div class="form-group">
+										<label>N° Carte SIM Prépayée</label>
+										{{ form_widget(form.numCarteSIMPrepayee, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Numéro Carte SIM Prépayée'}}) }}
+										<span class="form-text text-muted">Please enter your Postcode.</span>
+									</div>
+									<!--end::Input-->
+								</div>
+								<div
+									class="col-xl-4">
+									<!--begin::Input-->
+									<div class="form-group">
+										<label>Carte Identité</label>
+										{{ form_widget(form.carteIdentite, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Carte Identité'}}) }}
+										<span class="form-text text-muted">Please enter your Postcode.</span>
+									</div>
+									<!--end::Input-->
+								</div>
+								<div
+									class="col-xl-4">
+									<!--begin::Input-->
+									<div class="form-group">
+										<label>Lien Drive Partageable</label>
+										{{ form_widget(form.lienDrivePartageable, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Lien Drive Partageable'}}) }}
+										<span class="form-text text-muted">Please enter your Postcode.</span>
+									</div>
+									<!--end::Input-->
+								</div>
+							</div>
+						</div>
+						<!--end::Wizard Step 1-->
+					</div>
+					<!--end::Body-->
+
+					<!--begin::Footer-->
+					<div class="card-footer py-5 px-5">
+						<div class="card-toolbar float-right">
+							<button type="submit" class="btn btn-primary font-weight-bolder px-5 mr-3">Enregistrer</button>
+							<a href="{{ path('client_index') }}" class="btn btn-light-primary font-weight-bold px-5 mr-3">
+								Annuler
+							</a>
+						</div>
+					</div>
+					<!--end::Footer-->
+				</div>
+				{{ form_end(form) }}
+			</div>
+			<!--end::Container-->
+		</div>
+		<!--end::Entry-->
+	</div>
+	<!--end::Content-->
+{% endblock %}
