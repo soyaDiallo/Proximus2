@@ -1,0 +1,247 @@
+{% extends 'content.html.twig' %}
+
+{% block title %}Liste Utilisateurs
+{% endblock %}
+
+{% block javascripts %}
+	<script src="{{ asset('js/pages/features/ktdatatable/base/html-tablee8da_utilisateurs.js?v=2.0.3') }}"></script>
+	<script src="{{ asset('js/pages/features/file-upload/dropzonejse8da.js?v=2.0.3') }}"></script>
+{% endblock %}
+
+{% block content_header %}
+	<ul class="menu-nav">
+		<li class="menu-item" aria-haspopup="true">
+			<a href="{{ path('administrateur_index') }}" class="menu-link">
+				<span class="menu-text">Accueil</span>
+			</a>
+		</li>
+		<li class="menu-item menu-item-active" aria-haspopup="true">
+			<a href="{{ path('utilisateur_index') }}" class="menu-link">
+				<span class="menu-text">Utilisateurs</span>
+			</a>
+		</li>
+		<li class="menu-item" aria-haspopup="true">
+			<a href="{{ path('offer_index') }}" class="menu-link">
+				<span class="menu-text">Ventes</span>
+			</a>
+		</li>
+	</ul>
+{% endblock %}
+
+{% block content_subheader %}
+	<!--begin::Page Title-->
+	<h5 class="text-dark font-weight-bold my-1 mr-5">Utilisateurs</h5>
+	<!--end::Page Title-->
+
+	<!--begin::Breadcrumb-->
+	<ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
+		<li class="breadcrumb-item text-muted">
+			<span class="text-muted">Application</span>
+		</li>
+		<li class="breadcrumb-item text-muted">
+			<a href="{{ path('administrateur_index') }}" class="text-muted">Accueil</a>
+		</li>
+		<li class="breadcrumb-item text-muted">
+			<a href="{{ path('utilisateur_index') }}" class="text-muted">Les utilisateurs</a>
+		</li>
+	</ul>
+	<!--end::Breadcrumb-->
+{% endblock %}
+
+{% block content_subheader_right %}
+	<!--begin::Toolbar-->
+	<div
+		class="d-flex align-items-center flex-wrap">
+		<!--begin::Dropdown-->
+		<div class="dropdown dropdown-inline" data-toggle="tooltip" title="Ajouter un nouvel utilisateur" data-placement="top">
+			<a href="{{ path('utilisateur_new') }}" class="btn btn-light-primary font-weight-bolder px-5 mr-3 my-1">
+				<span
+					class="svg-icon svg-icon-md">
+					<!--begin::Svg Icon | path:/keen/theme/demo6/dist/assets/media/svg/icons/Communication/Add-user.svg-->
+					<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewbox="0 0 24 24" version="1.1">
+						<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+							<polygon points="0 0 24 0 24 24 0 24"/>
+							<path d="M18,8 L16,8 C15.4477153,8 15,7.55228475 15,7 C15,6.44771525 15.4477153,6 16,6 L18,6 L18,4 C18,3.44771525 18.4477153,3 19,3 C19.5522847,3 20,3.44771525 20,4 L20,6 L22,6 C22.5522847,6 23,6.44771525 23,7 C23,7.55228475 22.5522847,8 22,8 L20,8 L20,10 C20,10.5522847 19.5522847,11 19,11 C18.4477153,11 18,10.5522847 18,10 L18,8 Z M9,11 C6.790861,11 5,9.209139 5,7 C5,4.790861 6.790861,3 9,3 C11.209139,3 13,4.790861 13,7 C13,9.209139 11.209139,11 9,11 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"/>
+							<path d="M0.00065168429,20.1992055 C0.388258525,15.4265159 4.26191235,13 8.98334134,13 C13.7712164,13 17.7048837,15.2931929 17.9979143,20.2 C18.0095879,20.3954741 17.9979143,21 17.2466999,21 C13.541124,21 8.03472472,21 0.727502227,21 C0.476712155,21 -0.0204617505,20.45918 0.00065168429,20.1992055 Z" fill="#000000" fill-rule="nonzero"/>
+						</g>
+					</svg>
+					<!--end::Svg Icon-->
+				</span>
+				Ajouter Utilisateur
+			</a>
+		</div>
+		<!--end::Dropdown-->
+		<!--begin::Dropdown-->
+		<div class="dropdown dropdown-inline" data-toggle="tooltip" title="Importer une liste d'utilisateurs" data-placement="top">
+			<a href="#" class="btn btn-light-primary font-weight-bolder px-5 px-5 my-1" data-toggle="modal" data-target="#exampleModal">
+				<span
+					class="svg-icon svg-icon-md">
+					<!--begin::Svg Icon | path:/keen/theme/demo6/dist/assets/media/svg/icons/Files/File.svg-->
+					<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewbox="0 0 24 24" version="1.1">
+						<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+							<polygon points="0 0 24 0 24 24 0 24"/>
+							<path d="M5.85714286,2 L13.7364114,2 C14.0910962,2 14.4343066,2.12568431 14.7051108,2.35473959 L19.4686994,6.3839416 C19.8056532,6.66894833 20,7.08787823 20,7.52920201 L20,20.0833333 C20,21.8738751 19.9795521,22 18.1428571,22 L5.85714286,22 C4.02044787,22 4,21.8738751 4,20.0833333 L4,3.91666667 C4,2.12612489 4.02044787,2 5.85714286,2 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"/>
+							<rect fill="#000000" x="6" y="11" width="9" height="2" rx="1"/>
+							<rect fill="#000000" x="6" y="15" width="5" height="2" rx="1"/>
+						</g>
+					</svg>
+					<!--end::Svg Icon-->
+				</span>
+				Importer Utilisateurs
+			</a>
+		</div>
+
+		<form method="POST" action="" class="form">
+			<div class="modal fade" id="exampleModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Importation Utilisateur</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<i aria-hidden="true" class="ki ki-close"></i>
+							</button>
+						</div>
+						<div class="modal-body py-10">
+							<div class="form-group">
+								<div class="alert alert-custom alert-default" role="alert">
+									<div class="alert-icon">
+										<i class="flaticon-warning text-primary"></i>
+									</div>
+									<div class="alert-text">
+										<strong>Attention</strong>: Le format des données du fichier doit respecter celui de la base de données.</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="dropzone dropzone-default dropzone-success" id="kt_dropzone_3">
+									<div class="dropzone-msg dz-message needsclick">
+										<h3 class="dropzone-msg-title">Déposez les fichiers ici ou cliquez pour télécharger.</h3>
+										<span class="dropzone-msg-desc">Seuls les fichiers xxx sont autorisés pour le téléchargement</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Fermer</button>
+							<button type="submit" class="btn btn-primary font-weight-bold">Annuler l'offre</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+		<!--end::Dropdown-->
+	</div>
+	<!--end::Toolbar-->
+{% endblock %}
+
+{% block content_body %}
+	<!--begin::Content-->
+	<div
+		class="content d-flex flex-column flex-column-fluid" id="kt_content">
+		<!--begin::Entry-->
+		<div
+			class="d-flex flex-column-fluid">
+			<!--begin::Container-->
+			<div
+				class="container">
+				<!--begin::Card-->
+				<div
+					class="card card-custom">
+					<!--begin::Card-Header-->
+					<div class="card-header flex-wrap border-0 pt-6 pb-0">
+						<div class="card-title">
+							<h3 class="card-label">Liste Utilisateurs
+								<span class="d-block text-muted pt-2 font-size-sm">La liste de tous les utilisateurs de cette plateforme</span>
+							</h3>
+						</div>
+					</div>
+					<!--end::Card-Header-->
+
+					<!--begin::Card-Body-->
+					<div
+						class="card-body">
+						<!--begin::Search Form-->
+						<div class="mb-7">
+							<div class="row align-items-center">
+								<div class="col-md-4 my-2 my-md-0">
+									<div class="input-icon">
+										<input type="text" class="form-control" placeholder="Recherche..." id="kt_datatable_search_query"/>
+										<span>
+											<i class="flaticon2-search-1 text-muted"></i>
+										</span>
+									</div>
+								</div>
+
+								<div class="col-md-4 my-2 my-md-0">
+									<div class="d-flex align-items-center">
+										<select class="form-control" id="kt_datatable_search_statut">
+											<option value="">Toutes</option>
+											<option value="1">Agents</option>
+											<option value="2">Superviseurs</option>
+											<option value="3">Back-Office</option>
+											<option value="4">Administrateurs</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--end: Search Form-->
+
+						<!--begin: Datatable-->
+						<table class="datatable datatable-bordered datatable-head-custom" id="kt_datatable">
+							<thead>
+								<tr>
+									<th title="Field #1">Code</th>
+									<th title="Field #2">Nom</th>
+									<th title="Field #3">Prénom</th>
+									<th title="Field #4">Role</th>
+									<th title="Field #5">Email</th>
+									<th title="Field #6">Téléphone</th>
+									<th title="Field #7">Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for utilisateur in utilisateurs %}
+									{% if utilisateur.id != app.user.id %}
+										<tr>
+											<td>{{ utilisateur.code }}</td>
+											<td>{{ utilisateur.nom }}</td>
+											<td>{{ utilisateur.prenom }}</td>
+											{% if utilisateur.roles[0] == "ROLE_AGENT" %}
+												<td>1</td>
+											{% elseif utilisateur.roles[0] == "ROLE_SUPERVISEUR" %}
+												<td>2</td>
+											{% elseif utilisateur.roles[0] == "ROLE_BACKOFFICE" %}
+												<td>3</td>
+											{% elseif utilisateur.roles[0] == "ROLE_ADMINISTRATEUR" %}
+												<td>4</td>
+											{% endif %}
+											<td>{{ utilisateur.email }}</td>
+											<td>{{ utilisateur.tel }}</td>
+											<td>
+												<a href="{{path('utilisateur_edit', {'id': utilisateur.id})}}" class="d-inline btn btn-sm btn-clean btn-icon mr-3">
+													<span class="svg-icon svg-icon-md">
+														<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewbox="0 0 24 24" version="1.1">
+															<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+																<rect x="0" y="0" width="24" height="24"/>
+																<path d="M8,17.9148182 L8,5.96685884 C8,5.56391781 8.16211443,5.17792052 8.44982609,4.89581508 L10.965708,2.42895648 C11.5426798,1.86322723 12.4640974,1.85620921 13.0496196,2.41308426 L15.5337377,4.77566479 C15.8314604,5.0588212 16,5.45170806 16,5.86258077 L16,17.9148182 C16,18.7432453 15.3284271,19.4148182 14.5,19.4148182 L9.5,19.4148182 C8.67157288,19.4148182 8,18.7432453 8,17.9148182 Z" fill="#000000" fill-rule="nonzero" \ transform="translate(12.000000, 10.707409) rotate(-135.000000) translate(-12.000000, -10.707409) "/>
+																<rect fill="#000000" opacity="0.3" x="5" y="20" width="15" height="2" rx="1"/>
+															</g>
+														</svg>
+													</span>
+												</a>
+											</td>
+										</tr>
+									{% endif %}
+								{% endfor %}
+							</tbody>
+						</table>
+						<!--end: Datatable-->
+					</div>
+					<!--end::Card-Body-->
+				</div>
+				<!--end::Card-->
+			</div>
+			<!--end::Container-->
+		</div>
+		<!--end::Entry-->
+	</div><!--end::Content-->{% endblock %}

@@ -18,7 +18,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *     "backOffice" = "BackOffice",
  *     "superviseur" = "Superviseur",
  *     "administrateur" = "Administrateur",
- *   
  * })
  */
 

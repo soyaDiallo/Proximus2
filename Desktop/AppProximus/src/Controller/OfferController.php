@@ -41,7 +41,6 @@ class OfferController extends AbstractController
      */
     public function index(OffreProduitRepository $offreProduitRepository, OffreRepository $offreRepository): Response
     {
-        //  $offres = $offreRepository->findAll();
         $offres = $offreRepository->findBy([], ['dateCreation' => 'DESC']);
         $produitsParoffre = [];
         foreach ($offres as $key => $offre) {
