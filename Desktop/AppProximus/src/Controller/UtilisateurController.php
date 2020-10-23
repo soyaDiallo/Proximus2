@@ -19,6 +19,9 @@ use App\Security\UsersAuthenticathorAuthenticator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 
 /**
  * @Route("/utilisateurs")
@@ -56,6 +59,79 @@ class UtilisateurController extends AbstractController
             'user' => $user,
             'form' => $form->createView(),
         ]);
+    }
+
+     /**
+     * @Route("/import", name="import_user", methods={"GET", "POST"})
+     */
+    public function import(UserPasswordEncoderInterface $passwordEncoder, Request $request): Response
+    {
+        $file = $request->files->get('myfile');
+        $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xlsx');
+        $spreadsheet = $reader->load($file);
+        $data  = $spreadsheet->getActiveSheet()->toArray();
+        //dd($data);
+        $list=[];
+        $entityManager = $this->getDoctrine()->getManager();
+        foreach($data as $key => $d)
+        {
+            //dd($d[]); 
+            switch ($d[6]) {
+                case "agent":
+                    $list[$key] = new Agent();
+                    $list[$key]->setCode($d[0]);
+                    $list[$key]->setNom($d[1]);
+                    $list[$key]->setPrenom($d[2]);
+                    $list[$key]->setEmail($d[3]);
+                    $list[$key]->setPassword($passwordEncoder->encodePassword($list[$key],$d[4]));
+                    $list[$key]->setTel($d[5]);
+                    $list[$key]->setRoles(["ROLE_AGENT"]);
+                    $entityManager->persist($list[$key]);      
+                    $entityManager->flush();
+                    break;
+                case 'back-office':
+                    $list[$key] = new BackOffice();
+                    $list[$key]->setCode($d[0]);
+                    $list[$key]->setNom($d[1]);
+                    $list[$key]->setPrenom($d[2]);
+                    $list[$key]->setEmail($d[3]);
+                    $list[$key]->setPassword($passwordEncoder->encodePassword($list[$key],$d[4]));
+                    $list[$key]->setTel($d[5]);
+                    $list[$key]->setRoles(["ROLE_BACKOFFICE"]);
+                    $entityManager->persist( $list[$key]);      
+                    $entityManager->flush();
+                    break;
+                case 'superviseur':
+                    $list[$key] = new Superviseur();
+                    $list[$key]->setCode($d[0]);
+                    $list[$key]->setNom($d[1]);
+                    $list[$key]->setPrenom($d[2]);
+                    $list[$key]->setEmail($d[3]);
+                    $list[$key]->setPassword($passwordEncoder->encodePassword($list[$key],$d[4]));
+                    $list[$key]->setTel($d[5]);
+                    $list[$key]->setRoles(["ROLE_SUPERVISEUR"]);
+                    $entityManager->persist( $list[$key]);      
+                    $entityManager->flush();
+                    break;
+                case 'admin':
+                    $list[$key] = new Administrateur();
+                    $list[$key]->setCode($d[0]);
+                    $list[$key]->setNom($d[1]);
+                    $list[$key]->setPrenom($d[2]);
+                    $list[$key]->setEmail($d[3]);
+                    $list[$key]->setPassword($passwordEncoder->encodePassword($list[$key],$d[4]));
+                    $list[$key]->setTel($d[5]);
+                    $list[$key]->setRoles(["ROLE_ADMINISTRATEUR"]);
+                    $entityManager->persist( $list[$key]);      
+                    $entityManager->flush();
+                    break;
+
+                default:
+                    return $this->redirectToRoute('utilisateur_index');
+                    break;
+            }
+        }    
+        return $this->redirectToRoute('utilisateur_index');
     }
 
     /**
@@ -141,4 +217,5 @@ class UtilisateurController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
 }

@@ -81,4 +81,33 @@ class ClientController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    /**
+     * @Route("/import", name="import_client", methods={"GET", "POST"})
+     */
+    public function import(UserPasswordEncoderInterface $passwordEncoder, Request $request): Response
+    {
+        $file = $request->files->get('myfile');
+        $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xlsx');
+        $spreadsheet = $reader->load($file);
+        $data  = $spreadsheet->getActiveSheet()->toArray();
+        //dd($data);
+        $list=[];
+        $entityManager = $this->getDoctrine()->getManager();
+        foreach($data as $key => $d)
+        {
+                    $list[$key] = new Client();
+                    $list[$key]->setCode($d[0]);
+                    $list[$key]->setNom($d[1]);
+                    $list[$key]->setPrenom($d[1]);
+                    $list[$key]->setCommune($d[3]);
+                    $list[$key]->setCodePostal($d[4]);
+                    $list[$key]->setNumGSM($d[6]);
+                    $list[$key]->setDateInsertion(new \DateTime());
+                    $entityManager->persist($list[$key]);      
+                    $entityManager->flush();
+                    
+        }    
+        return $this->redirectToRoute('client_index');
+    }
 }

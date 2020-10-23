@@ -47,4 +47,43 @@ class OffreRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function getAllVentes()
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.dateSignature IS NOT NULL')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function getAllOffres()
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.dateSignature IS NULL')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function getVentesByAgent($agent)
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.dateSignature IS NOT NULL')
+            ->andWhere('o.agent = :val')
+            ->setParameter('val', $agent)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function getOffresByAgent($agent)
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.dateSignature IS NULL')
+            ->andWhere('o.agent = :val')
+            ->setParameter('val', $agent)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

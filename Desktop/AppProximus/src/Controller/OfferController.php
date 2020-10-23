@@ -42,15 +42,24 @@ class OfferController extends AbstractController
     public function index(OffreProduitRepository $offreProduitRepository, OffreRepository $offreRepository): Response
     {
         $offres = $offreRepository->findBy([], ['dateCreation' => 'DESC']);
+        $ventes = $offreRepository->getAllVentes();
         $produitsParoffre = [];
+        $produitsParvente = [];
+        $listEtat=[];
         foreach ($offres as $key => $offre) {
             $produitsParoffre[$key][0] = $offre;
             $produitsParoffre[$key][1] = $offreProduitRepository->findBy(['offre' => $offre->getId()]);
         }
-        //dd($produitsParoffre);
+        foreach ($ventes as $key => $vente) {
+            $produitsParvente[$key][0] = $vente;
+            $produitsParvente[$key][1] = $offreProduitRepository->findBy(['offre' => $vente->getId()]);
+            //$listEtat[$key]= $produitsParvente[$key][1][0]->getStatutTingis();
+        }
+        //dd($listEtat,$produitsParvente);
         return $this->render('offer/index.html.twig', [
             'offres' => $offres,
             'produitsParoffre' => $produitsParoffre,
+            'produitsParvente' => $produitsParvente,
         ]);
     }
 

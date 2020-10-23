@@ -42,7 +42,7 @@
 			<a href="{{ path('administrateur_index') }}" class="text-muted">Accueil</a>
 		</li>
 		<li class="breadcrumb-item text-muted">
-			<a href="{{ path('utilisateur_index') }}" class="text-muted">Les utilisateurs</a>
+			<a href="{{ path('produit_index') }}" class="text-muted">Les produits</a>
 		</li>
 	</ul>
 	<!--end::Breadcrumb-->
@@ -54,7 +54,7 @@
 		class="d-flex align-items-center flex-wrap">
 		<!--begin::Dropdown-->
 		<div class="dropdown dropdown-inline" data-toggle="tooltip" title="Ajouter un nouvel utilisateur" data-placement="top">
-			<a href="{{ path('utilisateur_new') }}" class="btn btn-light-primary font-weight-bolder px-5 mr-3 my-1">
+			<a href="{{ path('produit_new') }}" class="btn btn-light-primary font-weight-bolder px-5 mr-3 my-1">
 				<span
 					class="svg-icon svg-icon-md">
 					<!--begin::Svg Icon | path:/keen/theme/demo6/dist/assets/media/svg/icons/Communication/Add-user.svg-->
@@ -67,7 +67,7 @@
 					</svg>
 					<!--end::Svg Icon-->
 				</span>
-				Ajouter Utilisateur
+				Ajouter Produit
 			</a>
 		</div>
 		<!--end::Dropdown-->
@@ -87,7 +87,7 @@
 					</svg>
 					<!--end::Svg Icon-->
 				</span>
-				Importer Utilisateurs
+				Importer Produits
 			</a>
 		</div>
 
@@ -122,7 +122,7 @@
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Fermer</button>
-							<button type="submit" class="btn btn-primary font-weight-bold">Annuler l'offre</button>
+							<button type="submit" class="btn btn-primary font-weight-bold">Importer</button>
 						</div>
 					</div>
 				</div>
@@ -149,8 +149,8 @@
 					<!--begin::Card-Header-->
 					<div class="card-header flex-wrap border-0 pt-6 pb-0">
 						<div class="card-title">
-							<h3 class="card-label">Liste Utilisateurs
-								<span class="d-block text-muted pt-2 font-size-sm">La liste de tous les utilisateurs de cette plateforme</span>
+							<h3 class="card-label">Liste Produits
+								<span class="d-block text-muted pt-2 font-size-sm">La liste de tous les produits de cette plateforme</span>
 							</h3>
 						</div>
 					</div>
@@ -192,37 +192,20 @@
 								<tr>
 									<th title="Field #1">N° Importation</th>
 									<th title="Field #2">Code</th>
-									<th title="Field #3">Nom</th>
-									<th title="Field #4">Prénom</th>
-									<th title="Field #5">Role</th>
-									<th title="Field #6">Email</th>
-									<th title="Field #7">Téléphone</th>
-									<th title="Field #8">Actions</th>
+									<th title="Field #3">Designation</th>
+									<th title="Field #4">Actions</th>
 								</tr>
 							</thead>
 							<tbody>
-								{% for utilisateur in utilisateurs %}
-									{% if utilisateur.id != app.user.id %}
+								{% for produit in produits %}
 										<tr>
 											<td>
-												<span class="label font-weight-bold label-lg label-light-primary label-inline">{{ utilisateur.id }}</span>
+												<span class="font-weight-boldest text-primary">#{{ produit.id }}</span>
 											</td>
-											<td>{{ utilisateur.code }}</td>
-											<td>{{ utilisateur.nom }}</td>
-											<td>{{ utilisateur.prenom }}</td>
-											{% if utilisateur.roles[0] == "ROLE_AGENT" %}
-												<td>1</td>
-											{% elseif utilisateur.roles[0] == "ROLE_SUPERVISEUR" %}
-												<td>2</td>
-											{% elseif utilisateur.roles[0] == "ROLE_BACKOFFICE" %}
-												<td>3</td>
-											{% elseif utilisateur.roles[0] == "ROLE_ADMINISTRATEUR" %}
-												<td>4</td>
-											{% endif %}
-											<td>{{ utilisateur.email }}</td>
-											<td>{{ utilisateur.tel }}</td>
+											<td>{{ produit.code }}</td>
+											<td>{{ produit.designation }}</td>
 											<td>
-												<a href="{{path('utilisateur_edit', {'id': utilisateur.id})}}" class="d-inline btn btn-sm btn-clean btn-icon mr-3">
+												<a href="{{path('produit_edit', {'id': produit.id})}}" class="d-inline btn btn-sm btn-clean btn-icon mr-3">
 													<span class="svg-icon svg-icon-md">
 														<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewbox="0 0 24 24" version="1.1">
 															<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -235,7 +218,6 @@
 												</a>
 											</td>
 										</tr>
-									{% endif %}
 								{% endfor %}
 							</tbody>
 						</table>

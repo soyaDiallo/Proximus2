@@ -101,7 +101,7 @@
 			</a>
 		</div>
 
-		<form method="POST" action="" class="form">
+		<form method="POST" action="{{path('import_user')}}" class="form" name="form" enctype="multipart/form-data">
 			<div class="modal fade" id="exampleModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
 				<div class="modal-dialog" role="document">
 					<div class="modal-content">
@@ -121,14 +121,15 @@
 										<strong>Attention</strong>: Le format des données du fichier doit respecter celui de la base de données.</div>
 								</div>
 							</div>
-							<div class="form-group">
+							<input type="file" name="myfile" id="myfile">
+							<!--<div class="form-group">
 								<div class="dropzone dropzone-default dropzone-success" id="kt_dropzone_3">
 									<div class="dropzone-msg dz-message needsclick">
 										<h3 class="dropzone-msg-title">Déposez les fichiers ici ou cliquez pour télécharger.</h3>
 										<span class="dropzone-msg-desc">Seuls les fichiers xxx sont autorisés pour le téléchargement</span>
 									</div>
 								</div>
-							</div>
+							</div>-->
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Fermer</button>
