@@ -1,9 +1,10 @@
 {% extends 'content.html.twig' %}
 
-{% block title %}Liste Utilisateurs
+{% block title %}Liste Produits
 {% endblock %}
 
 {% block javascripts %}
+	<script src="{{ asset('js/pages/features/ktdatatable/base/html-tablee8da_fournisseurs.js?v=2.0.3') }}"></script>
 	<script src="{{ asset('js/pages/features/ktdatatable/base/html-tablee8da_utilisateurs.js?v=2.0.3') }}"></script>
 	<script src="{{ asset('js/pages/features/file-upload/dropzonejse8da.js?v=2.0.3') }}"></script>
 {% endblock %}
@@ -15,9 +16,19 @@
 				<span class="menu-text">Accueil</span>
 			</a>
 		</li>
-		<li class="menu-item menu-item-active" aria-haspopup="true">
+		<li class="menu-item" aria-haspopup="true">
 			<a href="{{ path('utilisateur_index') }}" class="menu-link">
 				<span class="menu-text">Utilisateurs</span>
+			</a>
+		</li>
+		<li class="menu-item" aria-haspopup="true">
+			<a href="{{ path('client_index') }}" class="menu-link">
+				<span class="menu-text">Clients</span>
+			</a>
+		</li>
+		<li class="menu-item menu-item-active" aria-haspopup="true">
+			<a href="{{ path('produit_index') }}" class="menu-link">
+				<span class="menu-text">Produits</span>
 			</a>
 		</li>
 		<li class="menu-item" aria-haspopup="true">
@@ -25,12 +36,17 @@
 				<span class="menu-text">Ventes</span>
 			</a>
 		</li>
+		<li class="menu-item" aria-haspopup="true">
+			<a href="{{ path('autre_index') }}" class="menu-link">
+				<span class="menu-text">Autres</span>
+			</a>
+		</li>
 	</ul>
 {% endblock %}
 
 {% block content_subheader %}
 	<!--begin::Page Title-->
-	<h5 class="text-dark font-weight-bold my-1 mr-5">Utilisateurs</h5>
+	<h5 class="text-dark font-weight-bold my-1 mr-5">Produits</h5>
 	<!--end::Page Title-->
 
 	<!--begin::Breadcrumb-->
@@ -73,7 +89,7 @@
 		<!--end::Dropdown-->
 		<!--begin::Dropdown-->
 		<div class="dropdown dropdown-inline" data-toggle="tooltip" title="Importer une liste d'utilisateurs" data-placement="top">
-			<a href="#" class="btn btn-light-primary font-weight-bolder px-5 px-5 my-1" data-toggle="modal" data-target="#exampleModal">
+			<a href="#" class="btn btn-light-primary font-weight-bolder px-5 mr-3 my-1" data-toggle="modal" data-target="#exampleModal">
 				<span
 					class="svg-icon svg-icon-md">
 					<!--begin::Svg Icon | path:/keen/theme/demo6/dist/assets/media/svg/icons/Files/File.svg-->
@@ -90,6 +106,15 @@
 				Importer Produits
 			</a>
 		</div>
+
+		<!--begin::Dropdown-->
+		<div class="dropdown dropdown-inline" data-toggle="tooltip" title="Liste de catégories" data-placement="top">
+			<a href="#categories" class="btn btn-light-info font-weight-bolder px-5 px-5 my-1">
+				<i class="fas fa-list-ul"></i>
+				Liste Catégories
+			</a>
+		</div>
+		<!--end::Dropdown-->
 
 		<form method="POST" action="" class="form">
 			<div class="modal fade" id="exampleModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
@@ -111,12 +136,10 @@
 										<strong>Attention</strong>: Le format des données du fichier doit respecter celui de la base de données.</div>
 								</div>
 							</div>
-							<div class="form-group">
-								<div class="dropzone dropzone-default dropzone-success" id="kt_dropzone_3">
-									<div class="dropzone-msg dz-message needsclick">
-										<h3 class="dropzone-msg-title">Déposez les fichiers ici ou cliquez pour télécharger.</h3>
-										<span class="dropzone-msg-desc">Seuls les fichiers xxx sont autorisés pour le téléchargement</span>
-									</div>
+							<div class="input-group">
+								<div class="custom-file">
+									<input type="file" name="myfile" class="custom-file-input" id="myfile" accept=".xlsx, .csv">
+									<label class="custom-file-label" for="myfile">Choisir Fichier</label>
 								</div>
 							</div>
 						</div>
@@ -145,7 +168,20 @@
 				class="container">
 				<!--begin::Card-->
 				<div
-					class="card card-custom">
+					class="card card-custom gutter-b">
+					<!--begin::Card-Header-->
+					<div class="card-header flex-wrap">
+						<div class="card-title">
+							<h3 class="card-label">La liste de Produits</h3>
+						</div>
+					</div>
+					<!--end::Card-Header-->
+				</div>
+				<!--end::Card-->
+
+				<!--begin::Card-->
+				<div
+					class="card card-custom gutter-b">
 					<!--begin::Card-Header-->
 					<div class="card-header flex-wrap border-0 pt-6 pb-0">
 						<div class="card-title">
@@ -170,18 +206,6 @@
 										</span>
 									</div>
 								</div>
-
-								<div class="col-md-4 my-2 my-md-0">
-									<div class="d-flex align-items-center">
-										<select class="form-control" id="kt_datatable_search_statut">
-											<option value="">Toutes</option>
-											<option value="1">Agents</option>
-											<option value="2">Superviseurs</option>
-											<option value="3">Back-Office</option>
-											<option value="4">Administrateurs</option>
-										</select>
-									</div>
-								</div>
 							</div>
 						</div>
 						<!--end: Search Form-->
@@ -193,37 +217,200 @@
 									<th title="Field #1">N° Importation</th>
 									<th title="Field #2">Code</th>
 									<th title="Field #3">Designation</th>
-									<th title="Field #4">Actions</th>
+									<th title="Field #4">Rémunération</th>
+									<th title="Field #5">Catégorie</th>
+									<th title="Field #6">Actions</th>
 								</tr>
 							</thead>
+
 							<tbody>
 								{% for produit in produits %}
-										<tr>
-											<td>
-												<span class="font-weight-boldest text-primary">#{{ produit.id }}</span>
-											</td>
-											<td>{{ produit.code }}</td>
-											<td>{{ produit.designation }}</td>
-											<td>
-												<a href="{{path('produit_edit', {'id': produit.id})}}" class="d-inline btn btn-sm btn-clean btn-icon mr-3">
-													<span class="svg-icon svg-icon-md">
-														<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewbox="0 0 24 24" version="1.1">
-															<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-																<rect x="0" y="0" width="24" height="24"/>
-																<path d="M8,17.9148182 L8,5.96685884 C8,5.56391781 8.16211443,5.17792052 8.44982609,4.89581508 L10.965708,2.42895648 C11.5426798,1.86322723 12.4640974,1.85620921 13.0496196,2.41308426 L15.5337377,4.77566479 C15.8314604,5.0588212 16,5.45170806 16,5.86258077 L16,17.9148182 C16,18.7432453 15.3284271,19.4148182 14.5,19.4148182 L9.5,19.4148182 C8.67157288,19.4148182 8,18.7432453 8,17.9148182 Z" fill="#000000" fill-rule="nonzero" \ transform="translate(12.000000, 10.707409) rotate(-135.000000) translate(-12.000000, -10.707409) "/>
-																<rect fill="#000000" opacity="0.3" x="5" y="20" width="15" height="2" rx="1"/>
-															</g>
-														</svg>
-													</span>
-												</a>
-											</td>
-										</tr>
+									<tr>
+										<td>
+											<span class="font-weight-boldest text-primary">#{{ produit[0].id }}</span>
+										</td>
+										<td>
+											<span class="font-weight-bold">{{ produit[0].code }}</span>
+										</td>
+										<td>{{ produit[0].designation }}</td>
+										<td>{{ produit[0].remuneration.montant }}</td>
+										<td>
+											<span class="font-weight-bold">
+												{% if produit[1] is empty %}
+													<p>-</p>
+												{% else %}
+													{% for row in produit[1] %}
+														<p>{{ row.categorie.nom }}</p>
+													{% endfor %}
+												{% endif %}
+											</span>
+										</td>
+										<td>
+											<a href="{{path('produit_edit', {'id': produit[0].id})}}" class="d-inline btn btn-sm btn-clean btn-icon mr-3">
+												<span class="svg-icon svg-icon-md">
+													<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewbox="0 0 24 24" version="1.1">
+														<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+															<rect x="0" y="0" width="24" height="24"/>
+															<path d="M8,17.9148182 L8,5.96685884 C8,5.56391781 8.16211443,5.17792052 8.44982609,4.89581508 L10.965708,2.42895648 C11.5426798,1.86322723 12.4640974,1.85620921 13.0496196,2.41308426 L15.5337377,4.77566479 C15.8314604,5.0588212 16,5.45170806 16,5.86258077 L16,17.9148182 C16,18.7432453 15.3284271,19.4148182 14.5,19.4148182 L9.5,19.4148182 C8.67157288,19.4148182 8,18.7432453 8,17.9148182 Z" fill="#000000" fill-rule="nonzero" \ transform="translate(12.000000, 10.707409) rotate(-135.000000) translate(-12.000000, -10.707409) "/>
+															<rect fill="#000000" opacity="0.3" x="5" y="20" width="15" height="2" rx="1"/>
+														</g>
+													</svg>
+												</span>
+											</a>
+										</td>
+									</tr>
 								{% endfor %}
 							</tbody>
 						</table>
 						<!--end: Datatable-->
 					</div>
 					<!--end::Card-Body-->
+				</div>
+				<!--end::Card-->
+
+				<!--begin::Card-->
+				<div
+					class="card card-custom gutter-b" id="categories">
+					<!--begin::Card-Header-->
+					<div class="card-header flex-wrap">
+						<div class="card-title">
+							<h3 class="card-label">Les Catégories</h3>
+						</div>
+					</div>
+					<!--end::Card-Header-->
+				</div>
+				<!--end::Card-->
+
+				<!--begin::Row-->
+				<div class="row">
+					<div
+						class="col-xl-6">
+						<!--begin::Card-->
+						<div class="card card-custom gutter-b">
+							<div class="card-header">
+								<div class="card-title">
+									<h3 class="card-label">Liste Catégories
+										<span class="d-block text-muted pt-2 font-size-sm">La liste de toutes les catégories de la plateforme</span>
+									</h3>
+								</div>
+							</div>
+
+							<div
+								class="card-body">
+								<!--begin::Example-->
+								<div class="example">
+									<div
+										class="example-preview">
+										<!--begin::Search Form-->
+										<div class="mb-7 align-items-center">
+											<div class="my-2 my-md-0">
+												<div class="input-icon">
+													<input type="text" class="form-control" placeholder="Recherche..." id="kt_datatable_search_query_fournisseurs"/>
+													<span>
+														<i class="flaticon2-search-1 text-muted"></i>
+													</span>
+												</div>
+											</div>
+										</div>
+										<!--end: Search Form-->
+
+										<!--begin: Datatable-->
+										<table class="datatable datatable-bordered datatable-head-custom" id="kt_datatable_fournisseurs">
+											<thead>
+												<tr>
+													<th title="Field #1">N° Importation</th>
+													<th title="Field #2">Nom Catégorie</th>
+													<th title="Field #3">Actions</th>
+												</tr>
+											</thead>
+											<tbody>
+												{% for item in categories %}
+													<tr>
+														<td>
+															<span class="font-weight-boldest text-primary">#{{item.id}}</span>
+														</td>
+														<td>{{item.nom}}</td>
+														<td>
+															<a href="{{path('client_edit', {'id': item.id})}}" class="d-inline btn btn-sm btn-clean btn-icon mr-3">
+																<span class="svg-icon svg-icon-md">
+																	<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewbox="0 0 24 24" version="1.1">
+																		<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+																			<rect x="0" y="0" width="24" height="24"/>
+																			<path d="M8,17.9148182 L8,5.96685884 C8,5.56391781 8.16211443,5.17792052 8.44982609,4.89581508 L10.965708,2.42895648 C11.5426798,1.86322723 12.4640974,1.85620921 13.0496196,2.41308426 L15.5337377,4.77566479 C15.8314604,5.0588212 16,5.45170806 16,5.86258077 L16,17.9148182 C16,18.7432453 15.3284271,19.4148182 14.5,19.4148182 L9.5,19.4148182 C8.67157288,19.4148182 8,18.7432453 8,17.9148182 Z" fill="#000000" fill-rule="nonzero" \ transform="translate(12.000000, 10.707409) rotate(-135.000000) translate(-12.000000, -10.707409) "/>
+																			<rect fill="#000000" opacity="0.3" x="5" y="20" width="15" height="2" rx="1"/>
+																		</g>
+																	</svg>
+																</span>
+															</a>
+														</td>
+													</tr>
+												{% endfor %}
+											</tbody>
+										</table>
+										<!--end: Datatable-->
+									</div>
+								</div>
+								<!--end::Example-->
+							</div>
+						</div>
+						<!--end::Card-->
+					</div>
+
+					<div
+						class="col-xl-6">
+						<!--begin::Card-->
+						<div class="card card-custom gutter-b">
+							<div class="card-header">
+								<div class="card-title">
+									<h3 class="card-label">Nouveau Catégorie
+										<span class="d-block text-muted pt-2 font-size-sm">Création d'une nouvelle catégorie</span>
+									</h3>
+								</div>
+							</div>
+							{{ form_start(formCategorie, {'attr': {'method': 'POST', 'class': 'form'}}) }}
+							<div
+								class="card-body">
+								<!--begin::Example-->
+								<div class="example">
+									<div
+										class="example-preview">
+										<!--begin::Input-->
+										<div class="form-group">
+											<label>Nom Catégorie</label>
+											{{ form_widget(formCategorie.nom, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Nom Catégorie'}}) }}
+											<span class="form-text text-muted">Please enter your Postcode.</span>
+										</div>
+										<!--end::Input-->
+									</div>
+								</div>
+								<!--end::Example-->
+							</div>
+
+							<!--begin::Footer-->
+							<div class="card-footer mb-12 py-5 px-5">
+								<div class="float-right">
+									<button type="submit" class="btn btn-primary font-weight-bolder px-5 mr-3">Enregistrer</button>
+									<button type="reset" class="btn btn-light-primary font-weight-bolder px-5">Annuler</button>
+								</div>
+							</div>
+							<!--end::Footer-->
+							{{ form_end(formCategorie) }}
+						</div>
+						<!--end::Card-->
+					</div>
+				</div>
+				<!--end::Row-->
+
+				<!--begin::Card-->
+				<div
+					class="card card-custom gutter-b">
+					<!--begin::Card-Header-->
+					<div class="card-header flex-wrap">
+						<div class="card-title">
+							<h3 class="card-label">Les Rémunérations</h3>
+						</div>
+					</div>
+					<!--end::Card-Header-->
 				</div>
 				<!--end::Card-->
 			</div>

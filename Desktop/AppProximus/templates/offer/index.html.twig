@@ -56,7 +56,7 @@
 				</a>
 			</li>
 			<li class="menu-item" aria-haspopup="true">
-				<a href="#" class="menu-link">
+				<a href="{{ path('utilisateur_index') }}" class="menu-link">
 					<span class="menu-text">Utilisateurs</span>
 				</a>
 			</li>
@@ -73,6 +73,11 @@
 			<li class="menu-item menu-item-active" aria-haspopup="true">
 				<a href="{{ path('offer_index') }}" class="menu-link">
 					<span class="menu-text">Ventes</span>
+				</a>
+			</li>
+			<li class="menu-item" aria-haspopup="true">
+				<a href="{{ path('autre_index') }}" class="menu-link">
+					<span class="menu-text">Autres</span>
 				</a>
 			</li>
 		</ul>
@@ -141,13 +146,12 @@
 					<!--begin::Card-Header-->
 					<div class="card-header flex-wrap border-0 pt-6 pb-0">
 						<div class="card-title">
-							<h3 class="card-label">Liste Offres
+							<h3 class="card-label">
 								{% if is_granted('ROLE_AGENT') %}
+									Liste Offres
 									<span class="d-block text-muted pt-2 font-size-sm">La liste de toutes les offres de l'agent</span>
-								{% elseif is_granted('ROLE_SUPERVISEUR') %}
-									<span class="d-block text-muted pt-2 font-size-sm">La liste de toutes les ventes</span>
-								{% elseif is_granted('ROLE_BACKOFFICE') %}
-									{% elseif is_granted('ROLE_ADMINISTRATEUR') %}
+								{% else %}
+									Liste Ventes
 								{% endif %}
 							</h3>
 						</div>
@@ -365,10 +369,15 @@
 												{% else %}
 													{% for pdt in item[1] %}
 														<p>
+															<span class="font-weight-boldest text-primary">+</span>
 															{{pdt.produit.designation}}
-															[{{pdt.qte}}]
-															[Tingis::{{pdt.statutTingis}}]
-															[Proximus::{{pdt.statutProximus}}]
+															[<span class="font-weight-bolder">{{pdt.qte}}</span>]
+														</p>
+														<p>
+															<span class="font-weight-bolder">Tingis</span>={{pdt.statutTingis}}
+														</p>
+														<p>
+															<span class="font-weight-bolder">Proximus</span>={{pdt.statutProximus}}
 														</p>
 													{% endfor %}
 												{% endif %}
@@ -379,8 +388,7 @@
 											<td>{{ item[0].client.numTelephoneFixe }}</td>
 											<td>{{ item[0].client.adresseInstallation }}</td>
 											<td>{{ item[0].client.dateInstallation|date('Y-m-d') }}</td>
-											<td>1
-											</td>
+											<td>1</td>
 											<td>3</td>
 											<td>
 												<a href="#" class="d-inline btn btn-sm btn-clean btn-icon mr-2" title="Modification Offre">

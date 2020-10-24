@@ -1,12 +1,10 @@
 {% extends 'content.html.twig' %}
 
-{% block title %}Liste Clients
+{% block title %}Autres Options
 {% endblock %}
 
 {% block javascripts %}
-	<script src="{{ asset('js/pages/features/ktdatatable/base/html-tablee8da_clients.js?v=2.0.3') }}"></script>
 	<script src="{{ asset('js/pages/features/ktdatatable/base/html-tablee8da_fournisseurs.js?v=2.0.3') }}"></script>
-	<script src="{{ asset('js/pages/features/file-upload/dropzonejse8da.js?v=2.0.3') }}"></script>
 {% endblock %}
 
 {% block content_header %}
@@ -21,7 +19,7 @@
 				<span class="menu-text">Utilisateurs</span>
 			</a>
 		</li>
-		<li class="menu-item menu-item-active" aria-haspopup="true">
+		<li class="menu-item" aria-haspopup="true">
 			<a href="{{ path('client_index') }}" class="menu-link">
 				<span class="menu-text">Clients</span>
 			</a>
@@ -36,7 +34,7 @@
 				<span class="menu-text">Ventes</span>
 			</a>
 		</li>
-		<li class="menu-item" aria-haspopup="true">
+		<li class="menu-item menu-item-active" aria-haspopup="true">
 			<a href="{{ path('autre_index') }}" class="menu-link">
 				<span class="menu-text">Autres</span>
 			</a>
@@ -46,7 +44,7 @@
 
 {% block content_subheader %}
 	<!--begin::Page Title-->
-	<h5 class="text-dark font-weight-bold my-1 mr-5">Clients</h5>
+	<h5 class="text-dark font-weight-bold my-1 mr-5">Autres</h5>
 	<!--end::Page Title-->
 
 	<!--begin::Breadcrumb-->
@@ -58,19 +56,19 @@
 			<a href="{{ path('administrateur_index') }}" class="text-muted">Accueil</a>
 		</li>
 		<li class="breadcrumb-item text-muted">
-			<a href="{{ path('client_index') }}" class="text-muted">Les clients</a>
+			<a href="#" class="text-muted">Les autres options</a>
 		</li>
 	</ul>
 	<!--end::Breadcrumb-->
 {% endblock %}
 
-{% block content_subheader_right %}
+{# {% block content_subheader_right %}
 	<!--begin::Toolbar-->
 	<div
 		class="d-flex align-items-center flex-wrap">
 		<!--begin::Dropdown-->
-		<div class="dropdown dropdown-inline" data-toggle="tooltip" title="Ajouter un nouveau client" data-placement="top">
-			<a href="{{ path('client_new') }}" class="btn btn-light-primary font-weight-bolder px-5 mr-3 my-1">
+		<div class="dropdown dropdown-inline" data-toggle="tooltip" title="Ajouter un nouvel utilisateur" data-placement="top">
+			<a href="{{ path('produit_new') }}" class="btn btn-light-primary font-weight-bolder px-5 mr-3 my-1">
 				<span
 					class="svg-icon svg-icon-md">
 					<!--begin::Svg Icon | path:/keen/theme/demo6/dist/assets/media/svg/icons/Communication/Add-user.svg-->
@@ -83,13 +81,12 @@
 					</svg>
 					<!--end::Svg Icon-->
 				</span>
-				Ajouter Client
+				Ajouter Produit
 			</a>
 		</div>
 		<!--end::Dropdown-->
-
 		<!--begin::Dropdown-->
-		<div class="dropdown dropdown-inline" data-toggle="tooltip" title="Importer une liste de clients" data-placement="top">
+		<div class="dropdown dropdown-inline" data-toggle="tooltip" title="Importer une liste d'utilisateurs" data-placement="top">
 			<a href="#" class="btn btn-light-primary font-weight-bolder px-5 mr-3 my-1" data-toggle="modal" data-target="#exampleModal">
 				<span
 					class="svg-icon svg-icon-md">
@@ -104,25 +101,25 @@
 					</svg>
 					<!--end::Svg Icon-->
 				</span>
-				Importer Clients
+				Importer Produits
 			</a>
 		</div>
-		<!--end::Dropdown-->
+
 		<!--begin::Dropdown-->
-		<div class="dropdown dropdown-inline" data-toggle="tooltip" title="Liste de fournisseurs" data-placement="top">
-			<a href="#fournisseurs" class="btn btn-light-info font-weight-bolder px-5 px-5 my-1">
+		<div class="dropdown dropdown-inline" data-toggle="tooltip" title="Liste de catégories" data-placement="top">
+			<a href="#categories" class="btn btn-light-info font-weight-bolder px-5 px-5 my-1">
 				<i class="fas fa-list-ul"></i>
-				Liste Fournisseurs
+				Liste Catégories
 			</a>
 		</div>
 		<!--end::Dropdown-->
 
-		<form method="POST" action="{{path('import_client')}}" class="form" name="form" enctype="multipart/form-data">
+		<form method="POST" action="" class="form">
 			<div class="modal fade" id="exampleModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
 				<div class="modal-dialog" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalLabel">Importation Client</h5>
+							<h5 class="modal-title" id="exampleModalLabel">Importation Utilisateur</h5>
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 								<i aria-hidden="true" class="ki ki-close"></i>
 							</button>
@@ -152,9 +149,10 @@
 				</div>
 			</div>
 		</form>
+		<!--end::Dropdown-->
 	</div>
 	<!--end::Toolbar-->
-{% endblock %}
+{% endblock %} #}
 
 {% block content_body %}
 	<!--begin::Content-->
@@ -166,160 +164,31 @@
 			<!--begin::Container-->
 			<div
 				class="container">
+
 				<!--begin::Card-->
 				<div
 					class="card card-custom gutter-b">
 					<!--begin::Card-Header-->
-					<div class="card-header flex-wrap border-0 pt-6 pb-0">
+					<div class="card-header flex-wrap">
 						<div class="card-title">
-							<h3 class="card-label">Liste Clients
-								<span class="d-block text-muted pt-2 font-size-sm">La liste de tous les clients de la plateforme</span>
+							<h3 class="card-label">Les Raisons d'annulation
 							</h3>
 						</div>
 					</div>
 					<!--end::Card-Header-->
-
-					<!--begin::Card-Body-->
-					<div
-						class="card-body">
-						<!--begin::Search Form-->
-						<div class="mb-7">
-							<div class="row align-items-center">
-								<div class="col-md-4 my-2 my-md-0">
-									<div class="input-icon">
-										<input type="text" class="form-control" placeholder="Recherche..." id="kt_datatable_search_query"/>
-										<span>
-											<i class="flaticon2-search-1 text-muted"></i>
-										</span>
-									</div>
-								</div>
-
-								<div class="col-md-4 my-2 my-md-0">
-									<div class="d-flex align-items-center">
-										<select class="form-control" id="kt_datatable_search_statut">
-											<option value="">Toutes</option>
-											<option value="1">BusinessToBusiness (BTB)</option>
-											<option value="2">BusinessToConsumer (BTC)</option>
-										</select>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!--end: Search Form-->
-
-						<!--begin: Datatable-->
-						<table class="datatable datatable-bordered datatable-head-custom" id="kt_datatable">
-							<thead>
-								<tr>
-									<th title="Field #1">N° Importation</th>
-									<th title="Field #2">Code</th>
-									<th title="Field #3">Type</th>
-									<th title="Field #4">Nom Client</th>
-									<th title="Field #5">Prénom Client</th>
-									<th title="Field #6">Email Client</th>
-									<th title="Field #7">Date Naissance</th>
-									<th title="Field #8">Nom Société</th>
-									<th title="Field #9">Date Création Société</th>
-									<th title="Field #10">Adresse Installation</th>
-									<th title="Field #11">Actions</th>
-								</tr>
-							</thead>
-							<tbody>
-								{% for client in clients %}
-									<tr>
-										<td>
-											<span class="font-weight-boldest text-primary">#{{ client.id }}</span>
-										</td>
-										<td>{{ client.code }}</td>
-										<td>
-											{% if client.typeClient == "BTB" %}
-												1
-											{% else %}
-												2
-											{% endif %}
-										</td>
-										<td>
-											{% if client.nom is empty %}
-												-
-											{% else %}
-												{{ client.nom }}
-											{% endif %}
-										</td>
-										<td>
-											{% if client.prenom is empty %}
-												-
-											{% else %}
-												{{ client.prenom }}
-											{% endif %}
-										</td>
-										<td>
-											{% if client.email is empty %}
-												-
-											{% else %}
-												{{ client.email }}
-											{% endif %}
-										</td>
-										<td>
-											{% if client.dateNaissance is empty %}
-												-
-											{% else %}
-												{{ client.dateNaissance|date('Y-m-d')}}
-											{% endif %}
-										</td>
-										<td>
-											{% if client.nomSociete is empty %}
-												-
-											{% else %}
-												{{ client.nomSociete }}
-											{% endif %}
-										</td>
-										<td>
-											{% if client.dateCreationSTE is empty %}
-												-
-											{% else %}
-												{{ client.dateCreationSTE|date('Y-m-d')}}
-											{% endif %}
-										</td>
-										<td>
-											{% if client.adresseInstallation is empty %}
-												-
-											{% else %}
-												{{ client.adresseInstallation}}
-											{% endif %}
-										</td>
-										<td>
-											<a href="{{path('client_edit', {'id': client.id})}}" class="d-inline btn btn-sm btn-clean btn-icon mr-3">
-												<span class="svg-icon svg-icon-md">
-													<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewbox="0 0 24 24" version="1.1">
-														<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-															<rect x="0" y="0" width="24" height="24"/>
-															<path d="M8,17.9148182 L8,5.96685884 C8,5.56391781 8.16211443,5.17792052 8.44982609,4.89581508 L10.965708,2.42895648 C11.5426798,1.86322723 12.4640974,1.85620921 13.0496196,2.41308426 L15.5337377,4.77566479 C15.8314604,5.0588212 16,5.45170806 16,5.86258077 L16,17.9148182 C16,18.7432453 15.3284271,19.4148182 14.5,19.4148182 L9.5,19.4148182 C8.67157288,19.4148182 8,18.7432453 8,17.9148182 Z" fill="#000000" fill-rule="nonzero" \ transform="translate(12.000000, 10.707409) rotate(-135.000000) translate(-12.000000, -10.707409) "/>
-															<rect fill="#000000" opacity="0.3" x="5" y="20" width="15" height="2" rx="1"/>
-														</g>
-													</svg>
-												</span>
-											</a>
-										</td>
-									</tr>
-								{% endfor %}
-							</tbody>
-						</table>
-						<!--end: Datatable-->
-					</div>
-					<!--end::Card-Body-->
 				</div>
 				<!--end::Card-->
 
 				<!--begin::Row-->
-				<div class="row" id="fournisseurs">
+				<div class="row" id="categories">
 					<div
 						class="col-xl-6">
 						<!--begin::Card-->
 						<div class="card card-custom gutter-b">
 							<div class="card-header">
 								<div class="card-title">
-									<h3 class="card-label">Liste Fournisseurs
-										<span class="d-block text-muted pt-2 font-size-sm">La liste de tous les fournisseurs de la plateforme</span>
+									<h3 class="card-label">Liste Motifs
+										<span class="d-block text-muted pt-2 font-size-sm">La liste de tous les motifs d'annulation d'une offre</span>
 									</h3>
 								</div>
 							</div>
@@ -348,19 +217,19 @@
 											<thead>
 												<tr>
 													<th title="Field #1">N° Importation</th>
-													<th title="Field #2">Nom Fournisseur</th>
+													<th title="Field #2">Motif</th>
 													<th title="Field #3">Actions</th>
 												</tr>
 											</thead>
 											<tbody>
-												{% for item in fournisseurs %}
+												{% for item in raisons %}
 													<tr>
 														<td>
 															<span class="font-weight-boldest text-primary">#{{item.id}}</span>
 														</td>
-														<td>{{item.nom}}</td>
+														<td>{{item.motif}}</td>
 														<td>
-															<a href="{{path('client_edit', {'id': item.id})}}" class="d-inline btn btn-sm btn-clean btn-icon mr-3">
+															<a href="#" class="d-inline btn btn-sm btn-clean btn-icon mr-3">
 																<span class="svg-icon svg-icon-md">
 																	<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewbox="0 0 24 24" version="1.1">
 																		<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -391,39 +260,39 @@
 						<div class="card card-custom gutter-b">
 							<div class="card-header">
 								<div class="card-title">
-									<h3 class="card-label">Nouveau Fournisseur
-										<span class="d-block text-muted pt-2 font-size-sm">Création d'un nouveau fournisseur</span>
+									<h3 class="card-label">Nouveau Motif
+										<span class="d-block text-muted pt-2 font-size-sm">Création d'un nouveau motif d'annulation d'offre</span>
 									</h3>
 								</div>
 							</div>
-							{{ form_start(formFournisseur, {'attr': {'method': 'POST', 'class': 'form'}}) }}
-								<div
-									class="card-body">
-									<!--begin::Example-->
-									<div class="example">
-										<div
-											class="example-preview">
-											<!--begin::Input-->
-											<div class="form-group">
-												<label>Nom Fournisseur</label>
-												{{ form_widget(formFournisseur.nom, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Nom Fournisseur'}}) }}
-												<span class="form-text text-muted">Please enter your Postcode.</span>
-											</div>
-											<!--end::Input-->
+							{{ form_start(form, {'attr': {'method': 'POST', 'class': 'form'}}) }}
+							<div
+								class="card-body">
+								<!--begin::Example-->
+								<div class="example">
+									<div
+										class="example-preview">
+										<!--begin::Input-->
+										<div class="form-group">
+											<label>Motif</label>
+											{{ form_widget(form.motif, {'attr': {'class': 'form-control form-control-solid form-control-lg', 'placeholder': 'Motif Annualtion'}}) }}
+											<span class="form-text text-muted">Please enter your Postcode.</span>
 										</div>
+										<!--end::Input-->
 									</div>
-									<!--end::Example-->
 								</div>
+								<!--end::Example-->
+							</div>
 
-								<!--begin::Footer-->
-								<div class="card-footer mb-12 py-5 px-5">
-									<div class="float-right">
-										<button type="submit" class="btn btn-primary font-weight-bolder px-5 mr-3">Enregistrer</button>
-										<button type="reset" class="btn btn-light-primary font-weight-bolder px-5">Annuler</button>
-									</div>
+							<!--begin::Footer-->
+							<div class="card-footer mb-12 py-5 px-5">
+								<div class="float-right">
+									<button type="submit" class="btn btn-primary font-weight-bolder px-5 mr-3">Enregistrer</button>
+									<button type="reset" class="btn btn-light-primary font-weight-bolder px-5">Annuler</button>
 								</div>
-								<!--end::Footer-->
-							{{ form_end(formFournisseur) }}
+							</div>
+							<!--end::Footer-->
+							{{ form_end(form) }}
 						</div>
 						<!--end::Card-->
 					</div>

@@ -2,27 +2,19 @@
 
 namespace App\Controller;
 
-use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use App\Entity\User;
-use App\Entity\Agent;
-use App\Entity\BackOffice;
-use App\Entity\Superviseur;
-use App\Entity\Administrateur;
 use App\Entity\Client;
-use App\Form\ClientNewType;
-use App\Form\EditRegistrationFormType;
+use App\Entity\Fournisseur;
+use App\Form\FournisseurType;
 use App\Form\OffreClientType;
-use App\Form\RegistrationFormType;
 use App\Repository\ClientRepository;
-use App\Security\UsersAuthenticathorAuthenticator;
+use App\Repository\FournisseurRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 
 /**
  * @Route("/clients")
@@ -31,12 +23,26 @@ use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 class ClientController extends AbstractController
 {
     /**
-     * @Route("/", name="client_index", methods={"GET"})
+     * @Route("/", name="client_index", methods={"GET", "POST"})
      */
-    public function index(ClientRepository $clientRepository): Response
+    public function index(ClientRepository $clientRepository, FournisseurRepository $fournisseurRepository, Request $request): Response
     {
+        $fournisseur = new Fournisseur();
+        $form = $this->createForm(FournisseurType::class, $fournisseur);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($fournisseur);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('client_index');
+        }
+
         return $this->render('client/index.html.twig', [
             'clients' => $clientRepository->findAll(),
+            'fournisseurs' => $fournisseurRepository->findAll(),
+            'formFournisseur' => $form->createView(),
         ]);
     }
 
@@ -91,23 +97,20 @@ class ClientController extends AbstractController
         $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xlsx');
         $spreadsheet = $reader->load($file);
         $data  = $spreadsheet->getActiveSheet()->toArray();
-        //dd($data);
-        $list=[];
+        $list = [];
         $entityManager = $this->getDoctrine()->getManager();
-        foreach($data as $key => $d)
-        {
-                    $list[$key] = new Client();
-                    $list[$key]->setCode($d[0]);
-                    $list[$key]->setNom($d[1]);
-                    $list[$key]->setPrenom($d[1]);
-                    $list[$key]->setCommune($d[3]);
-                    $list[$key]->setCodePostal($d[4]);
-                    $list[$key]->setNumGSM($d[6]);
-                    $list[$key]->setDateInsertion(new \DateTime());
-                    $entityManager->persist($list[$key]);      
-                    $entityManager->flush();
-                    
-        }    
+        foreach ($data as $key => $d) {
+            $list[$key] = new Client();
+            $list[$key]->setCode($d[0]);
+            $list[$key]->setNom($d[1]);
+            $list[$key]->setPrenom($d[1]);
+            $list[$key]->setCommune($d[3]);
+            $list[$key]->setCodePostal($d[4]);
+            $list[$key]->setNumGSM($d[6]);
+            $list[$key]->setDateInsertion(new \DateTime());
+            $entityManager->persist($list[$key]);
+            $entityManager->flush();
+        }
         return $this->redirectToRoute('client_index');
     }
 }

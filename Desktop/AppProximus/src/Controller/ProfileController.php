@@ -29,6 +29,8 @@ class ProfileController extends AbstractController
     {
         $user = $this->getUser();
         $role = $this->getUser()->getRoles();
+        $form = null;
+        
         switch ($role[0]) {
             case "ROLE_AGENT":
                 $form = $this->createForm(AgentType::class, $user, [

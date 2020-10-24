@@ -11,6 +11,10 @@ var KTDatatableHtmlTableDemoFournisseurs = function () {
 			data: {
 				saveState: { cookie: false },
 			},
+			search: {
+				input: $('#kt_datatable_search_query_fournisseurs'),
+				key: 'generalSearch'
+			},
 			columns: [
 				{
 					field: 'Actions',
