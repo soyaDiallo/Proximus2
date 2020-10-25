@@ -45,7 +45,7 @@ class OfferController extends AbstractController
         $ventes = $offreRepository->getAllVentes();
         $produitsParoffre = [];
         $produitsParvente = [];
-        $listEtat=[];
+        $listEtat = [];
         foreach ($offres as $key => $offre) {
             $produitsParoffre[$key][0] = $offre;
             $produitsParoffre[$key][1] = $offreProduitRepository->findBy(['offre' => $offre->getId()]);
@@ -156,32 +156,40 @@ class OfferController extends AbstractController
         $form = $this->createForm(CreationOffreType::class, $offre);
         $form->handleRequest($request);
 
-        // if ($form->isSubmitted() && $form->isValid()) {
-        //     $entityManager = $this->getDoctrine()->getManager();
-        //     $entityManager->persist($offre);
-        //     $entityManager->flush();
-
-        //     $listPdt = [];
-        //     foreach ($request->request->get('produits_checkbox') as $key => $id) {
-        //         $listPdt[$key] = $produitRepository->findById($id);
-        //         $pdt = $listPdt[$key][0];
-        //         foreach ($request->request->get('quantite') as $key => $qte) {
-        //             if ($key == $pdt->getId()) {
-        //                 $offreProduit = new OffreProduit();
-        //                 $offreProduit->setProduit($pdt);
-        //                 $offreProduit->setQte($qte);
-        //                 if ($form->getClickedButton() === $form->get('saveAndAdd')) {
-        //                     $offre->setDateSignature(new \DateTime());
-        //                 }
-        //                 $offreProduit->setOffre($offre);
-        //                 $offreProduit->setStatutTingis("attente");
-        //                 $offreProduit->setDate(new \DateTime());
-        //                 $entityManager->persist($offreProduit);
-        //                 $entityManager->flush();
-        //             }
-        //         }
-        //     }
-        // }
+        if ($form->isSubmitted() && $form->isValid()) {
+            //dd($request);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+            $listPdt = [];
+            $listPdtOffre = [];
+            foreach ($offreProduits as $key => $o) {
+                $listPdtOffre[$key] = $o;
+                $op = $listPdtOffre[$key];
+                foreach ($request->request->get('produits_checkbox') as $key => $id) {
+                    $listPdt[$key] = $produitRepository->findById($id);
+                    $pdt = $listPdt[$key][0];
+                    foreach ($request->request->get('quantite') as $key => $qte) {
+                        if ($key == $pdt->getId()) {
+                            $op->setQte(intval($qte));
+                            $entityManager->flush();
+                        } elseif ($key != $pdt->getId() && $key == $op->getProduit()->getId()) {
+                            $entityManager->remove($op);
+                            $entityManager->flush();
+                        } else {
+                            $offreProduit = new OffreProduit();
+                            $offreProduit->setProduit($pdt);
+                            $offreProduit->setQte($qte);
+                            $offreProduit->setOffre($offre);
+                            $offreProduit->setStatutTingis("attente");
+                            $offreProduit->setDate(new \DateTime());
+                            $entityManager->persist($offreProduit);
+                            $entityManager->flush();
+                        }
+                    }
+                }
+            }
+            return $this->redirectToRoute('offer_index');
+        }
 
         return $this->render('offer/edit.html.twig', [
             'offre' => $offre,

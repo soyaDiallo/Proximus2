@@ -673,7 +673,7 @@
 														class="col-xl-3">
 														<!--begin::Input-->
 														<div class="form-group">
-															<input name="quantite[]" type="number" class="form-control form-control-solid form-control-lg" placeholder="Quantité" value="{{ p.qte }}"/>
+															<input name="quantite[{{ pdt.produit.id }}]" type="number" class="form-control form-control-solid form-control-lg" placeholder="Quantité" value="{{ p.qte }}"/>
 														</div>
 														<!--end::Input-->
 													</div>
@@ -706,7 +706,7 @@
 															class="col-xl-3">
 															<!--begin::Input-->
 															<div class="form-group">
-																<input name="quantite[]" type="number" class="form-control form-control-solid form-control-lg" placeholder="Quantité"/>
+																<input name="quantite[{{ pdt.produit.id }}]" type="number" class="form-control form-control-solid form-control-lg" placeholder="Quantité"/>
 															</div>
 															<!--end::Input-->
 														</div>
