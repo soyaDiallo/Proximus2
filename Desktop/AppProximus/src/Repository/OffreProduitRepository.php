@@ -55,6 +55,25 @@ class OffreProduitRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function getProduitOffre($cat)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = '
+       SELECT produit.id,designation,qte,offre_id,categorie_id
+       FROM produit
+       INNER JOIN offre_produit
+       ON produit.id = offre_produit.produit_id
+       INNER JOIN categorie_produit
+       ON produit.id = categorie_produit.produit_id
+       where categorie_produit.categorie_id=:cat
+        ';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(['cat' => $cat]);
+
+        // returns an array of arrays (i.e. a raw data set)
+        return $stmt->fetchAll();
+    }
+
     // /**
     //  * @return OffreProduit[] Returns an array of OffreProduit objects
     //  */

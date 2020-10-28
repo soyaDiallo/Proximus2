@@ -137,22 +137,20 @@ class OfferController extends AbstractController
     ): Response {
         $offre = $offreRepository->find($id);
 
-        $offreProduits = $offreProduitRepository->findBy(['offre' => $offre->getId()]);
+        //$offreProduits = $offreProduitRepository->findby(['offre'=>$offre->getId()]);
         $raisons = $raisonRepository->findAll();
         $categories = $categorieRepository->findAll();
         $produitsParCategories = [];
-
+        //dd($offre);
         //  $produits = [];
 
         foreach ($categories as $key => $categorie) {
             $produitsParCategories[$key][0] = $categorie;
-            $produitsParCategories[$key][1] = $categorieProduitRepository->findBy(['categorie' => $categorie->getId()]);
+            $produitsParCategories[$key][1] = $offreProduitRepository->getProduitOffre($categorie->getId());
+            //$produitsParCategories[$key][1] = $categorieProduitRepository->findBy(['categorie' => $categorie->getId()]);
         }
 
-        // foreach ($offreProduits as $key => $o) {
-        //     $produits[] = $o->getProduit();
-        // }
-
+        //dd($produitsParCategories);
         $form = $this->createForm(CreationOffreType::class, $offre);
         $form->handleRequest($request);
 
@@ -193,7 +191,7 @@ class OfferController extends AbstractController
 
         return $this->render('offer/edit.html.twig', [
             'offre' => $offre,
-            'produit' => $offreProduits,
+            //'produit' => $offreProduits,
             //  'produits' => $produits,
             'raisons' => $raisons,
             'produitByCategory' => $produitsParCategories,
@@ -397,8 +395,19 @@ class OfferController extends AbstractController
             ]
         );
         // creation
-        $writer = new Xlsx($spreadsheet);
-        $writer->save('Fiche descriptive de ' . $offre->getClient()->getPrenom() . ' ' . $offre->getClient()->getNom() . '.xlsx');
+        //$writer = new Xlsx($spreadsheet);
+       // $writer->save('Fiche descriptive de ' . $offre->getClient()->getPrenom() . ' ' . $offre->getClient()->getNom() . '.xlsx');
+        //$writer->save('php://output');
+
+        //set the header first, so the result will be treated as an xlsx file.
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        //make it an attachment so we can define filename
+        header('Content-Disposition: attachment;filename="Fiche descriptive de " '. $offre->getClient()->getPrenom() . '" "' . $offre->getClient()->getNom() . '".xlsx"');
+        //create IOFactory object
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        //save into php output
+        //$writer->save('Fiche descriptive de ' . $offre->getClient()->getPrenom() . ' ' . $offre->getClient()->getNom() . '.xlsx');
+        $writer->save('php://output');
 
         return $this->redirectToRoute('offer_index');
     }

@@ -212,6 +212,7 @@
 								</button>
 							{% endif %}
 						</div>
+
 					</div>
 					<!--end::Header-->
 
@@ -641,83 +642,75 @@
 
 							{% for item in produitByCategory %}
 								{% if item[1]|length > 0 %}
-									{% set var = false %}
 									<h6 class="mb-5 font-weight-bold text-dark mx-10">[Catégorie]
 										{{ item[0].nom|capitalize }}
 									</h6>
 									{% for pdt in item[1] %}
-
-										{% for p in produit %}
-											{% if p.produit.id == pdt.produit.id %}
-												<div class="row mx-10 d-flex align-items-center">
-													<div
-														class="col-xl-1 form-group align-middle">
-														<!--begin::Input-->
-														<div class="checkbox-list">
-															<label class="checkbox checkbox-lg">
-																<input type="checkbox" name="produits_checkbox[]" value="{{ pdt.produit.id }}" checked/>
-																<span></span>
-															</label>
-														</div>
-														<!--end::Input-->
+										{% if pdt.qte and pdt.offre_id == offre.id %}
+											<div class="row mx-10 d-flex align-items-center">
+												<div
+													class="col-xl-1 form-group align-middle">
+													<!--begin::Input-->
+													<div class="checkbox-list">
+														<label class="checkbox checkbox-lg">
+															<input type="checkbox" name="produits_checkbox[]" value="{{ pdt.id }}" checked/>
+															<span></span>
+														</label>
 													</div>
-													<div
-														class="col-xl-8">
-														<!--begin::Input-->
-														<div class="form-group">
-															<input type="text" disabled="true" class="form-control form-control-solid form-control-lg" placeholder="Produit" value="{{ pdt.produit.designation }}"/>
-														</div>
-														<!--end::Input-->
-													</div>
-													<div
-														class="col-xl-3">
-														<!--begin::Input-->
-														<div class="form-group">
-															<input name="quantite[{{ pdt.produit.id }}]" type="number" class="form-control form-control-solid form-control-lg" placeholder="Quantité" value="{{ p.qte }}"/>
-														</div>
-														<!--end::Input-->
-													</div>
+													<!--end::Input-->
 												</div>
-												{% set var = true %}
-											{% else %}
-												{% if var %}
-
-													<div class="row mx-10 d-flex align-items-center">
-														<div
-															class="col-xl-1 form-group align-middle">
-															<!--begin::Input-->
-															<div class="checkbox-list">
-																<label class="checkbox checkbox-lg">
-																	<input type="checkbox" name="produits_checkbox[]" value="{{ pdt.produit.id }}"/>
-																	<span></span>
-																</label>
-															</div>
-															<!--end::Input-->
-														</div>
-														<div
-															class="col-xl-8">
-															<!--begin::Input-->
-															<div class="form-group">
-																<input type="text" disabled="true" class="form-control form-control-solid form-control-lg" placeholder="Produit" value="{{ pdt.produit.designation }}"/>
-															</div>
-															<!--end::Input-->
-														</div>
-														<div
-															class="col-xl-3">
-															<!--begin::Input-->
-															<div class="form-group">
-																<input name="quantite[{{ pdt.produit.id }}]" type="number" class="form-control form-control-solid form-control-lg" placeholder="Quantité"/>
-															</div>
-															<!--end::Input-->
-														</div>
+												<div
+													class="col-xl-8">
+													<!--begin::Input-->
+													<div class="form-group">
+														<input type="text" disabled="true" class="form-control form-control-solid form-control-lg" placeholder="Produit" value="{{ pdt.designation }}"/>
 													</div>
-												{% endif %}
-											{% endif %}
-										{% endfor %}
-
+													<!--end::Input-->
+												</div>
+												<div
+													class="col-xl-3">
+													<!--begin::Input-->
+													<div class="form-group">
+														<input name="quantite[{{ pdt.id }}]" type="number" class="form-control form-control-solid form-control-lg" placeholder="Quantité" value="{{ pdt.qte }}"/>
+													</div>
+													<!--end::Input-->
+												</div>
+											</div>
+										{% else %}
+											<div class="row mx-10 d-flex align-items-center">
+												<div
+													class="col-xl-1 form-group align-middle">
+													<!--begin::Input-->
+													<div class="checkbox-list">
+														<label class="checkbox checkbox-lg">
+															<input type="checkbox" name="produits_checkbox[]" value="{{ pdt.id }}"/>
+															<span></span>
+														</label>
+													</div>
+													<!--end::Input-->
+												</div>
+												<div
+													class="col-xl-8">
+													<!--begin::Input-->
+													<div class="form-group">
+														<input type="text" disabled="true" class="form-control form-control-solid form-control-lg" placeholder="Produit" value="{{ pdt.designation }}"/>
+													</div>
+													<!--end::Input-->
+												</div>
+												<div
+													class="col-xl-3">
+													<!--begin::Input-->
+													<div class="form-group">
+														<input name="quantite[{{ pdt.id }}]" type="number" class="form-control form-control-solid form-control-lg" placeholder="Quantité"/>
+													</div>
+													<!--end::Input-->
+												</div>
+											</div>
+										{% endif %}
 									{% endfor %}
 								{% endif %}
 							{% endfor %}
+
 						</div>
 						<!--end::Wizard Step 1-->
 					</div>
